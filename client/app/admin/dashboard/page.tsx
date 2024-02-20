@@ -1,10 +1,12 @@
 import React from 'react';
 import Layouts from '@/components/Layout';
 
-export default function Bill() {
+const Dashboard:React.FC = () => {
   return (
     <Layouts>
-    <h1>ZBilling</h1>
+    <h1>hello</h1>
     </Layouts>
   )
 }
+
+export default Dashboard;

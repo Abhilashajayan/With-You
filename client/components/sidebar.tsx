@@ -1,168 +1,134 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Layout, Button, Avatar, Menu, Dropdown, theme } from "antd";
-
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UserOutlined,
-  PaperClipOutlined,
-  RiseOutlined,
-} from "@ant-design/icons";
-import { default as Bill } from "@/app/admin/billing/page";
-import Report from "@/app/admin/reports/page";
+"use client"
+import classNames from "classnames";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEnvelope,
-  faBell,
-  faCircleQuestion,
-  faCaretDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { useRouter , usePathname } from "next/navigation";
+import React, { useState, useMemo } from "react";
 
-const { Header, Sider, Content } = Layout;
+interface MenuItem {
+  id: number;
+  label: string;
+  link: string;
+  // Add other properties as needed
+}
 
-function AdminSideBar() {
-  const [collapsed, setCollapsed] = useState(false);
+const menuItems: MenuItem[] = [
+  { id: 1, label: "Home", link: "/" },
+  { id: 2, label: "Manage Posts", link: "/admin/dashboard" },
+  { id: 3, label: "Manage Users", link: "/admin/billing" },
+  { id: 4, label: "Manage Tutorials", link: "/admin/reports" },
+];
+
+const Sidebar: React.FC = () => {
+  const [toggleCollapse, setToggleCollapse] = useState(false);
+  const [isCollapsible, setIsCollapsible] = useState(false);
+  const pathname =  usePathname();
   const router = useRouter();
 
-  const [navbarOpen, setNavbarOpen] = useState<Boolean>(false);
-  useEffect(() => {
-    setNavbarOpen(false);
-  });
+  const activeMenu = useMemo(
+    () => menuItems.find((menu) => menu.link === pathname),
+    [pathname]
+  );
 
-  const [selectedMenuKey, setSelectedMenuKey] = useState<string | null>("1");
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const wrapperClasses = classNames(
+    "h-screen px-4 pt-8 pb-4 bg-white text-black flex justify-between flex-col",
+    {
+      ["w-80"]: !toggleCollapse,
+      ["w-20"]: toggleCollapse,
+    }
+  );
 
-  const handleMenuClick = ({ key }: { key: React.Key }) => {
-    console.log(key);
-    setSelectedMenuKey(key.toString());
+  const collapseIconClasses = classNames(
+    "p-4 rounded bg-light-lighter absolute right-0",
+    {
+      "rotate-180": toggleCollapse,
+    }
+  );
+
+  const getNavItemClasses = (menu: MenuItem) => {
+    return classNames(
+      "flex items-center cursor-pointer hover:bg-light-lighter rounded w-full overflow-hidden whitespace-nowrap",
+      {
+        ["bg-light-lighter"]: activeMenu?.id === menu.id,
+      }
+    );
+  };
+
+  const onMouseOver = () => {
+    setIsCollapsible(!isCollapsible);
+  };
+
+  const handleSidebarToggle = () => {
+    setToggleCollapse(!toggleCollapse);
   };
 
   return (
-    <Layout>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        style={{ background: colorBgContainer }}
-      >
-        <div className="h-16 flex justify-center text-lg font-bold ">
-          <h1>Admin</h1>
-        </div>
-        <Menu
-          theme="light"
-          mode="inline"
-          onClick={handleMenuClick}
-          defaultSelectedKeys={["1"]}
-          items={[
-            {
-              key: "1",
-              icon: <UserOutlined />,
-              label: "Users",
-            },
-            {
-              key: "2",
-              icon: <RiseOutlined />,
-              label: "Orders",
-            },
-          ]}
-        />
-      </Sider>
-      <Layout>
-        <div className="relative flex flex-wrap  items-center justify-end px-2 py-3 bg-white ">
-          <div className="container px-3 mx-auto flex flex-wrap items-center justify-evenly">
-            <div className="w-full relative flex  justify-evenly lg:w-auto lg:static lg:block lg:justify-start">
-              <Button
-                type="text"
-                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                onClick={() => setCollapsed(!collapsed)}
-                className="text-2xl w-5 h-5"
-              />
-              <a
-                className="ml-14 text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-textgrey"
-                href="#pablo"
-              >
-                Bea
-              </a>
-              <button
-                className="text-textgrey cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
-                type="button"
-                onClick={() => setNavbarOpen(!navbarOpen)}
-              >
-                <svg
-                  className="w-5 h-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 17 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 1h15M1 7h15M1 13h15"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div
-              className={
-                "lg:flex flex-grow items-center" +
-                (navbarOpen ? " flex" : " hidden")
-              }
-              id="example-navbar-danger"
+    <div
+      className={wrapperClasses}
+      onMouseEnter={onMouseOver}
+      onMouseLeave={onMouseOver}
+      style={{ transition: "width 300ms cubic-bezier(0.2, 0, 0, 1) 0s" }}
+    >
+      <div className="flex flex-col">
+        <div className="flex items-center justify-between relative">
+          <div className="flex  items-center ">
+            <span
+              className={classNames("flex  text-center text-lg font-medium text-text", {
+                hidden: toggleCollapse,
+              })}
             >
-              <ul className="flex flex-col lg:flex-row list-none lg:ml-auto p-2">
-               
-                <li className="nav-item">
-                  <FontAwesomeIcon
-                    className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-textgrey hover:opacity-75"
-                    icon={faEnvelope}
-                  />
-                </li>
-                <li className="nav-item">
-                  <FontAwesomeIcon
-                    className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-textgrey hover:opacity-75"
-                    icon={faCircleQuestion}
-                  />
-                </li>
-                
-                <li className="nav-item">
-                  <button className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-black hover:opacity-75">
-                    Logout
-                  </button>
-                </li>
-                 
-                <li className="nav-item">
-                  <div className=" h-8 w-8 rounded-3xl">
-                    <Link href={`/adminprofile`}>
-                      <img
-                        src="https://cdn3.iconfinder.com/data/icons/user-group-black/100/user-process-512.png"
-                        className="h-8 w-8 rounded-3xl"
-                        width={500}
-                        height={500}
-                        alt=""
-                      />
-                    </Link>
-                  </div>
-                </li>
-                
-              </ul>
-            </div>
+              Bea
+            </span>
           </div>
+          {isCollapsible && (
+            <button
+              className={collapseIconClasses}
+              onClick={handleSidebarToggle}
+            >
+              {/* Replace with your actual CollapsIcon component */}
+              {/* <CollapsIcon /> */}
+            </button>
+          )}
         </div>
-        <Content className="mt-6 mr-4 ml-6 p-10  h-screen min-h-min">
-          {selectedMenuKey === "1" && <Bill />}
-          {selectedMenuKey === "2" && <Report />}
-        </Content>
-      </Layout>
-    </Layout>
-  );
-}
 
-export default AdminSideBar;
+        <div className="flex flex-col  items-start mt-24">
+          {menuItems.map(({ id, label, link }) => {
+            const classes = getNavItemClasses({ id, label, link });
+            return (
+              <div className={classes} key={id}>
+                <Link href={link}
+                  className="flex py-4 px-3 items-center w-full h-full">
+                    <div style={{ width: "2.5rem" }}>    
+                    </div>
+                    {!toggleCollapse && (
+                      <span
+                        className={classNames(
+                          "text-md font-medium text-text-light"
+                        )}
+                      >
+                        {label}
+                      </span>
+                    )}
+                  
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className={`${getNavItemClasses({ id: 0, label: "", link: "" })} px-3 py-4`}>
+        <div style={{ width: "2.5rem" }}>
+          {/* Replace with your actual LogoutIcon component */}
+          {/* <LogoutIcon /> */}
+        </div>
+        {!toggleCollapse && (
+          <span className={classNames("text-md font-medium text-text-light")}>
+            Logout
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;

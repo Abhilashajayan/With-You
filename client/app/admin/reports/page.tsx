@@ -1,7 +1,10 @@
-import React from 'react'
+import React from 'react';
+import Layouts from '@/components/Layout';
 
 export default function Report() {
   return (
-    <div>hello</div>
+    <Layouts>
+    <h1>hello</h1>
+    </Layouts>
   )
 }
