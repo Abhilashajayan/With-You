@@ -12,7 +12,7 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { id: 2, label: "Dashboard", link: "/admin/dashboard" },
-  { id: 3, label: "Users", link: "/admin/billing" },
+  { id: 3, label: "Users", link: "/admin/Users" },
   { id: 4, label: "Orders", link: "/admin/reports" },
 ];
 

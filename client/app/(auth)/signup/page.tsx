@@ -74,7 +74,7 @@ export default function Page() {
           </div>
           <p className="text-sm text-black text-left  mt-10">
             Don't have an account?{" "}
-            <a href="#" className="text-blue-500 hover:underline">
+            <a href="/signin" className="text-blue-500 hover:underline">
               Sign in
             </a>
           </p>
