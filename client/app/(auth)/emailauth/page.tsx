@@ -1,6 +1,36 @@
-import React from 'react'
+import React from 'react';
+import  { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-export default function page() {
+interface FormData {
+  username: string;
+  email: string;
+  password: string;
+}
+
+const  page:React.FC = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+
+  const onSubmit = async (data: FormData):Promise<any> => {
+    try {
+      const response = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const responseData = await response.json();
+      if (responseData.success) {
+        console.log('Form submitted successfully!');
+      } else {
+        console.error('Form submission failed:', responseData.error);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
   return (
     <>
       <div className="flex items-center justify-center bg-white min-h-screen">
@@ -12,7 +42,7 @@ export default function page() {
               className="w-full h-full object-cover"
             />
           </div>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -21,6 +51,7 @@ export default function page() {
                 Email
               </label>
               <input
+               {...register('email', { required: 'Email is required', maxLength: 255 })}
                 type="email"
                 id="email"
                 name="email"
@@ -37,10 +68,11 @@ export default function page() {
                 Password
               </label>
               <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
+                 {...register('username', { required: 'Name is required', maxLength: 255 })}
+                type="username"
+                id="username"
+                name="username"
+                placeholder="Enter your username"
                 className="border border-gray-300 text-black rounded p-3 w-full focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
@@ -50,9 +82,10 @@ export default function page() {
                 htmlFor="confirmPassword"
                 className="block text-black text-gray-700 text-sm font-bold mb-2"
               >
-                Confirm Password
+                 Password
               </label>
               <input
+                 {...register('password', { required: 'Password is required', maxLength: 255 })}
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
@@ -74,3 +107,6 @@ export default function page() {
     </>
   );
 }
+
+
+export default page;

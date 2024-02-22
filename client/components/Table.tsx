@@ -1,5 +1,12 @@
 import React from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/react";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@nextui-org/react";
 import { Badge } from "@/components/ui/badge";
 
 interface Row {
@@ -56,24 +63,26 @@ const columns: Column[] = [
   },
 ];
 function getStatusBadgeVariant(status: any): any {
-    switch (status.toLowerCase()) {
-      case "active":
-        return "default";
-      case "paused":
-        return "secondary";
-      case "vacation":
-        return "destructive";
-      default:
-        return "default";
-    }
+  switch (status.toLowerCase()) {
+    case "active":
+      return "default";
+    case "paused":
+      return "secondary";
+    case "vacation":
+      return "destructive";
+    default:
+      return "default";
   }
+}
 export default function Tables() {
   return (
-    <Table  aria-label="Example table with dynamic content">
-      <TableHeader  columns={columns}>
-        {(column: Column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+    <Table aria-label="Example table with dynamic content">
+      <TableHeader columns={columns}>
+        {(column: Column) => (
+          <TableColumn key={column.key}>{column.label}</TableColumn>
+        )}
       </TableHeader>
-      <TableBody  items={rows}>
+      <TableBody items={rows}>
         {(item: Row) => (
           <TableRow key={item.key}>
             {(columnKey: any) => (
@@ -93,6 +102,3 @@ export default function Tables() {
     </Table>
   );
 }
-
-
-
