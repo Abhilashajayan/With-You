@@ -1,10 +1,9 @@
-// components/TabBar.tsx
 import Link from 'next/link';
-import { useState } from 'react';
-
+import { useState, useMemo } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface Tab {
-  label: string;
+  icon: React.ReactNode;
   route: string;
 }
 
@@ -13,25 +12,30 @@ interface TabBarProps {
 }
 
 const TabBar: React.FC<TabBarProps> = ({ tabs }) => {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState<number | null>(null);
+  const router = useRouter();
+  const pathname = usePathname();
 
+  const activeMenu = useMemo(() => {
+    return tabs.find((tab, index) => tab.route === pathname) || null;
+  }, [tabs, pathname]);
 
-  const handleTabClick = (index: number, route: string) => {
+  const handleTabClick = (index: number) => {
     setActiveTab(index);
-  
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex">
       {tabs.map((tab, index) => (
         <Link key={index} href={tab.route}
-            onClick={() => handleTabClick(index, tab.route)}
-            className={`px-4 py-2 mx-2 text-sm font-medium ${
-              index === activeTab ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
-            } rounded-md focus:outline-none focus:ring focus:border-blue-300 transition`}
+         
+            onClick={() => handleTabClick(index)}
+            className={`px-4 py-2 text-sm font-medium  ${
+              activeMenu && activeMenu.route === tab.route ? 'text-red-500 border-t-2 border-red-500 ' : 'text-gray-700'
+            } focus:outline-none focus:ring focus:border-blue-300 transition`}
           >
-            {tab.label}
-          
+            {tab.icon}
+         
         </Link>
       ))}
     </div>
