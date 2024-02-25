@@ -10,7 +10,6 @@ const ImageCarosal: React.FC = () => {
     { image: 'https://source.unsplash.com/200x300/?portrait' },
     { image: 'https://source.unsplash.com/200x300/?face' },
     { image: 'https://source.unsplash.com/200x300/?people' },
-    // Add more placeholder images as needed
   ];
 
   return (

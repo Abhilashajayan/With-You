@@ -12,8 +12,8 @@ interface Tab {
 
 const Home: React.FC = () => {
   const tabs: Tab[] = [
-    { label: '', route: '/', icon: <FieldIcon /> },
-    { label: 'Tab 2', route: '/Match', icon: <HeartIcon /> },
+    { label: '', route: '/Match', icon: <FieldIcon /> },
+    { label: 'Tab 2', route: '/', icon: <HeartIcon /> },
     { label: 'Tab 3', route: '/Message', icon: <MessageIcon /> },
     { label: 'Tab 1', route: '/Profile', icon: <ProfileIcon /> },
   ];

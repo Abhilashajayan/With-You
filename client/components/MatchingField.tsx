@@ -22,7 +22,7 @@ const MatchingField: React.FC<MatchingFieldProps> = ({ users }) => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="md:flex lg:md flex-col items-center">
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={50}
@@ -43,10 +43,7 @@ const MatchingField: React.FC<MatchingFieldProps> = ({ users }) => {
        />
      </div>
    </SwiperSlide>
-   
-    
       
-       
         ))}
       </Swiper>
     </div>
