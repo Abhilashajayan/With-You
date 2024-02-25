@@ -15,7 +15,7 @@ const Home: React.FC = () => {
     { label: '', route: '/', icon: <FieldIcon /> },
     { label: 'Tab 2', route: '/Match', icon: <HeartIcon /> },
     { label: 'Tab 3', route: '/Message', icon: <MessageIcon /> },
-    { label: 'Tab 1', route: '/tab1', icon: <ProfileIcon /> },
+    { label: 'Tab 1', route: '/Profile', icon: <ProfileIcon /> },
   ];
 
   return (

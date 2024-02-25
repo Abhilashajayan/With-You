@@ -1,13 +1,14 @@
 "use client"
 import React from 'react';
 import TabLayouts from '@/components/TabLayout';
+import ImageCarosal from '@/components/imageData';
 
 const Page:React.FC = () => {
   return (
         <TabLayouts>
-            <div>
-              <h1>hello</h1>
-            </div>
+           <div className='mt-12'> 
+             <ImageCarosal />
+      </div>
         </TabLayouts>
   )
 }

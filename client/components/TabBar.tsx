@@ -30,7 +30,7 @@ const TabBar: React.FC<TabBarProps> = ({ tabs }) => {
         <Link key={index} href={tab.route}
          
             onClick={() => handleTabClick(index)}
-            className={`px-4 py-2 text-sm font-medium  ${
+            className={`px-4 py-2 text-sm font-medium ${
               activeMenu && activeMenu.route === tab.route ? 'text-red-500 border-t-2 border-red-500 ' : 'text-gray-700'
             } focus:outline-none focus:ring focus:border-blue-300 transition`}
           >
