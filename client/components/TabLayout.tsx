@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import Home from "./TabBarData";
+import HomNavbar from "./HomNav";
 
 interface LayoutProps {
   children: ReactNode;
@@ -8,6 +9,7 @@ interface LayoutProps {
 const TabLayouts: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen">
+      <HomNavbar />
       <div className="flex-1 flex  items-center justify-center">
       <div className="bg-primary p-4  w-full md:w-auto bg-white text-black">
           {children}

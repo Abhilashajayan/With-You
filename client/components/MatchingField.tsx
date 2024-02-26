@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 
 interface User {
   image: string;
-  name?: string;
+  name: string;
+  km: string;
 }
 
 interface MatchingFieldProps {
@@ -62,14 +63,16 @@ const MatchingField: React.FC<MatchingFieldProps> = ({ users }) => {
             alt={`User ${index + 1}`}
             className="w-full h-full object-cover"
           />
-           {user.name && (
+           {user.km && (
               <div className="absolute z-30 top-2 left-2 bg-gray-600 p-2 rounded text-white text-sm font-bold">
-                {user.name}
+                {user.km}
               </div>
             )}
             {user.name && (
-              <div className="absolute z-30 bottom-2 right-2 text-white text-lg font-bold">
-                {user.name}
+              <div className="absolute z-30 bottom-2 left-2 text-white text-lg font-bold">
+                {user.name},23
+                <br />
+                <span className='text-sm text-gray-500'>professional </span>
               </div>
             )}
         </div>
