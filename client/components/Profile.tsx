@@ -1,10 +1,13 @@
-import React from "react";
+import React,{useState} from "react";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 import MaleOutlinedIcon from "@mui/icons-material/MaleOutlined";
+import Modal from "./EditProfile";
 
 const ProfileComponent: React.FC = () => {
+
+
   return (
     <div className="overflow-hidden fixed bg-cover top-0 right-0 left-0 w-screen h-full">
       <div className="rounded-b-full shadow backdrop-blur-xl md:shadow-lg h-2/3 w-full flex">
@@ -18,9 +21,11 @@ const ProfileComponent: React.FC = () => {
               src="https://source.unsplash.com/200x300/?portrait&1"
               alt="Profile Avatar"
             />
-            <button className="w-10 h-10 text-red-500 rounded-full flex items-center justify-center ring-2 ring-gray-300">
-              <EditOutlinedIcon />
-            </button>
+              <a  className="w-10 h-10 text-red-500 rounded-full flex items-center justify-center ring-2 ring-gray-300" href="/Profile/Editprofile" >
+      <EditOutlinedIcon />
+
+     
+    </a>
           </div>
 
           <h2 className="text-xl font-semibold flex items-center mb-2">
