@@ -1,37 +1,143 @@
-import React from 'react';
+import React from "react";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
+import MaleOutlinedIcon from "@mui/icons-material/MaleOutlined";
 
 const ProfileComponent: React.FC = () => {
   return (
-    <div className="w-full  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <div className="flex justify-end px-4 pt-4">
-        <button id="dropdownButton" data-dropdown-toggle="dropdown" className="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
-          <span className="sr-only">Open dropdown</span>
-          <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-            <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-          </svg>
-        </button>
-        {/* Dropdown menu */}
-        <div id="dropdown" className="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-          <ul className="py-2" aria-labelledby="dropdownButton">
-            <li>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Export Data</a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
-            </li>
-          </ul>
+    <div className="overflow-hidden fixed bg-cover top-0 right-0 left-0 w-screen h-full">
+      <div className="rounded-b-full shadow backdrop-blur-xl md:shadow-lg h-2/3 w-full flex">
+        <div className="flex flex-col items-center justify-center h-full w-full">
+          <div className="flex space-x-10 justify-center items-center">
+            <button className="w-10 h-10 text-red-500 rounded-full flex items-center justify-center ring-2 ring-gray-300">
+              <AddAPhotoIcon />
+            </button>
+            <img
+              className="w-32 h-32 p-2 rounded-full ring-4 ring-red-500 dark:ring-gray-500 mb-4"
+              src="https://source.unsplash.com/200x300/?portrait&1"
+              alt="Profile Avatar"
+            />
+            <button className="w-10 h-10 text-red-500 rounded-full flex items-center justify-center ring-2 ring-gray-300">
+              <EditOutlinedIcon />
+            </button>
+          </div>
+
+          <h2 className="text-xl font-semibold flex items-center mb-2">
+            John Doe
+            <span className="ml-2 text-sm text-gray-500">28</span>
+            <VerifiedRoundedIcon className="text-blue-800 ml-1" />
+          </h2>
+
+          <div className="text-sm text-gray-500 mb-4">
+            <div className="flex items-center justify-center mb-2">
+              <div className="flex items-center rounded-full border p-1 border-gray-300">
+                <MaleOutlinedIcon className="mr-1 text-red-500" />
+              </div>
+              <span className="ml-2">Male</span>
+            </div>
+
+            <div className="flex p-5 justify-center">
+              <div className="mr-6 border-r pr-6">
+                <div className="flex items-center">
+                  <span className="mr-2">Work</span>
+                </div>
+                <span className="font-bold">Developer</span>
+              </div>
+              <div className="mr-6 border-r pr-6">
+                <div className="flex items-center">
+                  <span className="mr-2">Age</span>
+                </div>
+                <span className="font-bold">29</span>
+              </div>
+              <div>
+                <div className="flex items-center">
+                  <span className="mr-2">Location</span>
+                </div>
+                <span className="font-bold">India</span>
+              </div>
+            </div>
+            <div className="p-5 space-x-2">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
+                Coding
+              </span>
+
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
+                football
+              </span>
+
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
+                dance
+              </span>
+
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
+                singer
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex flex-col items-center pb-10">
-        <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src="/docs/images/people/profile-picture-3.jpg" alt="Bonnie image"/>
-        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
-        <span className="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
-        <div className="flex mt-4 md:mt-6">
-          <a href="#" className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add friend</a>
-          <a href="#" className="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Message</a>
+      <div className="flex justify-center p-6">
+        <div
+          className="grid grid-cols-2 gap-4  lg:grid-cols-3 md:grid-cols-3 overflow-y-auto"
+          style={{ maxHeight: "400px" }}
+        >
+          <div>
+            <img
+              className="object-cover w-full h-40 max-w-full rounded-lg"
+              src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80"
+              alt="gallery-photo"
+            />
+          </div>
+          <div>
+            <img
+              className="object-cover object-center w-full h-40 max-w-full rounded-lg"
+              src="https://images.unsplash.com/photo-1432462770865-65b70566d673?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80"
+              alt="gallery-photo"
+            />
+          </div>
+          <div>
+            <img
+              className="object-cover w-full h-40 max-w-full rounded-lg"
+              src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80"
+              alt="gallery-photo"
+            />
+          </div>
+          <div>
+            <img
+              className="object-cover object-center w-full h-40 max-w-full rounded-lg"
+              src="https://images.unsplash.com/photo-1432462770865-65b70566d673?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80"
+              alt="gallery-photo"
+            />
+          </div>
+          <div>
+            <img
+              className="object-cover w-full h-40 max-w-full rounded-lg"
+              src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80"
+              alt="gallery-photo"
+            />
+          </div>
+          <div>
+            <img
+              className="object-cover object-center w-full h-40 max-w-full rounded-lg"
+              src="https://images.unsplash.com/photo-1432462770865-65b70566d673?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80"
+              alt="gallery-photo"
+            />
+          </div>
+          <div>
+            <img
+              className="object-cover w-full h-40 max-w-full rounded-lg"
+              src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80"
+              alt="gallery-photo"
+            />
+          </div>
+          <div>
+            <img
+              className="object-cover object-center w-full h-40 max-w-full rounded-lg"
+              src="https://images.unsplash.com/photo-1432462770865-65b70566d673?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80"
+              alt="gallery-photo"
+            />
+          </div>
         </div>
       </div>
     </div>
