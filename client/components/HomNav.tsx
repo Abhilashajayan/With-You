@@ -6,6 +6,9 @@ import BackIcon from './icons/BackIcons';
 const NavbarContainer = styled.nav`
   background-color: white;
   padding: 16px;
+  @media (max-width: 1023px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const LogoContainer = styled.div`

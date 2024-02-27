@@ -69,11 +69,12 @@ const MatchingField: React.FC<MatchingFieldProps> = ({ users }) => {
               </div>
             )}
             {user.name && (
-              <div className="absolute z-30 bottom-2 left-2 text-white text-lg font-bold">
-                {user.name},23
-                <br />
-                <span className='text-sm text-gray-500'>professional </span>
-              </div>
+             <div className="absolute z-30 bottom-2 left-2 text-white w-full p-2 text-lg font-bold backdrop-blur-sm">
+             {user.name}, 23
+             <br />
+             <span className='text-sm text-gray-500'>professional</span>
+           </div>
+           
             )}
         </div>
       ))}

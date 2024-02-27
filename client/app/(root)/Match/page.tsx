@@ -5,11 +5,14 @@ import ImageCarosal from '@/components/imageData';
 import CloseIcon from '@mui/icons-material/Close';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import MatchIcon from '@/components/icons/MatchIcon';
+import HomeNavbar from '@/components/HomNav';
 
 const Page: React.FC = () => {
   return (
+    <>
+    
     <TabLayouts>
-     
+    <HomeNavbar />
         <ImageCarosal />
         <div className="flex items-center justify-center mt-4">
           <button className="rounded-full border-2 p-2 m-2">
@@ -24,6 +27,7 @@ const Page: React.FC = () => {
         </div>
      
     </TabLayouts>
+    </>
   );
 }
 
