@@ -5,7 +5,7 @@ import Modal from '@/components/EditProfile'
 function page() {
   return (
     <>
-         <Modal />
+        <Modal />
     </>
   )
 }

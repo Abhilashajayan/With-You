@@ -33,7 +33,7 @@ const Page: React.FC = () => {
     try {
       await registerUser(data);
 
-      const queryString = `?email=${data.email.trim()}`;
+      const queryString = `?email=${data.email.trim()}&username=${data.username?.trim()}&password=${data.password.trim()}`;
       router.push(`/otpauth${queryString}`);
     } catch (error) {
       console.error('Error during form submission:', error);

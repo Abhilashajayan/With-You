@@ -17,7 +17,7 @@ interface UserData {
   job: string;
 }
 
-const Modal: React.FC<ModalProps> = () => {
+const Modal: React.FC = () => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');

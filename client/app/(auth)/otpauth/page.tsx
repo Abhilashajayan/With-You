@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { sendOtp } from "@/axios/axiosConfig";
+import { registerUser } from "@/axios/axiosConfig";
 
 const Page: React.FC = () => {
   const [code, setCode] = useState<string>("");
@@ -18,7 +19,17 @@ const Page: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
+  const username = searchParams.get("username");
+  const password = searchParams.get("password");
 
+
+  const data : any = {
+    email,
+    username,
+    password
+  }
+
+  console.log(data,"the resend data");
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
@@ -54,6 +65,14 @@ const Page: React.FC = () => {
     setError(null);
   };
 
+
+  const onSubmit = async (data: any): Promise<any> => {
+    try {
+      await registerUser(data);;
+    } catch (error) {
+      console.error('Error during form submission:', error);
+    }
+  };
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, index: number) => {
     if (e.key === "Backspace" && index > 0 && !e.currentTarget.value) {
       setCode((prevCode) => {
@@ -98,7 +117,6 @@ const Page: React.FC = () => {
             />
           </div>
           <div className="text-center mb-5 text-black">
-            <p className="text-2xl">0:{timer} </p>
             <p className="text-[10px]">
               Type the Verification code <br /> That we've sent
             </p>
@@ -128,9 +146,13 @@ const Page: React.FC = () => {
             </button>
           </div>
           <div className="flex justify-center p-5">
-            <a className="text-red-500" href="">
-              Send Again
-            </a>
+            {timer > 0 ? (
+              <span className={`text-gray-500`}>Resend in {timer}s</span>
+            ) : (
+              <a className="text-red-500" href="" onClick={(e) => { e.preventDefault(); onSubmit(data); }}>
+                Send Again
+              </a>
+            )}
           </div>
         </div>
       </div>
