@@ -13,5 +13,9 @@ export class UserUsecase implements IUserCase{
     async login(data:UserEntity): Promise<void> {
       return this.UserRepository.login(data);
     }
+
+   async getAllUsers(): Promise<any> {
+      return this.UserRepository.getAllUsers();
+    }
     
 }

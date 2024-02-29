@@ -54,4 +54,15 @@ export class userRepository implements IUserCase {
             throw new Error("Login failed");
         }
     }
+
+    async getAllUsers(): Promise<any> {
+        try {
+          const allUsers = await this.UserModel.find({},{password:0});
+          console.log("get all user details ", allUsers);
+          return allUsers
+        } catch (error) {
+          console.error("Fetching all users failed:", error);
+          throw new Error("Error while fetching all users");
+        }
+      }
 }

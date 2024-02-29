@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import nocache from 'nocache';
 import { dbConnection } from '../adapters/database/database.conn';
-import { UserRouter } from '../adapters/routes/user.routes';
+import { UserRouter, userRouter } from '../adapters/routes/user.routes';
 const userRouterObj = new UserRouter();
 
 const app = express();
@@ -14,6 +14,7 @@ app.use(nocache());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 dbConnection();
+app.use(userRouter);
 app.listen(port, () => {
     console.log(`Server Running on ${port}`);
   });

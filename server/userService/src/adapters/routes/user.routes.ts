@@ -14,7 +14,12 @@ export class UserRouter {
   consumerMessage = new rabbitmq(this.userUsecase);
   userController = new UserController(this.userUsecase);
     
-  constructor() {}
+  constructor() {
+    this.router.get("/users/getAllUsers",(req: Request, res: Response) => {
+      this.userController.getAllUsers(req, res);
+      console.log("hello");
+    });
+  }
 
   async rabbitMq() {
     await this.consumerMessage.userLoginConsumer()
