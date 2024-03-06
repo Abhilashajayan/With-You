@@ -1,8 +1,13 @@
-"use client"
+"use client";
 
-import axios, { AxiosInstance } from 'axios';
-import { FormData } from '@/types/formData';
-import { BASE_URL, REGISTER_ENDPOINT, OTP_ENDPOINT, LOGIN_ENDPOINT } from './endpoints';
+import axios, { AxiosInstance } from "axios";
+import { FormData } from "@/types/formData";
+import {
+  BASE_URL,
+  REGISTER_ENDPOINT,
+  OTP_ENDPOINT,
+  LOGIN_ENDPOINT,
+} from "./endpoints";
 
 const client: AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -29,17 +34,17 @@ export const sendOtp = async (email: string, otp: number) => {
 export const registerUser = async (data: FormData) => {
   try {
     const response = await axios.post(`${BASE_URL}${REGISTER_ENDPOINT}`, data, {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
 
     if (response.status !== 200) {
-      throw new Error('Network response was not ok');
+      throw new Error("Network response was not ok");
     }
 
-    console.log('User registered successfully!', data);
+    console.log("User registered successfully!", data);
     return response;
   } catch (error) {
-    console.error('Error during user registration:', error);
+    console.error("Error during user registration:", error);
     throw error;
   }
 };

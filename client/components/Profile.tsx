@@ -4,7 +4,6 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 import MaleOutlinedIcon from "@mui/icons-material/MaleOutlined";
-import Modal from "./EditProfile";
 import { useAppSelector } from "@/features/hooks";
 
 const ProfileComponent: React.FC = () => {
