@@ -3,6 +3,7 @@ import { IUserSchema } from "../../interfaces/IUserSchema";
 import { IUserCase } from "../../interfaces/IUserUsecase";
 import { Model } from "mongoose";
 import bcrypt from "bcrypt";
+import cloudinary from "../../frameworks/services/cloudinary";
 
 export class userRepository implements IUserCase {
     private readonly UserModel: Model<IUserSchema>;
@@ -65,4 +66,52 @@ export class userRepository implements IUserCase {
           throw new Error("Error while fetching all users");
         }
       }
+
+      async editUser(userId: string, data: UserEntity, req: any): Promise<any> {
+        try {
+          if (req.files && req.files['image1']) {
+            const folderName = "Bea";
+            const result = await cloudinary.uploader.upload(req.files['image1'][0].path, { public_id: `${folderName}/${req.files['image1'][0].originalname}` });
+      
+            const updatedUserWithImage = await this.UserModel.findOneAndUpdate(
+              { _id: userId },
+              {
+                $set: {
+                  ...data,
+                  profilePicture: result?.secure_url,
+                },
+              },
+              { new: true }
+            );
+      
+            console.log("Cloudinary result:", result);
+            console.log("Updated user with image:", updatedUserWithImage);
+      
+            return updatedUserWithImage;
+          } else {
+            const updatedUserWithoutImage = await this.UserModel.findOneAndUpdate(
+              { _id: userId },
+              {
+                $set: {
+                  ...data,
+                },
+              },
+              { new: true }
+            );
+      
+            console.log("Updated user without image:", updatedUserWithoutImage);
+      
+            return updatedUserWithoutImage;
+          }
+        } catch (error) {
+          console.error("Editing user failed:", error);
+          throw new Error("Error while editing user");
+        }
+      }
+      
+      
+
+
+
+      
 }

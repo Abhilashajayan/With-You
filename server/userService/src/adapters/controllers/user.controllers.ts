@@ -17,5 +17,18 @@ export class UserController {
       console.log("Error while adding => ", error);
     }
   }
+
+
+  async editUser(req: Request, res: Response) {
+    try {
+      const userId :string =  req.params.userId;
+      const data =  req.body;
+      const dataUser = await this.userUsecase.editUser(userId, data , req);
+      return res.status(200).json({ dataUser });
+    } catch (error) {
+      res.status(500).send("Error while adding address");
+      console.log("Error while adding => ", error);
+    }
+  }
 }
   
