@@ -5,6 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { userLogin } from '@/axios/axiosConfig';
+import { useAppDispatch } from "@/features/hooks";
+import { setLogin } from "@/features/auth/authSlice";
+
 
 interface FormData {
   email: string;
@@ -20,6 +23,7 @@ const Page: React.FC = () => {
   const { register, handleSubmit, formState: { errors }, setValue, trigger } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
+  const dispatch = useAppDispatch()
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [formValues, setFormValues] = useState<FormData>({
@@ -36,7 +40,10 @@ const Page: React.FC = () => {
        console.log(response,"the response");
        if (response !== '')
        {
-        console.log("Login is successful");
+        dispatch(setLogin({
+          user:response?.user,
+          token:response?.token
+        }))
         router.push(`/`);
       } else {
         setError("Invalid username or password");

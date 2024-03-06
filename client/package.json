@@ -25,6 +25,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-slot": "^1.0.2",
     "@reduxjs/toolkit": "^2.2.1",
+    "@tanstack/react-table": "^8.13.2",
     "@types/react-responsive": "^8.0.8",
     "antd": "^5.14.1",
     "apexcharts": "^3.46.0",

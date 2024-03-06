@@ -1,12 +1,35 @@
-import React,{useState} from "react";
+"use client"
+import React,{useState , useEffect} from "react";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 import MaleOutlinedIcon from "@mui/icons-material/MaleOutlined";
 import Modal from "./EditProfile";
+import { useAppSelector } from "@/features/hooks";
 
 const ProfileComponent: React.FC = () => {
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    id: "",
+  });
 
+  const user = useAppSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    if (user) {
+      const userWithUsername = user as {
+        _id: string;
+        username: string;
+        email: string;
+      };
+      setUserData({
+        username: userWithUsername.username || "",
+        email: userWithUsername.email || "",
+        id: userWithUsername._id || "",
+      });
+    }
+  }, [user]);
 
   return (
     <div className="overflow-hidden fixed bg-cover top-0 right-0 left-0 w-screen h-full">
@@ -29,7 +52,7 @@ const ProfileComponent: React.FC = () => {
           </div>
 
           <h2 className="text-xl font-semibold flex items-center mb-2">
-            John Doe
+            {userData?.username}
             <span className="ml-2 text-sm text-gray-500">28</span>
             <VerifiedRoundedIcon className="text-blue-800 ml-1" />
           </h2>
