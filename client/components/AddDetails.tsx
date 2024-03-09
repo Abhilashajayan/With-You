@@ -3,18 +3,36 @@ import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import { Input } from "@/components/ui/input";
 import { DatePickerDemo } from "./ui/DatePicker";
 import { Button } from "@/components/ui/button";
+import { editUserProfile } from "@/axios/axiosConfig";
+import { useAppSelector } from "@/features/hooks";
+import { useAppDispatch } from "@/features/hooks";
+import { updateProfile } from "@/features/auth/authSlice";
 
 const AddDetails: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [formData, setFormData] = useState({
+  const dispatch = useAppDispatch();
+  const user:any = useAppSelector((state) => state.auth.user);
+  const [formData, setFormData]:any = useState({
     job: "",
     place: "",
     dateOfBirth: "",
     gender: "",
     interest: "",
     phone: "",
+    profilePicture: ""
   });
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setFormData({
+        ...formData,
+        profilePicture: URL.createObjectURL(file),
+        uploadPic: file,
+      });
+    }
+
+  }
   const handleInputChange = (type: string, value: string) => {
     setFormData({
       ...formData,
@@ -39,15 +57,17 @@ console.log(formData);
       setCurrentStep(currentStep + 1);
   };
 
-  const validateFormData = (): boolean => {
-    return (
-      formData.job.trim() !== "" &&
-      formData.place.trim() !== "" &&
-      formData.dateOfBirth.trim() !== "" &&
-      formData.gender.trim() !== "" &&
-      formData.interest.trim() !== "" &&
-      formData.phone.trim() !== ""
-    );
+
+  const handleSubmit = async () => {
+   
+      try {
+        const userId = user.id;
+        console.log(formData,"the form data");
+        const result = await editUserProfile(userId, formData);
+        dispatch(updateProfile(result.dataUser));
+      } catch (error) {
+        console.error("Error during form submission:", error);
+      }
   };
 
   return (
@@ -69,8 +89,10 @@ console.log(formData);
             </label>
             <input
               type="file"
-              id="fileInput"
-              className="hidden"
+              accept="image/*"
+              name="profilePicture"
+              id="file_input"
+              onChange={handleFileChange}
             />
           </div>
 
@@ -129,7 +151,7 @@ console.log(formData);
                 placeholder="Phone Number"
                 onChange={(e) => handleInputChange("phone", e.target.value)}
               />
-              <Button className="mt-2 w-full bg-red-500" onClick={handleNext}>
+              <Button className="mt-2 w-full bg-red-500" onClick={handleSubmit}>
                 Submit
               </Button>
             </>

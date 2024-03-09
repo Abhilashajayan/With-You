@@ -4,9 +4,11 @@ import axios, { AxiosInstance } from "axios";
 import { FormData } from "@/types/formData";
 import {
   BASE_URL,
+  BASEs_URL,
   REGISTER_ENDPOINT,
   OTP_ENDPOINT,
   LOGIN_ENDPOINT,
+  EDIT_ENDPOINT
 } from "./endpoints";
 
 const client: AxiosInstance = axios.create({
@@ -59,3 +61,20 @@ export const userLogin = async (userData: FormData) => {
     throw error;
   }
 };
+
+export const editUserProfile = async (userId: string, updatedUserData: any) => {
+  try {
+    const res = await axios.post(`${BASEs_URL}${EDIT_ENDPOINT}/${userId}`, updatedUserData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.error('Error during user profile edit:', error);
+    throw error;
+  }
+};
+

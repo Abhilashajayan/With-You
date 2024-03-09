@@ -12,11 +12,11 @@ import { FormData } from "@/types/formData";
 
 const Page: React.FC = () => {
   const user: any = useAppSelector((state) => state.auth.user);
-
+  console.log(user);
   return (
     <>
       <TabLayouts>
-        {user?.gender ? (
+        {user?.dob ? (
           <>
             <HomeNavbar />
             <ImageCarosal />

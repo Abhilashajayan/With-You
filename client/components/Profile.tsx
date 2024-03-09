@@ -1,32 +1,19 @@
-"use client"
-import React,{useState , useEffect} from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 import MaleOutlinedIcon from "@mui/icons-material/MaleOutlined";
 import { useAppSelector } from "@/features/hooks";
+import { FormData } from "@/types/formData";
 
 const ProfileComponent: React.FC = () => {
-  const [userData, setUserData] = useState({
-    username: "",
-    email: "",
-    id: "",
-  });
-
+  const [userData, setUserData]: any = useState({});
   const user = useAppSelector((state) => state.auth.user);
-
+  console.log(user);
   useEffect(() => {
     if (user) {
-      const userWithUsername = user as {
-        _id: string;
-        username: string;
-        email: string;
-      };
-      setUserData({
-        username: userWithUsername.username || "",
-        email: userWithUsername.email || "",
-        id: userWithUsername._id || "",
-      });
+      setUserData(user as FormData);
     }
   }, [user]);
 
@@ -40,14 +27,15 @@ const ProfileComponent: React.FC = () => {
             </button>
             <img
               className="w-32 h-32 p-2 rounded-full ring-4 ring-red-500 dark:ring-gray-500 mb-4"
-              src="https://source.unsplash.com/200x300/?portrait&1"
+              src={userData?.profilePicture}
               alt="Profile Avatar"
             />
-              <a  className="w-10 h-10 text-red-500 rounded-full flex items-center justify-center ring-2 ring-gray-300" href="/Profile/Editprofile" >
-      <EditOutlinedIcon />
-
-     
-    </a>
+            <a
+              className="w-10 h-10 text-red-500 rounded-full flex items-center justify-center ring-2 ring-gray-300"
+              href="/Profile/Editprofile"
+            >
+              <EditOutlinedIcon />
+            </a>
           </div>
 
           <h2 className="text-xl font-semibold flex items-center mb-2">
@@ -61,7 +49,7 @@ const ProfileComponent: React.FC = () => {
               <div className="flex items-center rounded-full border p-1 border-gray-300">
                 <MaleOutlinedIcon className="mr-1 text-red-500" />
               </div>
-              <span className="ml-2">Male</span>
+              <span className="ml-2">{userData?.gender}</span>
             </div>
 
             <div className="flex p-5 justify-center">
@@ -86,7 +74,7 @@ const ProfileComponent: React.FC = () => {
             </div>
             <div className="p-5 space-x-2">
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
-                Coding
+                {userData?.interest}
               </span>
 
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
