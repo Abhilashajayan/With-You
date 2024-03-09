@@ -14,7 +14,7 @@ const AddDetails: React.FC = () => {
   const user:any = useAppSelector((state) => state.auth.user);
   const [formData, setFormData]:any = useState({
     job: "",
-    place: "",
+    location: "",
     dateOfBirth: "",
     gender: "",
     interest: "",
@@ -107,7 +107,7 @@ console.log(formData);
               <Input
                 type="Place"
                 className="mt-2"
-                value={formData.place}
+                value={formData.location}
                 placeholder="Location"
                 onChange={(e) => handleInputChange("place", e.target.value)}
               />

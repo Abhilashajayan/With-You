@@ -57,7 +57,7 @@ const ProfileComponent: React.FC = () => {
                 <div className="flex items-center">
                   <span className="mr-2">Work</span>
                 </div>
-                <span className="font-bold">Developer</span>
+                <span className="font-bold">{userData?.job}</span>
               </div>
               <div className="mr-6 border-r pr-6">
                 <div className="flex items-center">
@@ -69,7 +69,7 @@ const ProfileComponent: React.FC = () => {
                 <div className="flex items-center">
                   <span className="mr-2">Location</span>
                 </div>
-                <span className="font-bold">India</span>
+                <span className="font-bold">{userData?.location}</span>
               </div>
             </div>
             <div className="p-5 space-x-2">
