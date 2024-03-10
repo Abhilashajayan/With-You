@@ -73,33 +73,30 @@ console.log(formData);
   return (
     <>
       <div className="fixed bg-cover top-0 container right-0 left-0 w-screen h-full flex flex-col justify-center items-center">
+    
         <div className="flex flex-col items-center">
-          <div className="overlay z-50 relative mb-4">
+          <div className="overlay z-50   relative  mb-4">
           <img
-              className="w-44 h-44 mb-3 mb-10 rounded-full shadow-lg transition duration-300 ease-in-out transform group-hover:scale-110"
+              className="w-44 h-44 mb-3 rounded-full shadow-lg  transition duration-300 ease-in-out transform group-hover:scale-110"
               src={
-                "https://wallpapers.com/images/hd/iron-man-abstract-art-huwkamij9o3d3mt6.webp"
+                formData.profilePicture ||"https://wallpapers.com/images/hd/iron-man-abstract-art-huwkamij9o3d3mt6.webp"
               }
               alt="Bonnie image"
             />
-                 <label htmlFor="fileInput" className="absolute mb-10 bottom-0 right-0">
-              <AddAPhotoOutlinedIcon
-                className="text-4xl text-white bg-gray-700 rounded-full p-1 cursor-pointer"
-              />
-            </label>
-            <input
+          
+          </div>
+          <input
               type="file"
               accept="image/*"
               name="profilePicture"
               id="file_input"
               onChange={handleFileChange}
             />
-          </div>
-
           {currentStep === 1 && (
             <>
               <Input
                 type="Job"
+                className="mt-2"
                 value={formData.job}
                 placeholder="Job Title"
                 onChange={(e) => handleInputChange("job", e.target.value)}
@@ -111,8 +108,8 @@ console.log(formData);
                 placeholder="Location"
                 onChange={(e) => handleInputChange("location", e.target.value)}
               />
-              <a className="mt-2">
-              <DatePickerDemo onDateSelect={handleDateSelect} />
+              <a className="mt-2 w-full ">
+              <DatePickerDemo onDateSelect={handleDateSelect}  />
               </a>
               <Button className="mt-2 w-full bg-red-500" onClick={handleNext}>
                 Next

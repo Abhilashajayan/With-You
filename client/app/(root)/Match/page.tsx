@@ -25,15 +25,15 @@ const Page: React.FC = () => {
     fetchRandomUser();
   }, []);
 
-  const fetchRandomUser = async () => {
+ const fetchRandomUser = async () => {
     try {
       const response = await fetch(apiUrl);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
       const data = await response.json();
-      const randomUser = data.users[Math.floor(Math.random() * data.users.length)];
+      const filteredUsers = data.users.filter((users: any) => users._id !== user._id);
+      const randomUser = filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
       setCurrentUser(randomUser);
     } catch (error) {
       console.error('Error fetching random user:', error);
@@ -46,8 +46,9 @@ const Page: React.FC = () => {
 
   return (
     <>
-      <TabLayouts>
-        {user?.gender ? (
+      
+        {user?.location ? (
+          <TabLayouts>
           <>
             <HomeNavbar />
             <MatchingField users={currentUser ? [currentUser] : []} />
@@ -63,10 +64,11 @@ const Page: React.FC = () => {
               </button>
             </div>
           </>
+          </TabLayouts>
         ) : (
           <AddDetails />
         )}
-      </TabLayouts>
+      
     </>
   );
 };
