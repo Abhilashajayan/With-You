@@ -15,9 +15,9 @@ const AddDetails: React.FC = () => {
   const [formData, setFormData]:any = useState({
     job: "",
     location: "",
-    dateOfBirth: "",
+    dob: "",
     gender: "",
-    interest: "",
+    interest:[],
     phone: "",
     profilePicture: ""
   });
@@ -46,7 +46,12 @@ const AddDetails: React.FC = () => {
       const month = selectedDate.getMonth() + 1; 
       const year = selectedDate.getFullYear();
   
-      console.log(`Selected date: ${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`);
+      const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
+      
+      setFormData({
+        ...formData,
+        dob: formattedDate,
+      });
     } else {
       console.log("No date selected");
     }
