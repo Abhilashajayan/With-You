@@ -17,7 +17,7 @@ export class authUsecases implements IUserUsecaes {
         return this.authRepository.validateOtp(email , otp);
     }
     
-     async loginUser(loginData: AuthEntity):Promise<string> {
+     async loginUser(loginData: AuthEntity):Promise<any> {
        console.log("loginUser");
         const userLogin:AuthEntity = loginData;
         console.log(userLogin);
@@ -28,14 +28,14 @@ export class authUsecases implements IUserUsecaes {
        }else{
         console.log(reponse,"the data");
         const data =   JSON.parse(reponse);
-        const userData : any = {
+        const user : any = {
           id : data._id,
           username : data.username,
           email : data.email
         }
-        console.log(userData);
-       const token = this.jwtService.generateToken(userData);
-       return token;
+        console.log(user);
+       const token = this.jwtService.generateToken(user);
+       return { token, user };
        }
         console.log(userLogin);
     }

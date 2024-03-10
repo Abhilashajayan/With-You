@@ -56,6 +56,7 @@ export class authController {
         try{
             const loginData = req.body;
             const loginDetails = await this.authUsecase.loginUser(loginData);
+            console.log(loginDetails);
             res.status(200).json(loginDetails);
         }catch(err){
             res.status(500).json({message: err});
