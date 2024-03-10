@@ -105,11 +105,11 @@ console.log(formData);
                 onChange={(e) => handleInputChange("job", e.target.value)}
               />
               <Input
-                type="Place"
+                type="location"
                 className="mt-2"
                 value={formData.location}
                 placeholder="Location"
-                onChange={(e) => handleInputChange("place", e.target.value)}
+                onChange={(e) => handleInputChange("location", e.target.value)}
               />
               <a className="mt-2">
               <DatePickerDemo onDateSelect={handleDateSelect} />
