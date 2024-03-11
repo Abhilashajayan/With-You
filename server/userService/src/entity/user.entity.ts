@@ -10,6 +10,8 @@ export class UserEntity {
     public readonly interest: string[];
     public readonly status: boolean;
     public readonly createdAt: Date;
+    public readonly location: string;
+    public readonly job: string; 
 
     constructor(
         id: string,
@@ -22,7 +24,9 @@ export class UserEntity {
         gender: string,
         interest: string[],
         status: boolean,
-        createdAt: Date
+        createdAt: Date,
+        location: string,
+        job: string
     ) {
         this.id = id;
         this.username = username;
@@ -35,5 +39,7 @@ export class UserEntity {
         this.interest = interest;
         this.status = status;
         this.createdAt = createdAt;
+        this.location = location;
+        this.job = job;
     }
 }

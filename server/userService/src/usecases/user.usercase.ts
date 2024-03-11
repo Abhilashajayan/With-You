@@ -22,4 +22,8 @@ export class UserUsecase implements IUserCase{
    async editUser(userId: string, data: UserEntity , req : any): Promise<void> {
        return this.UserRepository.editUser(userId, data, req);
    }  
+
+   getRandomUser(): Promise<any> {
+       return this.UserRepository.getRandomUser();
+   }
 }

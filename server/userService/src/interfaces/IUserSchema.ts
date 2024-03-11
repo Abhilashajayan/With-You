@@ -12,4 +12,6 @@ export interface IUserSchema extends Document {
     interest: string[];
     status: boolean;
     createdAt: Date;
+    location: string; 
+    job: string; 
 }

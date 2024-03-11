@@ -1,8 +1,7 @@
 import { Request } from 'express';
 import multer, { FileFilterCallback, Multer } from 'multer';
 import path from 'path';
-
-export interface ParsedQs {
+interface ParsedQs {
     [key: string]: string | undefined;
   }
 

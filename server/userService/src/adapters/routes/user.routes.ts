@@ -4,7 +4,7 @@ import { userRepository } from "../repositories/user.repo";
 import userModel from "../../models/user.model";
 import { UserUsecase } from "../../usecases/user.usercase";
 import { rabbitmq } from "../../frameworks/messageBroker/rabbitmq";
-import multerCofig from "../../frameworks/services/multer";
+import multerConfig from '../../frameworks/services/multer'
 
 export class UserRouter {
   router = Router();
@@ -18,14 +18,17 @@ export class UserRouter {
     this.router.get("/users/getAllUsers", (req: Request, res: Response) => {
       this.userController.getAllUsers(req, res);
     });
-    const upload = multerCofig.fields([{ name: "image1", maxCount: 1 }]);
+
+    this.router.get("/match/getRandomUser", (req: Request, res: Response) => {
+      this.userController.getRandomUser(req, res);
+    });
 
     this.router.post(
       "/users/editUser/:userId",
-      upload,
+      multerConfig.single('uploadPic'),
       (req: Request, res: Response) => {
         this.userController.editUser(req, res);
-        console.log("hello!");
+        console.log(req.files,"hhh");
       }
     );
   }

@@ -4,6 +4,7 @@ import { IUserCase } from "../../interfaces/IUserUsecase";
 import { Model } from "mongoose";
 import bcrypt from "bcrypt";
 import cloudinary from "../../frameworks/services/cloudinary";
+import userModel from "../../models/user.model";
 
 export class userRepository implements IUserCase {
     private readonly UserModel: Model<IUserSchema>;
@@ -69,9 +70,10 @@ export class userRepository implements IUserCase {
 
       async editUser(userId: string, data: UserEntity, req: any): Promise<any> {
         try {
-          if (req.files && req.files['image1']) {
+            console.log(req.file,"the request");
+          if (req.file) {
             const folderName = "Bea";
-            const result = await cloudinary.uploader.upload(req.files['image1'][0].path, { public_id: `${folderName}/${req.files['image1'][0].originalname}` });
+            const result = await cloudinary.uploader.upload(req.file.path, { public_id: `${folderName}/${req.file.originalname}` });
       
             const updatedUserWithImage = await this.UserModel.findOneAndUpdate(
               { _id: userId },
@@ -107,6 +109,17 @@ export class userRepository implements IUserCase {
           console.error("Editing user failed:", error);
           throw new Error("Error while editing user");
         }
+      }
+
+
+      async getRandomUser(): Promise<any> {
+        try {
+          const randomUser = await this.UserModel.find({},{password:0});
+          return randomUser;
+      } catch (error) {
+          console.error('Error retrieving random user:', error);
+          return error;
+      }
       }
       
       

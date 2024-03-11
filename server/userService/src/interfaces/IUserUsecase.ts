@@ -5,4 +5,5 @@ export interface IUserCase {
   login(data:UserEntity ): Promise<void> ;
   getAllUsers(): Promise<any>;
   editUser(userId : string, data : UserEntity , req :  any): Promise<void>;
+  getRandomUser(): Promise<any>;
 }
