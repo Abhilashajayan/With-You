@@ -33,9 +33,10 @@ export class authUsecases implements IUserUsecaes {
           username : data.username,
           email : data.email
         }
+
         console.log(user);
        const token = this.jwtService.generateToken(user);
-       return { token, user };
+       return { token, user , data };
        }
         console.log(userLogin);
     }
