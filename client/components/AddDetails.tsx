@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import { Input } from "@/components/ui/input";
 import { DatePickerDemo } from "./ui/DatePicker";
 import { Button } from "@/components/ui/button";
@@ -67,6 +66,7 @@ console.log(formData);
    
       try {
         const userId = user.id;
+        console.log(userId);
         console.log(formData,"the form data");
         const result = await editUserProfile(userId, formData);
         dispatch(updateProfile(result.dataUser));

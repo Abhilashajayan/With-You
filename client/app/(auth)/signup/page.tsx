@@ -6,7 +6,8 @@ import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { userLogin } from '@/axios/axiosConfig';
 import { useAppDispatch } from "@/features/hooks";
-import { setLogin } from "@/features/auth/authSlice";
+import { setLogin , updateProfile } from "@/features/auth/authSlice";
+import { setCookie } from '@/features/authCookies';
 
 
 interface FormData {
@@ -42,8 +43,14 @@ const Page: React.FC = () => {
        {
         dispatch(setLogin({
           user:response?.user,
-          token:response?.token
         }))
+
+          if(response?.data.phone){
+            dispatch(updateProfile(response?.data));
+            console.log('hello');
+          }
+        
+        await setCookie(response?.token,)
         router.push(`/`);
       } else {
         setError("Invalid username or password");

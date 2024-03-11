@@ -11,7 +11,7 @@ import { FormData } from "@/types/formData";
 const ProfileComponent: React.FC = () => {
   const [userData, setUserData]: any = useState({});
   const user: any = useAppSelector((state) => state.auth.user);
-  console.log(user);
+  console.log(user,"the data");
   const [age, setAge] = useState<number | null>(null);
 
   useEffect(() => {

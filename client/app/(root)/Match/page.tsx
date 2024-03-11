@@ -8,6 +8,8 @@ import MatchIcon from '@/components/icons/MatchIcon';
 import HomeNavbar from '@/components/HomNav';
 import { useAppSelector } from '@/features/hooks';
 import AddDetails from '@/components/AddDetails';
+import { updateProfile } from '@/features/auth/authSlice';
+import { useAppDispatch } from '@/features/hooks';
 
 interface User {
   id: string;
@@ -18,12 +20,15 @@ interface User {
 
 const Page: React.FC = () => {
   const user: any = useAppSelector((state) => state.auth.user);
+  console.log(user,"the user");
+  const [userDatas, setuserDatas] = useState<any | null>(null);
   const apiUrl = 'http://localhost:3003/match/getRandomUser';
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
     fetchRandomUser();
   }, []);
+
 
  const fetchRandomUser = async () => {
     try {
@@ -32,7 +37,11 @@ const Page: React.FC = () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
+      const userDat = data.users.filter((users: any) => users._id === user.id);
+      setuserDatas(userDat[0]);
+      console.log(userDat[0],"myr");
       const filteredUsers = data.users.filter((users: any) => users._id !== user._id);
+      console.log(filteredUsers,"ds");
       const randomUser = filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
       setCurrentUser(randomUser);
     } catch (error) {
@@ -47,7 +56,7 @@ const Page: React.FC = () => {
   return (
     <>
       
-        {user?.location ? (
+        {user?.phone ? (
           <TabLayouts>
           <>
             <HomeNavbar />
