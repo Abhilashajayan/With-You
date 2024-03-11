@@ -1,14 +1,13 @@
-"use client"
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useRouter } from 'next/navigation';
-import { userLogin } from '@/axios/axiosConfig';
+"use client";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useRouter } from "next/navigation";
+import { userLogin } from "@/axios/axiosConfig";
 import { useAppDispatch } from "@/features/hooks";
-import { setLogin , updateProfile } from "@/features/auth/authSlice";
-import { setCookie } from '@/features/authCookies';
-
+import { setLogin, updateProfile } from "@/features/auth/authSlice";
+import { setCookie } from "@/features/authCookies";
 
 interface FormData {
   email: string;
@@ -16,20 +15,32 @@ interface FormData {
 }
 
 const schema = z.object({
-  email: z.string().email({ message: 'Invalid email address' }).nonempty({ message: 'Email is required' }),
-  password: z.string().min(6, { message: 'Password must be at least 6 characters long' }).nonempty({ message: 'Password is required' }),
+  email: z
+    .string()
+    .email({ message: "Invalid email address" })
+    .nonempty({ message: "Email is required" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters long" })
+    .nonempty({ message: "Password is required" }),
 });
 
 const Page: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, setValue, trigger } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    trigger,
+  } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [formValues, setFormValues] = useState<FormData>({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   console.log(formValues);
 
@@ -37,27 +48,28 @@ const Page: React.FC = () => {
     try {
       const isValid = await trigger();
       if (isValid) {
-       const response = await userLogin(data);
-       console.log(response,"the response");
-       if (response !== '')
-       {
-        dispatch(setLogin({
-          user:response?.user,
-        }))
+        const response = await userLogin(data);
+        console.log(response, "the response");
+        if (response !== "") {
+          dispatch(
+            setLogin({
+              user: response?.user,
+            })
+          );
 
-          if(response?.data.phone){
+          if (response?.data.phone) {
             dispatch(updateProfile(response?.data));
-            console.log('hello');
+            console.log("hello");
           }
-        
-        await setCookie(response?.token,)
-        router.push(`/`);
-      } else {
-        setError("Invalid username or password");
+
+          await setCookie(response?.token);
+          router.push(`/`);
+        } else {
+          setError("Invalid username or password");
+        }
       }
-       }
     } catch (error) {
-      console.error('Error during form submission:', error);
+      console.error("Error during form submission:", error);
     }
   };
 
@@ -95,14 +107,18 @@ const Page: React.FC = () => {
               <input
                 type="email"
                 id="email"
-                {...register('email')}
+                {...register("email")}
                 placeholder="john.doe@example.com"
-                className={`border ${errors.email ? 'border-red-500' : 'border-gray-300'} text-black rounded p-3 w-full focus:outline-none focus:ring focus:border-blue-300`}
+                className={`border ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                } text-black rounded p-3 w-full focus:outline-none focus:ring focus:border-blue-300`}
                 onChange={handleInputChange}
                 value={formValues.email}
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -116,14 +132,18 @@ const Page: React.FC = () => {
               <input
                 type="password"
                 id="password"
-                {...register('password')}
+                {...register("password")}
                 placeholder="Enter your password"
-                className={`border ${errors.password ? 'border-red-500' : 'border-gray-300'} text-black rounded p-3 w-full focus:outline-none focus:ring focus:border-blue-300`}
+                className={`border ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                } text-black rounded p-3 w-full focus:outline-none focus:ring focus:border-blue-300`}
                 onChange={handleInputChange}
                 value={formValues.password}
               />
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
               )}
             </div>
             {error && <p className="text-red-500">{error}</p>}
@@ -160,6 +180,6 @@ const Page: React.FC = () => {
       </div>
     </>
   );
-}
+};
 
 export default Page;

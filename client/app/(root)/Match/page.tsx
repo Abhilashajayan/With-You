@@ -8,8 +8,7 @@ import MatchIcon from '@/components/icons/MatchIcon';
 import HomeNavbar from '@/components/HomNav';
 import { useAppSelector } from '@/features/hooks';
 import AddDetails from '@/components/AddDetails';
-import { updateProfile } from '@/features/auth/authSlice';
-import { useAppDispatch } from '@/features/hooks';
+
 
 interface User {
   id: string;
@@ -20,17 +19,16 @@ interface User {
 
 const Page: React.FC = () => {
   const user: any = useAppSelector((state) => state.auth.user);
-  console.log(user,"the user");
   const [userDatas, setuserDatas] = useState<any | null>(null);
   const apiUrl = 'http://localhost:3003/match/getRandomUser';
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     fetchRandomUser();
   }, []);
 
-
- const fetchRandomUser = async () => {
+  const fetchRandomUser = async () => {
     try {
       const response = await fetch(apiUrl);
       if (!response.ok) {
@@ -39,30 +37,30 @@ const Page: React.FC = () => {
       const data = await response.json();
       const userDat = data.users.filter((users: any) => users._id === user.id);
       setuserDatas(userDat[0]);
-      console.log(userDat[0],"myr");
       const filteredUsers = data.users.filter((users: any) => users._id !== user._id);
-      console.log(filteredUsers,"ds");
       const randomUser = filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
       setCurrentUser(randomUser);
+      setShowMessage(true);
+      setTimeout(() => {
+        setShowMessage(false); 
+      },200);
     } catch (error) {
       console.error('Error fetching random user:', error);
     }
   };
 
-  const handleNextUser = () => {
-    fetchRandomUser();
-  };
-
   return (
     <>
-      
-        {user?.phone ? (
-          <TabLayouts>
+      {user?.phone ? (
+        <TabLayouts>
           <>
             <HomeNavbar />
             <MatchingField users={currentUser ? [currentUser] : []} />
             <div className="flex items-center justify-center mt-4">
-              <button className="rounded-full border-2 p-2 m-2" onClick={handleNextUser}>
+              <button
+                className="rounded-full border-2 p-2 m-2"
+                onClick={fetchRandomUser}
+              >
                 <CloseIcon style={{ color: '#FF5733' }} />
               </button>
               <button className="rounded-full p-2 m-2">
@@ -72,12 +70,16 @@ const Page: React.FC = () => {
                 <StarBorderIcon style={{ color: '#8A2387' }} />
               </button>
             </div>
+            {showMessage && (
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl text-red-500 p-2 rounded border border-red-500">
+            Nope<CloseIcon style={{ fontSize: '2.5rem' }} />
+          </div>
+            )}
           </>
-          </TabLayouts>
-        ) : (
-          <AddDetails />
-        )}
-      
+        </TabLayouts>
+      ) : (
+        <AddDetails />
+      )}
     </>
   );
 };

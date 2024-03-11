@@ -7,11 +7,12 @@ import MaleOutlinedIcon from "@mui/icons-material/MaleOutlined";
 import FemaleOutlinedIcon from "@mui/icons-material/FemaleOutlined";
 import { useAppSelector } from "@/features/hooks";
 import { FormData } from "@/types/formData";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const ProfileComponent: React.FC = () => {
   const [userData, setUserData]: any = useState({});
   const user: any = useAppSelector((state) => state.auth.user);
-  console.log(user,"the data");
+  console.log(user, "the data");
   const [age, setAge] = useState<number | null>(null);
 
   useEffect(() => {
@@ -37,6 +38,27 @@ const ProfileComponent: React.FC = () => {
     <div className="overflow-hidden fixed bg-cover top-0 right-0 left-0 w-screen h-full">
       <div className="rounded-b-full shadow backdrop-blur-xl md:shadow-lg h-2/3 w-full flex">
         <div className="flex flex-col items-center justify-center h-full w-full">
+          <div className="flex space-x-10 justify-between items-center absolute top-2 right-2 left-2">
+            <a className="hover:animate-spin p-5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="h-6 w-6 text-red-500"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                ></path>
+              </svg>
+            </a>
+            <button className="w-10 h-10 text-red-500  flex items-center justify-center ">
+             <LogoutIcon />
+            </button>
+          </div>
           <div className="flex space-x-10 justify-center items-center">
             <button className="w-10 h-10 text-red-500 rounded-full flex items-center justify-center ring-2 ring-gray-300">
               <AddAPhotoIcon />
