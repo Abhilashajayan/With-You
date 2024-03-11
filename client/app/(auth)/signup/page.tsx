@@ -8,6 +8,7 @@ import { userLogin } from "@/axios/axiosConfig";
 import { useAppDispatch } from "@/features/hooks";
 import { setLogin, updateProfile } from "@/features/auth/authSlice";
 import { setCookie } from "@/features/authCookies";
+import { toast } from "@/components/ui/use-toast";
 
 interface FormData {
   email: string;
@@ -64,6 +65,10 @@ const Page: React.FC = () => {
 
           await setCookie(response?.token);
           router.push(`/`);
+          toast({
+            variant:"destructive",
+            description: "Login successful",
+          })
         } else {
           setError("Invalid username or password");
         }
