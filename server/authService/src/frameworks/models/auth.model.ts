@@ -1,5 +1,5 @@
 import mongoose, { Model } from "mongoose";
-import { IAuthSchema } from "../interfaces/IAuthSchema";
+import { IAuthSchema } from "../../adapters/interfaces/IAuthSchema";
 
 const authSchema = new mongoose.Schema<IAuthSchema>({
   username: {

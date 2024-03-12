@@ -1,8 +1,8 @@
 import { AuthEntity } from "../entity/auth.entity";
-import { IUserUsecaes } from "../interfaces/IAuthUsecase";
+import { IUserUsecaes } from "../adapters/interfaces/IAuthUsecase";
 import { Rabiitmq } from "../frameworks/messageBroker/rabbitmq";
 import { JwtService } from "../frameworks/jwt/jwtAuth";
-import { AuthRepository } from "../adapters/repositories/auth.repo";
+import { AuthRepository } from "../frameworks/repositories/auth.repo";
 
 
 export class authUsecases implements IUserUsecaes {

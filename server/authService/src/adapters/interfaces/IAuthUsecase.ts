@@ -1,4 +1,4 @@
-import { AuthEntity } from "../entity/auth.entity";
+import { AuthEntity } from "../../entity/auth.entity";
 export interface IUserUsecaes {
     registerUser(userData: AuthEntity):Promise<void>
     loginUser?(loginData: AuthEntity):Promise<string>;

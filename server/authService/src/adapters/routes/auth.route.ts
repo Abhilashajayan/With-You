@@ -1,8 +1,8 @@
 import { Router, Request, Response } from "express";
 import { authController } from "../controllers/auth.controllers";
 import { authUsecases } from "../../usecases/auth.usecase";
-import { AuthRepository } from "../repositories/auth.repo";
-import { AuthModel } from "../../models/auth.model";
+import { AuthRepository } from "../../frameworks/repositories/auth.repo";
+import { AuthModel } from "../../frameworks/models/auth.model";
 import { Rabiitmq } from "../../frameworks/messageBroker/rabbitmq";
 import { JwtService } from "../../frameworks/jwt/jwtAuth";
 

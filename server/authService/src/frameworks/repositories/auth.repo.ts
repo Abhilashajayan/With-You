@@ -1,9 +1,9 @@
 import { Model } from "mongoose";
-import { IAuthSchema } from "../../interfaces/IAuthSchema";
-import { IUserUsecaes } from "../../interfaces/IAuthUsecase";
+import { IAuthSchema } from "../../adapters/interfaces/IAuthSchema";
+import { IUserUsecaes } from "../../adapters/interfaces/IAuthUsecase";
 import { AuthEntity } from "../../entity/auth.entity";
-import { AuthModel } from "../../models/auth.model";
-import { Rabiitmq } from "../../frameworks/messageBroker/rabbitmq";
+import { AuthModel } from "../models/auth.model";
+import { Rabiitmq } from "../messageBroker/rabbitmq";
 
 export class AuthRepository implements IUserUsecaes {
   private readonly AuthModel: Model<IAuthSchema>;
