@@ -13,11 +13,13 @@ import { setLogout } from "@/features/auth/authSlice";
 import { useAppDispatch } from "@/features/hooks";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
+import { useParams } from "next/navigation";
 
 const ProfileComponent: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [userData, setUserData]: any = useState({});
+  // const params = useParams<{ tag: string; userId: string }>();
   const user: any = useAppSelector((state) => state.auth.user);
   console.log(user, "the data");
   const [age, setAge] = useState<number | null>(null);
@@ -40,6 +42,8 @@ const ProfileComponent: React.FC = () => {
 
     setAge(ageDiff);
   }, [user]);
+
+
 
   const handleLogout = async () => {
     await deleteCookie();
@@ -90,7 +94,7 @@ const ProfileComponent: React.FC = () => {
             />
             <a
               className="w-10 h-10 text-red-500 rounded-full flex items-center justify-center ring-2 ring-gray-300"
-              href="/Profile/Editprofile"
+              href={`/Profile/Editprofile/${userData?._id}`}
             >
               <EditOutlinedIcon />
             </a>

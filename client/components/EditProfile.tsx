@@ -1,4 +1,6 @@
+"use client"
 import React, { useState, ChangeEvent, MouseEvent } from 'react';
+import { useParams } from 'next/navigation';
 
 interface ModalProps {
   onAccept: (userData: UserData) => void;
@@ -18,6 +20,7 @@ interface UserData {
 }
 
 const Modal: React.FC = () => {
+  const params = useParams();
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
@@ -36,7 +39,8 @@ const Modal: React.FC = () => {
       setImages(imageArray);
     }
   };
-
+  const roomID: any = params.userId;
+  console.log(roomID);
   const handleAccept = () => {
     const userData: UserData = {
       name,

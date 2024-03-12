@@ -64,7 +64,7 @@ const Page: React.FC = () => {
           }
 
           await setCookie(response?.token);
-          router.push(`/`);
+          router.push(`/Match`);
           toast({
             variant: "destructive",
             description: "Login successful",
