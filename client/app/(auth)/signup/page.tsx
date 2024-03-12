@@ -7,13 +7,23 @@ import { useRouter } from "next/navigation";
 import { userLogin } from "@/axios/axiosConfig";
 import { useAppDispatch } from "@/features/hooks";
 import { setLogin, updateProfile } from "@/features/auth/authSlice";
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  UserCredential,
+  OAuthCredential,
+} from "firebase/auth";
 import { setCookie } from "@/features/authCookies";
 import { toast } from "@/components/ui/use-toast";
+import { app } from "@/config/firebase";
 
 interface FormData {
   email: string;
   password: string;
 }
+const provider = new GoogleAuthProvider();
+const auth = getAuth(app);
 
 const schema = z.object({
   email: z
@@ -87,6 +97,29 @@ const Page: React.FC = () => {
     });
   };
 
+  const handleGoogleLogin = () => {
+    console.log("button clicked");
+    signInWithPopup(auth, provider)
+      .then((result: UserCredential) => {
+        const credential: OAuthCredential | null =
+          GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken || "";
+        const user = result.user;
+        const userData: any = {
+          email: user.email,
+          username: user.displayName,
+          google: true,
+        };
+        console.log(userData, "the google auth data");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+      });
+  };
+
   return (
     <>
       <div className="flex items-center justify-center bg-white min-h-screen">
@@ -145,6 +178,7 @@ const Page: React.FC = () => {
                 onChange={handleInputChange}
                 value={formValues.password}
               />
+
               {errors.password && (
                 <p className="text-red-500 text-sm mt-1">
                   {errors.password.message}
@@ -158,16 +192,23 @@ const Page: React.FC = () => {
             >
               Continue
             </button>
+
+            <a href="/signin" className="text-gray-500 hover:underline">
+              Forgotten your password?
+            </a>
           </form>
 
-          <div className="flex items-center">
+          <div className="flex mt-2 items-center">
             <div className="flex-grow border-b border-gray-400"></div>
             <span className="text-black mx-4">or sign up with</span>
             <div className="flex-grow border-b border-gray-400"></div>
           </div>
 
           <div className="flex text-black justify-center">
-            <button className="flex items-center justify-center mt-4 p-2 border border-gray-300 rounded cursor-pointer">
+            <button
+              className="flex items-center justify-center mt-4 p-2 border border-gray-300 rounded cursor-pointer"
+              onClick={handleGoogleLogin}
+            >
               <img
                 src="https://img.icons8.com/color/48/000000/google-logo.png"
                 alt="Google Icon"
