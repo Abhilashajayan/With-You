@@ -1,10 +1,10 @@
 import { UserEntity } from "../../entity/user.entity";
-import { IUserSchema } from "../../interfaces/IUserSchema";
-import { IUserCase } from "../../interfaces/IUserUsecase";
+import { IUserSchema } from "../../adapters/interfaces/IUserSchema";
+import { IUserCase } from "../../adapters/interfaces/IUserUsecase";
 import { Model } from "mongoose";
 import bcrypt from "bcrypt";
-import cloudinary from "../../frameworks/services/cloudinary";
-import userModel from "../../models/user.model";
+import cloudinary from "../services/cloudinary";
+import userModel from "../models/user.model";
 
 export class userRepository implements IUserCase {
     private readonly UserModel: Model<IUserSchema>;

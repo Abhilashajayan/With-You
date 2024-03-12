@@ -1,5 +1,5 @@
 import amqp from 'amqplib';
-import { IUserSchema } from '../../interfaces/IUserSchema';
+import { IUserSchema } from '../../adapters/interfaces/IUserSchema';
 import { UserUsecase } from '../../usecases/user.usercase';
 
 export class rabbitmq {

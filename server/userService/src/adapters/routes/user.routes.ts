@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { UserController } from "../controllers/user.controllers";
-import { userRepository } from "../repositories/user.repo";
-import userModel from "../../models/user.model";
+import { userRepository } from "../../frameworks/repositories/user.repo";
+import userModel from "../../frameworks/models/user.model";
 import { UserUsecase } from "../../usecases/user.usercase";
 import { rabbitmq } from "../../frameworks/messageBroker/rabbitmq";
 import multerConfig from '../../frameworks/services/multer'

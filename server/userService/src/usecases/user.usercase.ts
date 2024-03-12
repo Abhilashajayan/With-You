@@ -1,6 +1,6 @@
-import { IUserSchema } from "../interfaces/IUserSchema";
-import { IUserCase } from "../interfaces/IUserUsecase";
-import { userRepository } from "../adapters/repositories/user.repo";
+import { IUserSchema } from "../adapters/interfaces/IUserSchema";
+import { IUserCase } from "../adapters/interfaces/IUserUsecase";
+import { userRepository } from "../frameworks/repositories/user.repo";
 import { UserEntity } from "../entity/user.entity";
 import { Request } from "express";
 

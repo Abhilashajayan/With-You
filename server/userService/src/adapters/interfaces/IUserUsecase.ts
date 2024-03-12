@@ -1,4 +1,4 @@
-import { UserEntity } from "../entity/user.entity";
+import { UserEntity } from "../../entity/user.entity";
 
 export interface IUserCase {
   register(user: UserEntity): Promise<void>;
