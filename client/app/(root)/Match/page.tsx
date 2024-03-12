@@ -19,7 +19,6 @@ interface User {
 
 const Page: React.FC = () => {
   const user: any = useAppSelector((state) => state.auth.user);
-  const [userDatas, setuserDatas] = useState<any | null>(null);
   const apiUrl = 'http://localhost:3003/match/getRandomUser';
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [showMessage, setShowMessage] = useState(false);
@@ -35,8 +34,6 @@ const Page: React.FC = () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      const userDat = data.users.filter((users: any) => users._id === user.id);
-      setuserDatas(userDat[0]);
       const filteredUsers = data.users.filter((users: any) => users._id !== user._id);
       const randomUser = filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
       setCurrentUser(randomUser);
@@ -72,7 +69,7 @@ const Page: React.FC = () => {
             </div>
             {showMessage && (
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl text-red-500 p-2 rounded border border-red-500">
-            Nope<CloseIcon style={{ fontSize: '2.5rem' }} />
+            Nope!
           </div>
             )}
           </>

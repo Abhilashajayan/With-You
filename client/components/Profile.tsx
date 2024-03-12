@@ -7,17 +7,16 @@ import MaleOutlinedIcon from "@mui/icons-material/MaleOutlined";
 import FemaleOutlinedIcon from "@mui/icons-material/FemaleOutlined";
 import { useAppSelector } from "@/features/hooks";
 import { FormData } from "@/types/formData";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 import { deleteCookie } from "@/features/authCookies";
 import { setLogout } from "@/features/auth/authSlice";
 import { useAppDispatch } from "@/features/hooks";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 
-
 const ProfileComponent: React.FC = () => {
-  const dispatch =  useAppDispatch();
-  const router = useRouter()
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const [userData, setUserData]: any = useState({});
   const user: any = useAppSelector((state) => state.auth.user);
   console.log(user, "the data");
@@ -43,15 +42,14 @@ const ProfileComponent: React.FC = () => {
   }, [user]);
 
   const handleLogout = async () => {
-    await deleteCookie()
-    dispatch(setLogout())
-    router.push('/signup')
+    await deleteCookie();
+    dispatch(setLogout());
+    router.push("/signup");
     toast({
-      variant:"destructive",
+      variant: "destructive",
       description: "Logouted Successfully",
-    })
-  }
-  
+    });
+  };
 
   return (
     <div className="overflow-hidden fixed bg-cover top-0 right-0 left-0 w-screen h-full">
@@ -74,8 +72,11 @@ const ProfileComponent: React.FC = () => {
                 ></path>
               </svg>
             </a>
-            <button className="w-10 h-10 text-red-500 p-5 flex items-center justify-center " onClick={handleLogout}>
-             <LogoutIcon />
+            <button
+              className="w-10 h-10 text-red-500 p-5 flex items-center justify-center "
+              onClick={handleLogout}
+            >
+              <LogoutIcon />
             </button>
           </div>
           <div className="flex space-x-10 justify-center items-center">

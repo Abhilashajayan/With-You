@@ -66,9 +66,9 @@ const Page: React.FC = () => {
           await setCookie(response?.token);
           router.push(`/`);
           toast({
-            variant:"destructive",
+            variant: "destructive",
             description: "Login successful",
-          })
+          });
         } else {
           setError("Invalid username or password");
         }
