@@ -4,7 +4,7 @@ import { userRepository } from "../../frameworks/repositories/user.repo";
 import userModel from "../../frameworks/models/user.model";
 import { UserUsecase } from "../../usecases/user.usercase";
 import { rabbitmq } from "../../frameworks/messageBroker/rabbitmq";
-import multerConfig from '../../frameworks/services/multer'
+import multerConfig from "../../frameworks/services/multer";
 
 export class UserRouter {
   router = Router();
@@ -25,12 +25,16 @@ export class UserRouter {
 
     this.router.post(
       "/users/editUser/:userId",
-      multerConfig.single('uploadPic'),
+      multerConfig.single("uploadPic"),
       (req: Request, res: Response) => {
         this.userController.editUser(req, res);
-        console.log(req.files,"hhh");
+        console.log(req.files, "hhh");
       }
     );
+
+    this.router.post("/match/likeUser", (req: Request, res: Response) => {
+      this.userController.matchUser(req, res);
+    });
   }
 
   async rabbitMq() {

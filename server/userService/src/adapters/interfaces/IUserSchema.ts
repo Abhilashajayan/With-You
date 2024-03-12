@@ -14,4 +14,5 @@ export interface IUserSchema extends Document {
     createdAt: Date;
     location: string; 
     job: string; 
+    liked: string[];
 }

@@ -12,8 +12,12 @@ const UserSchema = new Schema<IUserSchema>({
     interest: { type: [String] },
     status: { type: Boolean },
     createdAt: { type: Date, required: true },
-    location: { type: String }, // Added property
-    job: { type: String }, // Added property
+    location: { type: String }, 
+    job: { type: String }, 
+    liked: [{
+        user: { type: Schema.Types.ObjectId, ref: 'User' },
+        likedAt: { type: Date, default: Date.now }, 
+    }],
 });
 
 export default mongoose.model<IUserSchema & Document>("User", UserSchema);

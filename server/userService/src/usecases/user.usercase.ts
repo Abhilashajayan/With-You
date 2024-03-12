@@ -23,7 +23,13 @@ export class UserUsecase implements IUserCase{
        return this.UserRepository.editUser(userId, data, req);
    }  
 
-   getRandomUser(): Promise<any> {
+   async getRandomUser(): Promise<any> {
        return this.UserRepository.getRandomUser();
    }
+
+   async matchUser(userId: string, likedUserId: string): Promise<any> {
+       return this.UserRepository.matchUser(userId, likedUserId);
+   }
+
+
 }

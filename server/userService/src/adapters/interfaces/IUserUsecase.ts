@@ -6,4 +6,5 @@ export interface IUserCase {
   getAllUsers(): Promise<any>;
   editUser(userId : string, data : UserEntity , req :  any): Promise<void>;
   getRandomUser(): Promise<any>;
+  matchUser(userId : string, likedUserId : string): Promise<any>;
 }
