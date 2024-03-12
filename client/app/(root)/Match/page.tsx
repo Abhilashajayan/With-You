@@ -12,7 +12,7 @@ import { useSpring, animated } from "react-spring";
 import LikeICon from "@/components/icons/LikeIcon";
 
 interface User {
-  id: string;
+  _id: string;
   profilePicture: string;
   username: string;
   location: string;
@@ -23,7 +23,6 @@ const Page: React.FC = () => {
   const apiUrl = "http://localhost:3003/match/getRandomUser";
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [showMessage, setShowMessage] = useState<boolean>(false);
-  const [match, setMatch] = useState<boolean>(false);
   const [springProps, setSpringProps] = useSpring(() => ({
     opacity: 0,
     transform: "translateY(0)",
@@ -46,25 +45,50 @@ const Page: React.FC = () => {
       const randomUser =
         filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
       setCurrentUser(randomUser);
-      setShowMessage(true);
-      setTimeout(() => {
-        setShowMessage(false);
-      }, 200);
     } catch (error) {
       console.error("Error fetching random user:", error);
     }
   };
 
+  const cancetButton = async () => {
+    await fetchRandomUser();
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 200);
+  };
+
   const matchButton = async () => {
-    console.log("matched");
-    setSpringProps({
-      opacity: 1,
-      transform: "translateY(-50%)",
-      onRest: () => {
-        setSpringProps({ opacity: 0, transform: "translateY(0)" });
-        setMatch(false);
-      },
-    });
+    console.log(currentUser?._id);
+    const likedUserId = currentUser?._id;
+    const userId = user._id;
+
+    try {
+      const response = await fetch("http://localhost:3003/match/likeUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, likedUserId }),
+      });
+
+      if (response) {
+        console.log(response);
+
+        setSpringProps({
+          opacity: 1,
+          transform: "translateY(-50%)",
+          onRest: () => {
+            setSpringProps({ opacity: 0, transform: "translateY(0)" });
+            fetchRandomUser();
+          },
+        });
+      } else {
+        console.error("Failed to like user. HTTP error!", response);
+      }
+    } catch (error) {
+      console.error("Error during fetch:", error);
+    }
   };
 
   return (
@@ -77,7 +101,7 @@ const Page: React.FC = () => {
             <div className="flex items-center justify-center mt-4">
               <button
                 className="rounded-full border-2 p-2 m-2"
-                onClick={fetchRandomUser}
+                onClick={cancetButton}
               >
                 <CloseIcon style={{ color: "#FF5733" }} />
               </button>

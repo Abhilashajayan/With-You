@@ -51,7 +51,7 @@ const Page: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center bg-white min-h-screen">
-      <div className="w-full max-w-md p-8 rounded shadow-md">
+      <div className="w-full max-w-md p-8 rounded ">
         <div className="mx-auto mb-4 w-60 h-[100px] rounded-full overflow-hidden">
           <img
             src="/Bae-logos-removebg-preview.png"
