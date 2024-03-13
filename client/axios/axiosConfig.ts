@@ -8,8 +8,11 @@ import {
   REGISTER_ENDPOINT,
   OTP_ENDPOINT,
   LOGIN_ENDPOINT,
-  EDIT_ENDPOINT
+  EDIT_ENDPOINT,
+  FETCH_USER,
+  LIKE_USER
 } from "./endpoints";
+import { string } from "zod";
 
 const client: AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -78,3 +81,30 @@ export const editUserProfile = async (userId: string, updatedUserData: any) => {
   }
 };
 
+export const randomUserFetch = async () => {
+  try {
+    const response = await axios.get(`${BASEs_URL}${FETCH_USER}`);
+    return response;
+    
+  }catch (error) {
+    return error;
+  }
+}
+
+export const matchUserButton = async (userId: string, likedUserId: string) => {
+  try {
+    const response = await axios.post(`${BASEs_URL}${LIKE_USER}`, {
+      userId,
+      likedUserId,
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response);
+    return response; 
+  } catch (error) {
+    console.error("Error during matching user:", error);
+    throw error; 
+  }
+};

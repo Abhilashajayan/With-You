@@ -10,6 +10,8 @@ import { useAppSelector } from "@/features/hooks";
 import AddDetails from "@/components/AddDetails";
 import { useSpring, animated } from "react-spring";
 import LikeICon from "@/components/icons/LikeIcon";
+import { randomUserFetch , matchUserButton } from "@/axios/axiosConfig";
+
 
 interface User {
   _id: string;
@@ -34,11 +36,8 @@ const Page: React.FC = () => {
 
   const fetchRandomUser = async () => {
     try {
-      const response = await fetch(apiUrl);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
+      const response : any = await randomUserFetch();
+      const data = response.data;
       const filteredUsers = data.users.filter(
         (users: any) => users._id !== user._id
       );
@@ -60,18 +59,11 @@ const Page: React.FC = () => {
 
   const matchButton = async () => {
     console.log(currentUser?._id);
-    const likedUserId = currentUser?._id;
-    const userId = user._id;
+    const likedUserId : any = currentUser?._id;
+    const userId: any= user._id;
 
     try {
-      const response = await fetch("http://localhost:3003/match/likeUser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId, likedUserId }),
-      });
-
+      const response = await matchUserButton(userId, likedUserId);
       if (response) {
         console.log(response);
 
