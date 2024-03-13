@@ -113,15 +113,30 @@ export class userRepository implements IUserCase {
     }
   }
 
-  async getRandomUser(): Promise<any> {
+  async getRandomUser(userId: string): Promise<any> {
     try {
-      const randomUser = await this.UserModel.find({}, { password: 0 });
+      const likedUsers = await this.UserModel.findOne({ _id: userId })
+        .populate("liked.user")
+        .select("liked.user");
+      if (!likedUsers || likedUsers.liked.length === 0) {
+        const allUsers = await this.UserModel.find({}, { password: 0 });
+        return allUsers;
+      }
+      const likedUserIds = likedUsers.liked.map((likedUser: any) => likedUser.user._id) || [];
+      const randomUser = await this.UserModel.find({
+        _id: { $nin: likedUserIds }
+      });
+      console.log("Liked User IDs:", likedUserIds.length);
+      console.log("Random User:", randomUser);
       return randomUser;
     } catch (error) {
       console.error("Error retrieving random user:", error);
       return error;
     }
   }
+  
+  
+  
 
   async matchUser(userId: string, likedUserId: string): Promise<any> {
     try {
@@ -150,7 +165,7 @@ export class userRepository implements IUserCase {
         return { data, isMatched: false };
       } else {
         console.log('User already liked');
-        return { isMatched: true }; // or handle as needed
+        return { isMatched: true };
       }
     } catch (error) {
       console.error("Error while matching user:", error);
@@ -160,3 +175,25 @@ export class userRepository implements IUserCase {
   
   
 }
+
+
+
+// async getRandomUser(userId: string): Promise<any> {
+//   try {
+//     // Get the IDs of already liked users for the given userId
+//     const likedUsers = await this.LikedModel.find({ userId });
+
+//     // Extract the user IDs from the liked users
+//     const likedUserIds = likedUsers.map(likedUser => likedUser.likedUserId);
+
+//     // Find a random user who is not in the likedUserIds array
+//     const randomUser = await this.UserModel.findOne({
+//       _id: { $nin: likedUserIds }
+//     }, { password: 0 });
+
+//     return randomUser;
+//   } catch (error) {
+//     console.error("Error retrieving random user:", error);
+//     return error;
+//   }
+// }

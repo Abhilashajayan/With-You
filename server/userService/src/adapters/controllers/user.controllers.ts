@@ -21,8 +21,6 @@ export class UserController {
     try {
       const userId: string = req.params.userId;
       const data = req.body;
-      console.log(data);
-      console.log(req.file);
       const dataUser = await this.userUsecase.editUser(userId, data, req);
       return res.status(200).json({ dataUser });
     } catch (error) {
@@ -33,7 +31,10 @@ export class UserController {
 
   async getRandomUser(req: Request, res: Response) {
     try {
-      const users = await this.userUsecase.getRandomUser();
+      const userId:string = req.params.userId;
+      console.log(userId);  
+      const users = await this.userUsecase.getRandomUser(userId);
+      console.log (users , "the users");
       return res.status(200).json({ users });
     } catch (error) {
       res.status(500).send("Error while adding address");

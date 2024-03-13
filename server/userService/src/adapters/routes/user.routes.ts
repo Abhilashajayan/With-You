@@ -19,11 +19,11 @@ export class UserRouter {
       this.userController.getAllUsers(req, res);
     });
 
-    this.router.get("/match/getRandomUser", (req: Request, res: Response) => {
+    this.router.get("/match/getRandomUser/:userId", (req: Request, res: Response) => {
       this.userController.getRandomUser(req, res);
     });
 
-    this.router.post(
+    this.router.post( 
       "/users/editUser/:userId",
       multerConfig.single("uploadPic"),
       (req: Request, res: Response) => {
