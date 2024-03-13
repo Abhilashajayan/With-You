@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node  dist/frameworks/app.js",
-    "dev": "nodemon src/frameworks/app.ts",
+    "start": "node  dist/framework/app.js",
+    "dev": "nodemon src/framework/app.ts",
     "build": "tsc -p ."
   },
   "author": "abhilashajayan",
@@ -30,6 +30,7 @@
     "nocache": "^4.0.0",
     "node": "^21.2.0",
     "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
 }
