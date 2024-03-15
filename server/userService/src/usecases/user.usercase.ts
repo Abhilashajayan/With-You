@@ -18,6 +18,10 @@ export class UserUsecase implements IUserCase{
    async getAllUsers(): Promise<any> {
       return this.UserRepository.getAllUsers();
     }
+
+    async changePassword(data: any): Promise<void> {
+        return this.UserRepository.changePassword(data);
+    }
   
    async editUser(userId: string, data: UserEntity , req : any): Promise<void> {
        return this.UserRepository.editUser(userId, data, req);

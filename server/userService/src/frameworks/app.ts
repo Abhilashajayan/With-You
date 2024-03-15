@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import nocache from 'nocache';
-import { dbConnection } from '../adapters/database/database.conn';
+import { dbConnection } from './database/database.conn';
 import { UserRouter, userRouter } from '../adapters/routes/user.routes';
 const userRouterObj = new UserRouter();
 

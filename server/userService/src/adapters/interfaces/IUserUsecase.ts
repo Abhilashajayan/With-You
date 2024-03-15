@@ -7,4 +7,5 @@ export interface IUserCase {
   editUser(userId : string, data : UserEntity , req :  any): Promise<void>;
   getRandomUser(userId : string): Promise<any>;
   matchUser(userId : string, likedUserId : string): Promise<any>;
+  changePassword(data : any): Promise<void>;
 }

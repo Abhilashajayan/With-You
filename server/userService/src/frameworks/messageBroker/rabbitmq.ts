@@ -19,7 +19,7 @@ export class rabbitmq {
         }
     }
 
-    async userRegConsumer(){
+  async userRegConsumer(){
         if(!this.Channel){
             await this.initialize();
         }
@@ -50,6 +50,37 @@ export class rabbitmq {
         }
     }
 
+  async changePasswordConsumer() {
+      if (!this.Channel) {
+        await this.initialize();
+      }
+      if (this.Channel) {
+        const queue = "changePassword";
+        await this.Channel.assertQueue(queue, { durable: true });
+        await this.Channel.consume(
+          queue,
+          (msg: any) => {
+            if (msg !== null && msg.content) {
+              try {
+                console.log('Raw message: ', msg);
+                const userData = JSON.parse(msg.content.toString());
+                console.log("Received change password request:", userData);
+                this.userUsecases.changePassword(userData);
+                this.Channel.ack(msg);
+              } catch (error) {
+                console.error("Error parsing message content:", error);
+                console.log("Raw message content:", msg.content.toString());
+              }
+            }
+          },
+          { noAck: true }
+        );
+      } else {
+        console.error("Failed to create a channel");
+      }
+    }
+    
+    
 
     async userLoginConsumer() {
       if (!this.Channel) {

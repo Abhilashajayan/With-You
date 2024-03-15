@@ -113,6 +113,26 @@ export class userRepository implements IUserCase {
     }
   }
 
+  async changePassword(data: { email: string; password: string }): Promise<void> {
+    try {
+      const { email, password } = data;
+      const user = await this.UserModel.findOne({ email });
+      if (!user) {
+        console.error("User not found");
+        throw new Error("User not found");
+      }
+      const hashedPassword = await bcrypt.hash(password, 10);
+      user.password = hashedPassword;
+      await user.save();
+  
+      console.log("Password changed successfully for user:", user.email);
+    } catch (error) {
+      console.error("Failed to change password:", error);
+      throw new Error("Failed to change password");
+    }
+  }
+  
+
   async getRandomUser(userId: string): Promise<any> {
     try {
       const likedUsers = await this.UserModel.findOne({ _id: userId })
@@ -176,24 +196,3 @@ export class userRepository implements IUserCase {
   
 }
 
-
-
-// async getRandomUser(userId: string): Promise<any> {
-//   try {
-//     // Get the IDs of already liked users for the given userId
-//     const likedUsers = await this.LikedModel.find({ userId });
-
-//     // Extract the user IDs from the liked users
-//     const likedUserIds = likedUsers.map(likedUser => likedUser.likedUserId);
-
-//     // Find a random user who is not in the likedUserIds array
-//     const randomUser = await this.UserModel.findOne({
-//       _id: { $nin: likedUserIds }
-//     }, { password: 0 });
-
-//     return randomUser;
-//   } catch (error) {
-//     console.error("Error retrieving random user:", error);
-//     return error;
-//   }
-// }
