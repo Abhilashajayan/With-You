@@ -49,6 +49,36 @@ export class Rabiitmq {
     }
   }
 
+  async publishGoogleAuthData(authData : AuthEntity) {
+    try {
+      if (!this.Connection || !this.Channel) {
+        await this.initialize();
+      }
+      const correlationId = this.generateCorrelationId();
+      const message = JSON.stringify(authData);
+      await this.Channel.assertQueue("google_response", { durable: false });
+      this.googleConsumeResponseQueue();
+      const responsePromise = new Promise(resolve => {
+        this.correlationIdMap.set(correlationId, resolve);
+      });
+      await this.Channel.assertQueue("google_auth_queue", { durable: false });
+      await this.Channel.sendToQueue("google_auth_queue", Buffer.from(message), {
+        correlationId,
+        replyTo: "google_response",
+      });
+      const response = await responsePromise;
+      console.log("Received response from RabbitMQ:", response);
+      if (response === "false") {
+        return null;
+      }
+      return response;
+    } catch (error) {
+      console.error("Error publishing message:", error);
+      throw error;
+    }
+  }
+  
+
   async publishLoginData(loginData: AuthEntity): Promise<void> {
     try {
       if (!this.Connection || !this.Channel) {
@@ -108,6 +138,31 @@ export class Rabiitmq {
 
       this.Channel.consume(
         "response_queue",
+        (msg) => {
+          if (msg && msg.properties.correlationId) {
+            const correlationId = msg.properties.correlationId;
+            const response = msg.content.toString();
+            console.log("Received response:", response);
+
+            this.handleResponse(correlationId, response);
+          }
+        },
+        { noAck: true }
+      );
+    } catch (error) {
+      console.error("Error consuming response queue:", error);
+      throw error;
+    }
+  }
+
+  async googleConsumeResponseQueue(): Promise<void> {
+    try {
+      if (!this.Connection || !this.Channel) {
+        await this.initialize();
+      }
+
+      this.Channel.consume(
+        "google_response",
         (msg) => {
           if (msg && msg.properties.correlationId) {
             const correlationId = msg.properties.correlationId;

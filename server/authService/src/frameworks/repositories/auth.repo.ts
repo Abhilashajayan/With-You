@@ -53,7 +53,12 @@ export class AuthRepository implements IUserUsecaes {
       throw new Error("OTP validation failed");
     }
   }
+  
   login(email: string, password: string): Promise<string | null> {
+    throw new Error("Method not implemented.");
+  }
+
+  googleAuth(googleAuthData: AuthEntity): Promise<void | null> {
     throw new Error("Method not implemented.");
   }
 

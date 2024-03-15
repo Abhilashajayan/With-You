@@ -44,4 +44,26 @@ export class authUsecases implements IUserUsecaes {
     async changePassword(userData : AuthEntity): Promise<void> {
       return this.authRepository.changePassword(userData);
     }
+
+    async googleAuth(googleAuthData: AuthEntity): Promise<any> {
+      console.log("google auth is established");
+      const userLogin:AuthEntity = googleAuthData;
+      console.log(userLogin);
+     const reponse :any =  await this.rabbitmqService.publishGoogleAuthData(userLogin);
+     if(reponse == null){
+      console.log(reponse," response is received");
+     }else{
+      console.log(reponse,"the data");
+      const data =   JSON.parse(reponse);
+      const user : any = {
+        id : data._id,
+        username : data.username,
+        email : data.email
+      }
+
+      console.log(user);
+     const token = this.jwtService.generateToken(user);
+     return { token, user , data };
+    }
+  }
 }

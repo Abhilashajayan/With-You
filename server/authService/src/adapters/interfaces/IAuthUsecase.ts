@@ -4,4 +4,5 @@ export interface IUserUsecaes {
     loginUser?(loginData: AuthEntity):Promise<string>;
     validateOtp(email:string,otp:number): Promise<boolean>;
     changePassword(userData : AuthEntity):Promise<void>;
+    googleAuth(googleAuthData : AuthEntity): Promise<void>;
 }

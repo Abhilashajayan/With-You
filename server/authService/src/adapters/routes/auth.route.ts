@@ -26,6 +26,9 @@ export class AuthRouter {
     this.router.post("/login", (req: Request, res: Response) => {
       this.authController.login_user(req, res);
     });
+    this.router.post("/googleAuth", (req: Request, res: Response) => {
+      this.authController.googleAuth(req, res);
+    });
     this.router.post("/changePassword", (req: Request, res: Response) => {
       this.authController.changePassword(req, res);
     });
