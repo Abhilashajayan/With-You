@@ -7,7 +7,7 @@ const Page:React.FC = () => {
   return (
         <TabLayouts>
             <div>
-                hello
+                <input placeholder='hello' type="text" />
             </div>
         </TabLayouts>
   )

@@ -22,7 +22,6 @@ interface User {
 
 const Page: React.FC = () => {
   const user: any = useAppSelector((state) => state.auth.user);
-  const apiUrl = "http://localhost:3003/match/getRandomUser";
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [showMessage, setShowMessage] = useState<boolean>(false);
   const [springProps, setSpringProps] = useSpring(() => ({
@@ -35,19 +34,28 @@ const Page: React.FC = () => {
   }, []);
 
   const fetchRandomUser = async () => {
+    const userId: any = user._id;
+  
     try {
-      const response : any = await randomUserFetch();
+      const response: any = await randomUserFetch(userId);
       const data = response.data;
-      const filteredUsers = data.users.filter(
-        (users: any) => users._id !== user._id
-      );
-      const randomUser =
-        filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
+      console.log(data.users.length,"the length"); 
+      let randomUser;
+  
+      if (data.users && data.users.length > 1) {
+        const filteredUsers = data.users.filter((users: any) => users._id !== user._id);
+        randomUser = filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
+      } else if (data.users && data.users.length == 0) {
+        randomUser = data.users;
+        
+      }
+      console.log(randomUser);
       setCurrentUser(randomUser);
     } catch (error) {
       console.error("Error fetching random user:", error);
     }
   };
+  
 
   const cancetButton = async () => {
     await fetchRandomUser();
@@ -58,7 +66,6 @@ const Page: React.FC = () => {
   };
 
   const matchButton = async () => {
-    console.log(currentUser?._id);
     const likedUserId : any = currentUser?._id;
     const userId: any= user._id;
 

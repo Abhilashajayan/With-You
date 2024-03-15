@@ -32,7 +32,6 @@ const Modal: React.FC = () => {
   const [job, setJob] = useState('');
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // Handle adding multiple images
     if (e.target.files) {
       const fileList = Array.from(e.target.files);
       const imageArray = fileList.map(file => URL.createObjectURL(file));

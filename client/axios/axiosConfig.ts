@@ -81,12 +81,13 @@ export const editUserProfile = async (userId: string, updatedUserData: any) => {
   }
 };
 
-export const randomUserFetch = async () => {
+export const randomUserFetch = async (userId: string) => {
+  console.log(userId);
   try {
-    const response = await axios.get(`${BASEs_URL}${FETCH_USER}`);
+    const response = await axios.get(`${BASEs_URL}${FETCH_USER}/${userId}`);
+    console.log(response);
     return response;
-    
-  }catch (error) {
+  } catch (error) {
     return error;
   }
 }

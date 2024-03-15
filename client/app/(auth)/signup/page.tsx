@@ -193,7 +193,7 @@ const Page: React.FC = () => {
               Continue
             </button>
 
-            <a href="/signin" className="text-gray-700 hover:underline">
+            <a href="/changePassword" className="text-gray-700 hover:underline">
               Forgotten your password?
             </a>
           </form>
@@ -215,6 +215,8 @@ const Page: React.FC = () => {
                 className="w-7 h-7"
               />
             </button>
+               
+
           </div>
           <p className="text-sm text-black text-left mt-10">
             Don't have an account?{" "}
