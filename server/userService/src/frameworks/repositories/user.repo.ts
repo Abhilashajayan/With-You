@@ -116,6 +116,7 @@ export class userRepository implements IUserCase {
   async changePassword(data: { email: string; password: string }): Promise<void> {
     try {
       const { email, password } = data;
+      console.log(data, "the data");
       const user = await this.UserModel.findOne({ email });
       if (!user) {
         console.error("User not found");
@@ -124,7 +125,6 @@ export class userRepository implements IUserCase {
       const hashedPassword = await bcrypt.hash(password, 10);
       user.password = hashedPassword;
       await user.save();
-  
       console.log("Password changed successfully for user:", user.email);
     } catch (error) {
       console.error("Failed to change password:", error);
