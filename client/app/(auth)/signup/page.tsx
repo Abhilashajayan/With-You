@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { userLogin } from "@/axios/axiosConfig";
+import { googleAuth, userLogin } from "@/axios/axiosConfig";
 import { useAppDispatch } from "@/features/hooks";
 import { setLogin, updateProfile } from "@/features/auth/authSlice";
 import {
@@ -97,28 +97,45 @@ const Page: React.FC = () => {
     });
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async (userData : any) => {
     console.log("button clicked");
-    signInWithPopup(auth, provider)
-      .then((result: UserCredential) => {
-        const credential: OAuthCredential | null =
-          GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken || "";
-        const user = result.user;
-        const userData: any = {
-          email: user.email,
-          username: user.displayName,
-          google: true,
-        };
-        console.log(userData, "the google auth data");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken || "";
+      const user = result.user;
+      const userData:any = {
+        email: user.email,
+        username: user.displayName,
+      };
+      console.log(userData, "the google auth data");
+      const response = await googleAuth(userData);
+      console.log(response);
+      dispatch(
+        setLogin({
+          user: response?.user,
+        })
+      );
+      if (response?.data.phone) {
+        dispatch(updateProfile(response?.data));
+        console.log("hello");
+      }
+
+      await setCookie(response?.token);
+      router.push(`/Match`);
+      toast({
+        variant: "destructive",
+        description: "Login successful",
       });
+    } catch (error : any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.customData?.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // Handle error
+    }
   };
+  
 
   return (
     <>

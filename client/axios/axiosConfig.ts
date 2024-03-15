@@ -11,9 +11,10 @@ import {
   EDIT_ENDPOINT,
   FETCH_USER,
   LIKE_USER,
-  CHANGE_PASS
+  CHANGE_PASS,
+  GOOGLE_ENDPOINT
 } from "./endpoints";
-import { string } from "zod";
+
 
 const client: AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -75,6 +76,17 @@ export const userLogin = async (userData: FormData) => {
     throw error;
   }
 };
+
+export const googleAuth = async (userData: any) => {
+  try{
+    const res = await axios.post(`${BASE_URL}${GOOGLE_ENDPOINT}`, userData);
+    console.log(res.data);
+    return res.data;
+  }catch (error) {
+    console.error("Error during google login:", error);
+    throw error;
+  }
+}
 
 export const editUserProfile = async (userId: string, updatedUserData: any) => {
   try {
