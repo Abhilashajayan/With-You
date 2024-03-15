@@ -49,8 +49,6 @@ export class rabbitmq {
     }
   }
 
-
-
   async changePassConsumer() {
     if (!this.Channel) {
       await this.initialize();
@@ -80,10 +78,6 @@ export class rabbitmq {
       console.error("Failed to create a channel");
     }
   }
-
-
-
-  
 
   async userLoginConsumer() {
     if (!this.Channel) {
@@ -121,6 +115,49 @@ export class rabbitmq {
             } catch (error) {
               console.error("Error parsing login message content:", error);
               console.log("Raw login message content:", msg.content.toString());
+            }
+          }
+        },
+        { noAck: true }
+      );
+    } else {
+      console.error("Failed to create a channel");
+    }
+  }
+
+  async googleAuthConsumer() {
+    if (!this.Channel) {
+      await this.initialize();
+    }
+    if (this.Channel) {
+      await this.Channel.assertQueue("google_response", { durable: false });
+      const queue = "google_auth_queue";
+      await this.Channel.assertQueue(queue, { durable: false });
+      this.Channel.consume(
+        queue,
+        async (msg: any) => {
+          if (msg !== null && msg.content) {
+            try {
+              console.log("Raw google auth message:", msg);
+              const loginData = JSON.parse(msg.content.toString());
+              console.log("Received google auth message:", loginData);
+              const loginResult = await this.userUsecases.googleAuth(loginData);
+              const correlationId = msg.properties.correlationId;
+              const responseQueue = msg.properties.replyTo;
+              if (correlationId && responseQueue) {
+                const responseMessage = JSON.stringify(loginResult);
+                await this.Channel.sendToQueue(
+                  responseQueue,
+                  Buffer.from(responseMessage),
+                  {
+                    correlationId,
+                  }
+                );
+                console.log("google auth response sent:", responseMessage);
+              }
+            } catch (error) {
+              console.error("Error parsing google auth message content:", error);
+              console.log("Raw google auth message content:", msg.content.toString());
             }
           }
         },

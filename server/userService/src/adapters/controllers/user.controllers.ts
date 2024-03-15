@@ -42,8 +42,6 @@ export class UserController {
     }
   }
 
-  
-
   async matchUser(req: Request, res: Response) {
     try {
       const {userId , likedUserId} = req.body;

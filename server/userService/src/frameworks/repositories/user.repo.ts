@@ -57,6 +57,23 @@ export class userRepository implements IUserCase {
     }
   }
 
+  async googleAuth(authData: UserEntity): Promise<any> {
+    try {
+      const { email } = authData;
+      let user = await this.UserModel.findOne({ email }).exec();
+      console.log(user,"the user ");
+      if (!user) {
+        const newUser = new this.UserModel(authData);
+        user = await newUser.save();
+        console.log("New user created:", user);
+      }
+      return user;
+    } catch (error) {
+      console.error("Google authentication failed:", error);
+      throw new Error("Google authentication failed");
+    }
+  }
+
   async getAllUsers(): Promise<any> {
     try {
       const allUsers = await this.UserModel.find({}, { password: 0 });
@@ -67,7 +84,6 @@ export class userRepository implements IUserCase {
       throw new Error("Error while fetching all users");
     }
   }
-
 
   async editUser(userId: string, data: UserEntity, req: any): Promise<any> {
     try {
@@ -114,7 +130,6 @@ export class userRepository implements IUserCase {
     }
   }
 
-
   async changePassword(data: any): Promise<any> {
     try {
       const { email, password } = data;
@@ -136,7 +151,6 @@ export class userRepository implements IUserCase {
     }
   }
   
-
   async getRandomUser(userId: string): Promise<any> {
     try {
       const likedUsers = await this.UserModel.findOne({ _id: userId })
@@ -159,9 +173,6 @@ export class userRepository implements IUserCase {
     }
   }
   
-  
-  
-
   async matchUser(userId: string, likedUserId: string): Promise<any> {
     try {
       const isLiked = await this.UserModel.exists({

@@ -41,6 +41,7 @@ export class UserRouter {
     await this.consumerMessage.userLoginConsumer();
     await this.consumerMessage.userRegConsumer();
     await this.consumerMessage.changePassConsumer();
+    await this.consumerMessage.googleAuthConsumer();
   }
 }
 

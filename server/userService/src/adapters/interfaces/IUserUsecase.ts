@@ -8,4 +8,5 @@ export interface IUserCase {
   getRandomUser(userId : string): Promise<any>;
   matchUser(userId : string, likedUserId : string): Promise<any>;
   changePassword(data : any): Promise<void>;
+  googleAuth(authData : UserEntity) : Promise<void>;
 }
