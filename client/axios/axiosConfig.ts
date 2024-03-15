@@ -12,7 +12,8 @@ import {
   FETCH_USER,
   LIKE_USER,
   CHANGE_PASS,
-  GOOGLE_ENDPOINT
+  GOOGLE_ENDPOINT,
+  GET_ALL
 } from "./endpoints";
 
 
@@ -132,4 +133,13 @@ export const matchUserButton = async (userId: string, likedUserId: string) => {
     throw error; 
   }
 };
+
+export const getAllUsers = async () =>{
+  try{
+    const response = await axios.get(`${BASEs_URL}${GET_ALL}`);
+    return response.data.users;
+  }catch (error) {
+    return error;
+}
+}
 

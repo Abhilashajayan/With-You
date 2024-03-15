@@ -8,3 +8,4 @@ export const FETCH_USER = "/match/getRandomUser";
 export const LIKE_USER  = '/match/likeUser';
 export const CHANGE_PASS = '/changePassword';
 export const GOOGLE_ENDPOINT = "/googleAuth";
+export const GET_ALL =  "/users/getAllUsers";
