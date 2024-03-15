@@ -1,5 +1,5 @@
 export class AuthEntity {
-    public readonly username: string; 
+    public readonly username?: string; 
     public readonly email: string;
     public readonly password: string;
     public readonly otp: number;

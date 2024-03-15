@@ -3,4 +3,5 @@ export interface IUserUsecaes {
     registerUser(userData: AuthEntity):Promise<void>
     loginUser?(loginData: AuthEntity):Promise<string>;
     validateOtp(email:string,otp:number): Promise<boolean>;
+    changePassword(email:string,password:string):Promise<void>;
 }

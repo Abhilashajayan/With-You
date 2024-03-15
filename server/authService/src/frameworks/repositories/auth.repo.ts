@@ -28,7 +28,7 @@ export class AuthRepository implements IUserUsecaes {
   async validateOtp(email: string, otp: number): Promise<boolean> {
     try {
       const existingData = await AuthModel.findOne({ email: email });
-      console.log(existingData,"dadfad");
+      console.log(existingData, "dadfad");
       if (!existingData) {
         throw new Error("User not found");
       }
@@ -40,17 +40,32 @@ export class AuthRepository implements IUserUsecaes {
         return false;
       }
       console.log("OTP validation sucessfully completed");
-
+      if(existingData.username) {
       await this.RabbitMq.userRegPublisher(existingData);
       return true;
+      }else {
+        
+      }
     } catch (error) {
       console.error("OTP validation failed:", error);
       throw new Error("OTP validation failed");
     }
   }
-    login(email: string, password: string): Promise<string | null> {
+  login(email: string, password: string): Promise<string | null> {
     throw new Error("Method not implemented.");
   }
 
-
+  async changePassword(email: string, password: string): Promise<void> {
+    try {
+      const changeData = {
+        email: email,
+        password: password
+      }
+      const newUser = new this.AuthModel(changeData);
+      console.log(newUser);
+      await newUser.save();
+    } catch (error) {
+      console.error("OTP validation failed");
+    }
+  }
 }

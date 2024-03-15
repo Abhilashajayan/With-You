@@ -62,4 +62,14 @@ export class authController {
             res.status(500).json({message: err});
         }
     }
+
+    async changePassword(req: Request, res: Response){
+        try{
+            const {email , password} = req.body;
+            const changePassword = await this.authUsecase.changePassword(email, password);
+            res.status(200).json(changePassword);
+        }catch(err){
+            res.status(500).json({message: err});
+        }
+    }
 }

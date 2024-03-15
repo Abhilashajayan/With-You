@@ -4,7 +4,6 @@ import { IAuthSchema } from "../../adapters/interfaces/IAuthSchema";
 const authSchema = new mongoose.Schema<IAuthSchema>({
   username: {
     type: "string",
-    required: true,
   },
   email: {
     type: String,

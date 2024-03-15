@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import nocache from 'nocache';
-import { dbConnection } from '../adapters/database/database.conn';
+import { dbConnection } from './database/database.conn';
 import { authRouter } from '../adapters/routes/auth.route';
 
 const app = express();

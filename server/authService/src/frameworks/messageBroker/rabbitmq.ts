@@ -19,6 +19,25 @@ export class Rabiitmq {
           process.exit(1);
       }
   }
+  async changePasswordPublisher(userData: AuthEntity) {
+    if (!this.Channel) {
+      await this.initialize();
+    }
+    if (this.Channel) {
+      const queue = 'changePassword';
+      await this.Channel.assertQueue(queue, { durable: true });
+  
+      this.Channel.sendToQueue(
+        queue,
+        Buffer.from(JSON.stringify(userData))
+      );
+  
+      console.log(`The change password request passed successfully`);
+    } else {
+      console.error("Failed to create a channel");
+    }
+  }
+  
   
     
       async userRegPublisher(userData:AuthEntity) {
