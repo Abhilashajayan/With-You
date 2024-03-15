@@ -68,6 +68,7 @@ export class userRepository implements IUserCase {
     }
   }
 
+
   async editUser(userId: string, data: UserEntity, req: any): Promise<any> {
     try {
       console.log(req.file, "the request");
@@ -113,7 +114,8 @@ export class userRepository implements IUserCase {
     }
   }
 
-  async changePassword(data: { email: string; password: string }): Promise<void> {
+
+  async changePassword(data: any): Promise<any> {
     try {
       const { email, password } = data;
       console.log(data, "the data");
@@ -125,7 +127,9 @@ export class userRepository implements IUserCase {
       const hashedPassword = await bcrypt.hash(password, 10);
       user.password = hashedPassword;
       await user.save();
-      console.log("Password changed successfully for user:", user.email);
+   
+      console.log("Password changed successfully for user:", user);
+      return true;
     } catch (error) {
       console.error("Failed to change password:", error);
       throw new Error("Failed to change password");

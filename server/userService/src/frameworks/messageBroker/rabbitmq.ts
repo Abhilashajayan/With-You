@@ -51,39 +51,35 @@ export class rabbitmq {
 
 
 
-async changePassConsumer() {
-  if (!this.Channel) {
-    await this.initialize();
-  }
-  try {
+  async changePassConsumer() {
+    if (!this.Channel) {
+      await this.initialize();
+    }
     if (this.Channel) {
-      const queue = "password";
+      const queue = "changePass";
       await this.Channel.assertQueue(queue, { durable: true });
       await this.Channel.consume(
         queue,
-        (msg : any) => {
+        (msg: any) => {
           if (msg !== null && msg.content) {
             try {
-              console.log("Raw message:", msg);
+              console.log("row message ", msg);
+
               const data = JSON.parse(msg.content.toString());
               console.log("Received message:", data);
               this.userUsecases.changePassword(data);
-
             } catch (error) {
-              console.error("Error processing message:", error);
+              console.error("Error parsing message content:", error);
               console.log("Raw message content:", msg.content.toString());
             }
           }
         },
-        { noAck: false }
+        { noAck: true }
       );
     } else {
       console.error("Failed to create a channel");
     }
-  } catch (error) {
-    console.error("Error in changePassConsumer:", error);
   }
-}
 
 
 

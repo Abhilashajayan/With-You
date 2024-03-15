@@ -40,6 +40,7 @@ export class UserRouter {
   async rabbitMq() {
     await this.consumerMessage.userLoginConsumer();
     await this.consumerMessage.userRegConsumer();
+    await this.consumerMessage.changePassConsumer();
   }
 }
 
