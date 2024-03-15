@@ -10,7 +10,8 @@ import {
   LOGIN_ENDPOINT,
   EDIT_ENDPOINT,
   FETCH_USER,
-  LIKE_USER
+  LIKE_USER,
+  CHANGE_PASS
 } from "./endpoints";
 import { string } from "zod";
 
@@ -53,6 +54,16 @@ export const registerUser = async (data: FormData) => {
     throw error;
   }
 };
+
+export const changePass = async (data: FormData) => {
+  try{
+    const res = await axios.post(`${BASE_URL}${CHANGE_PASS}`, data);
+    console.log(res.data);
+    return res.data;
+  }catch (error) {
+    throw error;
+  }
+}
 
 export const userLogin = async (userData: FormData) => {
   try {
@@ -109,3 +120,4 @@ export const matchUserButton = async (userId: string, likedUserId: string) => {
     throw error; 
   }
 };
+

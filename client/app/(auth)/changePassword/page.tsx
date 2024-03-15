@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { app } from "@/config/firebase";
+import { changePass } from "@/axios/axiosConfig";
+import { toast } from "@/components/ui/use-toast";
 
 interface FormData {
   email: string;
@@ -50,14 +51,26 @@ const Page: React.FC = () => {
     setValue(name as keyof FormData, value);
   };
 
-  const onSubmit = (data: FormData) => {
-    if (data.password !== data.confirmPassword) {
-      setError("Passwords do not match");
-    } else {
-      console.log(data);
-      setError(null); 
+  const onSubmit = async (data: FormData) => {
+    try {
+      if (data.password !== data.confirmPassword) {
+        setError("Passwords do not match");
+      } else {
+        await changePass(data);
+        const queryString = `?email=${data.email.trim()}`;
+        router.push(`/otpauth${queryString}`);
+        console.log(data);
+        toast({
+            variant: "destructive",
+            description: "Otp has sended successfully",
+          });
+        setError(null);
+      }
+    } catch (err) {
+      console.error("Error submitting form:", err);
     }
   };
+  
 
   return (
     <>

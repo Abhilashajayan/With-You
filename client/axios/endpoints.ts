@@ -6,3 +6,4 @@ export const OTP_ENDPOINT = "/register/send-otp";
 export const EDIT_ENDPOINT = "/users/editUser";
 export const FETCH_USER = "/match/getRandomUser";
 export const LIKE_USER  = '/match/likeUser';
+export const CHANGE_PASS = '/changePassword';

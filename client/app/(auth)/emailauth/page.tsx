@@ -32,7 +32,6 @@ const Page: React.FC = () => {
   const onSubmit = async (data: FormData): Promise<any> => {
     try {
       await registerUser(data);
-
       const queryString = `?email=${data.email.trim()}&username=${data.username?.trim()}&password=${data.password.trim()}`;
       router.push(`/otpauth${queryString}`);
     } catch (error) {

@@ -11,6 +11,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { sendOtp } from "@/axios/axiosConfig";
 import { registerUser } from "@/axios/axiosConfig";
 
+
 const Page: React.FC = () => {
   const [code, setCode] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
