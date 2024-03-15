@@ -66,7 +66,20 @@ export class authController {
     async changePassword(req: Request, res: Response){
         try{
             const {email , password} = req.body;
-            const changePassword = await this.authUsecase.changePassword(email, password);
+            const generatedOtp = +otpGenerator.generate(4, {
+                upperCaseAlphabets: false,
+                specialChars: false,
+                lowerCaseAlphabets: false,
+                digits: true,
+              });
+              const payload : AuthEntity = {
+                email,
+                password,
+                otp: generatedOtp,
+              };
+            await sendEmail(email, generatedOtp);
+            const changePassword = await this.authUsecase.changePassword(payload);
+            console.log(changePassword);
             res.status(200).json(changePassword);
         }catch(err){
             res.status(500).json({message: err});

@@ -44,7 +44,9 @@ export class AuthRepository implements IUserUsecaes {
       await this.RabbitMq.userRegPublisher(existingData);
       return true;
       }else {
-        
+        console.log("OTP change password",existingData);
+        await this.RabbitMq.changePasswordPublisher(existingData);
+        return true;
       }
     } catch (error) {
       console.error("OTP validation failed:", error);
@@ -55,13 +57,9 @@ export class AuthRepository implements IUserUsecaes {
     throw new Error("Method not implemented.");
   }
 
-  async changePassword(email: string, password: string): Promise<void> {
+  async changePassword(userData : AuthEntity): Promise<void> {
     try {
-      const changeData = {
-        email: email,
-        password: password
-      }
-      const newUser = new this.AuthModel(changeData);
+      const newUser = new this.AuthModel(userData);
       console.log(newUser);
       await newUser.save();
     } catch (error) {

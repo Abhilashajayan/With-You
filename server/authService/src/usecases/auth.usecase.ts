@@ -41,7 +41,7 @@ export class authUsecases implements IUserUsecaes {
         console.log(userLogin);
     }
 
-    async changePassword(email: string, password: string): Promise<void> {
-      return this.authRepository.changePassword(email , password);
+    async changePassword(userData : AuthEntity): Promise<void> {
+      return this.authRepository.changePassword(userData);
     }
 }
