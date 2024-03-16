@@ -5,6 +5,7 @@ import userModel from "../../frameworks/models/user.model";
 import { UserUsecase } from "../../usecases/user.usercase";
 import { rabbitmq } from "../../frameworks/messageBroker/rabbitmq";
 import multerConfig from "../../frameworks/services/multer";
+import authenticateToken from "../middleware/authToken";
 
 export class UserRouter {
   router = Router();
