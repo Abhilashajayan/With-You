@@ -12,6 +12,12 @@ import { sendOtp } from "@/axios/axiosConfig";
 import { registerUser } from "@/axios/axiosConfig";
 
 
+interface validateData {
+  email: string | null;
+  username?: string | null;
+  password? : string | null;
+}
+
 const Page: React.FC = () => {
   const [code, setCode] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +30,7 @@ const Page: React.FC = () => {
   const password = searchParams.get("password");
 
 
-  const data : any = {
+  const data : validateData = {
     email,
     username,
     password
@@ -67,9 +73,9 @@ const Page: React.FC = () => {
   };
 
 
-  const onSubmit = async (data: any): Promise<any> => {
+  const onSubmit = async (data: validateData): Promise<any> => {
     try {
-      await registerUser(data);;
+      await registerUser(data);
     } catch (error) {
       console.error('Error during form submission:', error);
     }

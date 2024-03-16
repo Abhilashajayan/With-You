@@ -11,6 +11,7 @@ import AddDetails from "@/components/AddDetails";
 import { useSpring, animated } from "react-spring";
 import LikeICon from "@/components/icons/LikeIcon";
 import { randomUserFetch , matchUserButton } from "@/axios/axiosConfig";
+import { getCookie } from "@/features/authCookies";
 
 
 interface User {
@@ -34,10 +35,11 @@ const Page: React.FC = () => {
   }, []);
 
   const fetchRandomUser = async () => {
-    const userId: any = user._id;
-  
+    const userId: any = user._id; 
+    const token: string  = await getCookie() as string;
+    console.log(token);
     try {
-      const response: any = await randomUserFetch(userId);
+      const response: any = await randomUserFetch(userId, token);
       const data = response.data;
       console.log(data.users.length,"the length"); 
       let randomUser;
