@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 import MaleOutlinedIcon from "@mui/icons-material/MaleOutlined";
 import FemaleOutlinedIcon from "@mui/icons-material/FemaleOutlined";
@@ -14,6 +13,7 @@ import { useAppDispatch } from "@/features/hooks";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import { useParams } from "next/navigation";
+import { DialogDemo } from "./editProfiles";
 
 const ProfileComponent: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -94,9 +94,10 @@ const ProfileComponent: React.FC = () => {
             />
             <a
               className="w-10 h-10 text-red-500 rounded-full flex items-center justify-center ring-2 ring-gray-300"
-              href={`/Profile/Editprofile/${userData?._id}`}
+              
             >
-              <EditOutlinedIcon />
+              <DialogDemo />
+             
             </a>
           </div>
 
