@@ -57,10 +57,10 @@ const Page: React.FC = () => {
         setError("Passwords do not match");
       } else {
         await changePass(data);
-        const queryString = `?email=${data.email.trim()}`;
+        const queryString = `?email=${data.email.trim()}&password=${data.password.trim()}`;
         router.push(`/otpauth${queryString}`);
-        console.log(data);
-        toast({
+        console.log(data);   
+      toast({
             variant: "destructive",
             description: "Otp has sended successfully",
           });

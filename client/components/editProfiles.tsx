@@ -1,5 +1,3 @@
-// ProfileEditDialog.tsx
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -49,7 +47,6 @@ const user:any = useAppSelector((state) => state.auth.user);
     interests: user.interest || [],    
   });
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const totalSteps = 2;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,6 +79,12 @@ const user:any = useAppSelector((state) => state.auth.user);
 
   const handleSaveChanges = async() => {
     console.log("Saving changes", editedProfile);
+    if (!editedProfile.username || !editedProfile.email || !editedProfile.dob || !editedProfile.gender || !editedProfile.interests || !editedProfile.profilePicture || !editedProfile.username || !editedProfile.phone) {
+      toast({
+        description: "Please fill in all required fields.",
+      });
+      return;
+    }
     try {
         const userId = user._id;
         console.log(userId);
