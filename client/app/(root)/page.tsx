@@ -1,13 +1,15 @@
 "use client"
 import React from 'react';
 import TabLayouts from '@/components/TabLayout';
-import MatchingPage from '@/components/Matching';
+import DummyImagesPage from '@/components/MatchPage';
+
 
 const Page:React.FC = () => {
   return (
         <TabLayouts>
+         
             <div>
-                <MatchingPage />
+                <DummyImagesPage />
             </div>
         </TabLayouts>
   )

@@ -19,7 +19,6 @@ const ProfileComponent: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [userData, setUserData]: any = useState({});
-  // const params = useParams<{ tag: string; userId: string }>();
   const user: any = useAppSelector((state) => state.auth.user);
   console.log(user, "the data");
   const [age, setAge] = useState<number | null>(null);
