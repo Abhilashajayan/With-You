@@ -36,15 +36,15 @@ export function DialogDemo() {
 const dispatch = useAppDispatch();
 const user:any = useAppSelector((state) => state.auth.user);
   const [editedProfile, setEditedProfile] = useState<Profile>({
-    job: user.job || "",
-    location: user.location || "",
-    username: user.username || "",
-    email: user.email || "",
-    dob: user.dob || "",
-    phone: user.phone || "",
-    profilePicture: user.profilePicture || "",
-    gender: user.gender || "",
-    interests: user.interest || [],    
+    job: user?.job || "",
+    location: user?.location || "",
+    username: user?.username || "",
+    email: user?.email || "",
+    dob: user?.dob || "",
+    phone: user?.phone || "",
+    profilePicture: user?.profilePicture || "",
+    gender: user?.gender || "",
+    interests: user?.interest || [],    
   });
   const [currentStep, setCurrentStep] = useState<number>(0);
   const totalSteps = 2;

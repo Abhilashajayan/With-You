@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import MatchIcon from './icons/MatchIcon';
+import MyComponentWithLottie from './icons/heartAnimation';
 
 const MatchingPage: React.FC = () => {
   return (
@@ -14,7 +15,7 @@ const MatchingPage: React.FC = () => {
         <motion.div
           animate={{ rotate: [0, -10, 10, -10, 0], transition: { duration: 0.5, repeat: Infinity } }}
         >
-          <MatchIcon />
+          <MyComponentWithLottie />
         </motion.div>
         <img
           className="object-cover w-32 h-32 transform rotate-45 rounded-lg mb-4 sm:ml-4"

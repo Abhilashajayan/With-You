@@ -12,6 +12,7 @@ import { useSpring, animated } from "react-spring";
 import LikeICon from "@/components/icons/LikeIcon";
 import { randomUserFetch , matchUserButton } from "@/axios/axiosConfig";
 import { getCookie } from "@/features/authCookies";
+import MatchingPage from "@/components/Matching";
 
 
 interface User {
@@ -25,6 +26,7 @@ const Page: React.FC = () => {
   const user: any = useAppSelector((state) => state.auth.user);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [showMessage, setShowMessage] = useState<boolean>(false);
+  const [isMatch , setisMatch] = useState<boolean>(false);
   const [springProps, setSpringProps] = useSpring(() => ({
     opacity: 0,
     transform: "translateY(0)",
@@ -74,8 +76,11 @@ const Page: React.FC = () => {
     try {
       const response = await matchUserButton(userId, likedUserId);
       if (response) {
-        console.log(response);
-
+        console.log(response?.data?.isLke,"the math collection");
+        if(response.data?.isLke){
+            setisMatch(true);
+            console.log("the is match is ture");
+        }
         setSpringProps({
           opacity: 1,
           transform: "translateY(-50%)",
@@ -96,6 +101,7 @@ const Page: React.FC = () => {
     <>
       {user?.phone ? (
         <TabLayouts>
+          {isMatch == true ? <MatchingPage /> :(
           <>
             <HomeNavbar />
             <MatchingField users={currentUser ? [currentUser] : []} />
@@ -134,10 +140,12 @@ const Page: React.FC = () => {
               <LikeICon />
             </animated.div>
           </>
+           )}
         </TabLayouts>
       ) : (
         <AddDetails />
       )}
+     
     </>
   );
 };
