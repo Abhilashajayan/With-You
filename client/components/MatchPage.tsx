@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import LikeBar from './Navabar';
 
 const DummyImagesPage = () => {
-  // Dummy image URLs from Unsplash
   const dummyImages = [
     "https://source.unsplash.com/featured/?nature",
     "https://source.unsplash.com/featured/?landscape",
