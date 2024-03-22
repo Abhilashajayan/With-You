@@ -49,7 +49,7 @@ const MatchingField: React.FC<MatchingFieldProps> = ({ users }) => {
   return (
     <div className="relative w-full" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {users.length > 0 && (
-        <div className="relative h-96 md:h-120 lg:h-160  sm:h-112 md:h-136 lg:h-176 overflow-hidden rounded-lg">
+        <div className="relative h-96 md:h-120 lg:h-160 md:w-[600px]  sm:h-112 md:h-136 lg:h-176 overflow-hidden rounded-lg">
           {users.map((user, index) => (
             <div
               key={index}

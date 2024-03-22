@@ -7,7 +7,6 @@ import DummyImagesPage from '@/components/MatchPage';
 const Page:React.FC = () => {
   return (
         <TabLayouts>
-         
             <div>
                 <DummyImagesPage />
             </div>

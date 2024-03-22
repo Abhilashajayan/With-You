@@ -42,11 +42,13 @@ import Banuser from "./Banuser";
 export type UserType = {
   _id: string;
   username: string;
-  status?: "banned" | "active";
+  status: boolean;
   email: string;
 };
 
+
 const getColumns = (data : any) => {
+  
      const columns: ColumnDef<UserType>[] = [
         {
           id: "select",
@@ -83,12 +85,13 @@ const getColumns = (data : any) => {
           accessorKey: "status",
           header: "Status",
           cell: ({ row }) => {
-            const status = row.getValue("status");
-            const colorClass = status === "active" ? "text-green-600" : "text-red-600";
+            const status : any = row.getValue('status');
+          
+            const colorClass = status == false ? "text-green-600" : "text-red-600";
         
             return (
               <div className={`capitalize ${colorClass}`}>
-                {row.getValue("status")}
+                {status ? "Unblock" : "Block" }
               </div>
             );
           },
@@ -114,7 +117,7 @@ const getColumns = (data : any) => {
           enableHiding: false,
           cell: ({ row }) => {
             const user = row.original;
-      
+            
             return (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -133,7 +136,7 @@ const getColumns = (data : any) => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>View User</DropdownMenuItem>
                   <DropdownMenuItem className="text-red-500" asChild> 
-                  <Banuser userId={user?._id} status={user?.status} />
+                  <Banuser userId={user?._id} status={user.status} />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

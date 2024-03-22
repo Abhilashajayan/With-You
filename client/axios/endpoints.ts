@@ -8,3 +8,5 @@ export const LIKE_USER  = '/user/likeUser';
 export const CHANGE_PASS = '/auth/changePassword';
 export const GOOGLE_ENDPOINT = "/auth/googleAuth";
 export const GET_ALL =  "/user/getAllUsers";
+export const BAN_USER = "/user/block";
+export const BAN_STATUS = "/user/blockStatus";

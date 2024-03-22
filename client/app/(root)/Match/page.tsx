@@ -11,8 +11,9 @@ import AddDetails from "@/components/AddDetails";
 import { useSpring, animated } from "react-spring";
 import LikeICon from "@/components/icons/LikeIcon";
 import { randomUserFetch, matchUserButton } from "@/axios/axiosConfig";
-import { getCookie } from "@/features/authCookies";
 import MatchingPage from "@/components/Matching";
+import { reduxData } from "@/types/formData";
+
 
 interface User {
   _id: string;
@@ -20,18 +21,17 @@ interface User {
   username: string;
   location: string;
 }
+// interface DataArrayItem {
+//   username: string;
+//   image1: string | undefined; 
+//   image2: string | undefined; 
+// }
 
-interface MatchingPageProps {
-  dataArray: Array<{
-    username: string;
-    image1: string;
-    image2: string;
-  }>;
-}
+
 
 const Page: React.FC = () => {
-  const user: any = useAppSelector((state) => state.auth.user);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const user: any  = useAppSelector((state) => state.auth.user);
+  const [currentUser, setCurrentUser] = useState<User >();
   const [showMessage, setShowMessage] = useState<boolean>(false);
   const [isMatch, setisMatch] = useState<boolean>(false);
   const [matchData, setmatchData] = useState<User | null>(null);
@@ -45,18 +45,16 @@ const Page: React.FC = () => {
   }, []);
 
   const fetchRandomUser = async () => {
-    const userId: any = user._id;
-    const token: string = (await getCookie()) as string;
-    console.log(token);
+    const userId: string  = user?._id;
     try {
-      const response: any = await randomUserFetch(userId, token);
+      const response: any = await randomUserFetch(userId);
       const data = response.data;
       console.log(data.users.length, "the length");
       let randomUser;
 
       if (data.users && data.users.length > 1) {
         const filteredUsers = data.users.filter(
-          (users: any) => users._id !== user._id
+          (users: reduxData) => users._id !== user._id
         );
         randomUser =
           filteredUsers[Math.floor(Math.random() * filteredUsers.length)];
@@ -80,15 +78,15 @@ const Page: React.FC = () => {
 
   const dataArray: any = [
     {
-      username: user?.username,
+      username: user.username,
       image1: currentUser?.profilePicture,
       image2: user?.profilePicture,
     },
   ];
 
   const matchButton = async () => {
-    const likedUserId: any = currentUser?._id;
-    const userId: any = user._id;
+    const likedUserId: string | undefined  = currentUser?._id;
+    const userId: string = user._id;
 
     try {
       const response = await matchUserButton(userId, likedUserId);

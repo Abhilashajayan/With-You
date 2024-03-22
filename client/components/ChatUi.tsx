@@ -88,7 +88,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ selectedUser, messages, onMessa
         </div>
       </>
     ) : (
-      <div className="text-center">Select a user to start chatting</div>
+      <div className="flex items-center">Select a user to start chatting</div>
     )}
   </div>
 );

@@ -7,7 +7,6 @@ interface MatchingPageProps {
     username: string;
     image1: string;
     image2: string;
-    matchusername: string;
   }>;
 }
 

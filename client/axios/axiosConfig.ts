@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { FormData } from "@/types/formData";
+import { getCookie } from "@/features/authCookies";
 import {
   BASE_URL,
   REGISTER_ENDPOINT,
@@ -10,7 +11,9 @@ import {
   LIKE_USER,
   CHANGE_PASS,
   GOOGLE_ENDPOINT,
-  GET_ALL
+  GET_ALL,
+  BAN_USER,
+  BAN_STATUS,
 } from "./endpoints";
 
 const client: AxiosInstance = axios.create({
@@ -18,12 +21,22 @@ const client: AxiosInstance = axios.create({
 });
 
 client.interceptors.request.use(
-  (config) => {
+  async (config) => {
     console.log("Request Interceptor:", config);
+    try {
+      const token: string | undefined = await getCookie();
+      if (token) {
+        console.log("token is there");
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.error("Error retrieving token:", error);
+    }
     return config;
   },
   (error) => {
-    console.error("Request Interceptor Error:", error);
+    console.error("Request Interceptor Error:", error.response);
+   
     return Promise.reject(error);
   }
 );
@@ -35,6 +48,9 @@ client.interceptors.response.use(
   },
   (error) => {
     console.error("Response Interceptor Error:", error);
+    if(error.response.status === 403){
+      window.location.href = '/signup';
+    }
     return Promise.reject(error);
   }
 );
@@ -61,7 +77,7 @@ export const sendOtp = async (email: string, otp: number) => {
 interface validateData {
   email: string | null;
   username?: string | null;
-  password? : string | null;
+  password?: string | null;
 }
 
 export const registerUser = async (data: validateData) => {
@@ -83,14 +99,14 @@ export const registerUser = async (data: validateData) => {
 };
 
 export const changePass = async (data: FormData) => {
-  try{
+  try {
     const res = await client.post(CHANGE_PASS, data);
     console.log(res.data);
     return res.data;
-  }catch (error) {
+  } catch (error) {
     throw error;
   }
-}
+};
 
 export const userLogin = async (userData: FormData) => {
   try {
@@ -104,70 +120,97 @@ export const userLogin = async (userData: FormData) => {
 };
 
 export const googleAuth = async (userData: any) => {
-  try{
+  try {
     const res = await client.post(GOOGLE_ENDPOINT, userData);
     console.log(res.data);
     return res.data;
-  }catch (error) {
+  } catch (error) {
     console.error("Error during google login:", error);
     throw error;
   }
-}
+};
 
 export const editUserProfile = async (userId: string, updatedUserData: any) => {
   try {
-    const res = await client.post(`${EDIT_ENDPOINT}/${userId}`, updatedUserData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const res = await client.post(
+      `${EDIT_ENDPOINT}/${userId}`,
+      updatedUserData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     console.log(res.data);
     return res.data;
   } catch (error) {
-    console.error('Error during user profile edit:', error);
+    console.error("Error during user profile edit:", error);
     throw error;
   }
 };
 
-export const randomUserFetch = async (userId: string, token: string) => {
-    console.log(userId);
-    try {
-      const response = await client.get(`${FETCH_USER}/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}` 
-        }
-      });
-      console.log(response);
-      return response;
-    } catch (error) {
-      return error;
-    }
-  }
-
-export const matchUserButton = async (userId: string, likedUserId: string) => {
+export const randomUserFetch = async (userId: string) => {
   try {
-    const response = await client.post(LIKE_USER, {
-      userId,
-      likedUserId,
-    }, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    console.log(userId);
+    const response = await client.get(`${FETCH_USER}/${userId}`);
     console.log(response);
-    return response; 
+    return response;
   } catch (error) {
-    console.error("Error during matching user:", error);
-    throw error; 
+    return error;
   }
 };
 
-export const getAllUsers = async () =>{
-  try{
+export const matchUserButton = async (
+  userId: string,
+  likedUserId: string | undefined
+) => {
+  try {
+    const response = await client.post(
+      LIKE_USER,
+      {
+        userId,
+        likedUserId,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error("Error during matching user:", error);
+    throw error;
+  }
+};
+
+export const getAllUsers = async () => {
+  try {
     const response = await client.get(GET_ALL);
     return response.data.users;
-  }catch (error) {
+  } catch (error) {
     return error;
-}
-}
+  }
+};
+
+export const banUser = async (userId: string) => {
+  try {
+    const response = await client.post(`${BAN_USER}/${userId}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const banStatus = async (userId: string) => {
+  try {
+    const response = await client.get(`${BAN_STATUS}/${userId}`);
+    console.log(response.data,"the response was");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+

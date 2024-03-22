@@ -21,6 +21,7 @@ import { app } from "@/config/firebase";
 interface FormData {
   email: string;
   password: string;
+  status?: boolean;
 }
 const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
@@ -60,8 +61,10 @@ const Page: React.FC = () => {
       const isValid = await trigger();
       if (isValid) {
         const response = await userLogin(data);
-        console.log(response, "the response");
+        console.log(response?.user, "the response");
+     
         if (response !== "") {
+          if(response?.user.status === false){
           dispatch(
             setLogin({
               user: response?.user,
@@ -79,10 +82,16 @@ const Page: React.FC = () => {
             variant: "destructive",
             description: "Login successful",
           });
+
+        }else{
+          setError("The user is blocked by admin");
+        }
         } else {
           setError("Invalid username or password");
         }
+     
       }
+   
     } catch (error) {
       console.error("Error during form submission:", error);
     }
