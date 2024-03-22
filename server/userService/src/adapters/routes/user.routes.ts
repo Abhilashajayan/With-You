@@ -16,25 +16,33 @@ export class UserRouter {
   userController = new UserController(this.userUsecase);
 
   constructor() {
-    this.router.get("/users/getAllUsers", (req: Request, res: Response) => {
+    this.router.get("/user/getAllUsers", (req: Request, res: Response) => {
       this.userController.getAllUsers(req, res);
     });
 
-    this.router.get("/match/getRandomUser/:userId", (req: Request, res: Response) => {
+    this.router.get("/user/getRandomUser/:userId",authenticateToken, (req: Request, res: Response) => {
       this.userController.getRandomUser(req, res);
     });
 
     this.router.post( 
-      "/users/editUser/:userId",
-      multerConfig.single("uploadPic"),
+      "/user/editUser/:userId",
+      multerConfig.single("uploadPic"),authenticateToken,
       (req: Request, res: Response) => {
         this.userController.editUser(req, res);
         console.log(req.files, "hhh");
       }
     );
 
-    this.router.post("/match/likeUser", (req: Request, res: Response) => {
+    this.router.post("/user/likeUser",authenticateToken, (req: Request, res: Response) => {
       this.userController.matchUser(req, res);
+    });
+
+    this.router.post("/user/block/:userId", (req: Request, res: Response) => {
+      this.userController.blockUser(req, res);
+    });
+
+    this.router.get("/user/blockStatus/:userId", (req: Request, res: Response) => {
+      this.userController.blockStatus(req, res);
     });
   }
 

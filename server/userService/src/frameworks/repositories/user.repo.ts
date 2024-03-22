@@ -61,7 +61,7 @@ export class userRepository implements IUserCase {
     try {
       const { email } = authData;
       let user = await this.UserModel.findOne({ email }).exec();
-      console.log(user,"the user ");
+      console.log(user, "the user ");
       if (!user) {
         const newUser = new this.UserModel(authData);
         user = await newUser.save();
@@ -142,7 +142,7 @@ export class userRepository implements IUserCase {
       const hashedPassword = await bcrypt.hash(password, 10);
       user.password = hashedPassword;
       await user.save();
-   
+
       console.log("Password changed successfully for user:", user);
       return true;
     } catch (error) {
@@ -150,7 +150,7 @@ export class userRepository implements IUserCase {
       throw new Error("Failed to change password");
     }
   }
-  
+
   async getRandomUser(userId: string): Promise<any> {
     try {
       const likedUsers = await this.UserModel.findOne({ _id: userId })
@@ -160,9 +160,10 @@ export class userRepository implements IUserCase {
         const allUsers = await this.UserModel.find({}, { password: 0 });
         return allUsers;
       }
-      const likedUserIds = likedUsers.liked.map((likedUser: any) => likedUser.user._id) || [];
+      const likedUserIds =
+        likedUsers.liked.map((likedUser: any) => likedUser.user._id) || [];
       const randomUser = await this.UserModel.find({
-        _id: { $nin: likedUserIds }
+        _id: { $nin: likedUserIds },
       });
       console.log("Liked User IDs:", likedUserIds.length);
       console.log("Random User:", randomUser);
@@ -172,34 +173,32 @@ export class userRepository implements IUserCase {
       return error;
     }
   }
-  
+
   async matchUser(userId: string, likedUserId: string): Promise<any> {
     try {
       const isLiked = await this.UserModel.exists({
         _id: userId,
-        'liked.user': likedUserId,
+        "liked.user": likedUserId,
       });
       if (!isLiked) {
         const likedUserObject = { user: likedUserId, likedAt: Date.now() };
         const data = await this.UserModel.findByIdAndUpdate(userId, {
           $push: { liked: likedUserObject },
         });
-  
-        console.log('User liked successfully:', data);
+
+        console.log("User liked successfully:", data);
         const isMatched = await this.UserModel.exists({
           _id: likedUserId,
-          'liked.user': userId,
+          "liked.user": userId,
         });
-  
+
         if (isMatched) {
-          console.log('It\'s a match!');
-          console.log(data,"the data is got here");
           return { data, isMatched: true };
         }
-  
+
         return { data, isMatched: false };
       } else {
-        console.log('User already liked');
+        console.log("User already liked");
         return { isMatched: true };
       }
     } catch (error) {
@@ -207,7 +206,41 @@ export class userRepository implements IUserCase {
       return { error, isMatched: false };
     }
   }
-  
-  
-}
 
+  async blockUser(userId: string): Promise<any> {
+    try {
+      const user = await this.UserModel.findById(userId);
+      if (!user) {
+        return { message: "User not found" };
+      }
+      user.status = !user.status;
+
+      await user.save();
+
+      if (user.status) {
+        return { message: "User is now unblocked" };
+      } else {
+        return { message: "User is now blocked" };
+      }
+    } catch (error) {
+      console.error("Error blocking/unblocking user:", error);
+      throw error;
+    }
+  }
+
+  async blockStatus(userId: string): Promise<any> {
+    try {
+      const user = await this.UserModel.findById(userId);
+      if (user) {
+        console.log(user.status, "User is now blocked");
+        return user.status;
+      } else {
+        console.error(`User with ID ${userId} not found.`);
+        return undefined;
+      }
+    } catch (error) {
+      console.error("Error retrieving user status:", error);
+      throw error;
+    }
+  }
+}

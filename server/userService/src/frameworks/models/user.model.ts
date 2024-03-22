@@ -10,7 +10,7 @@ const UserSchema = new Schema<IUserSchema>({
     profilePicture: { type: String },
     gender: { type: String },
     interest: { type: [String] },
-    status: { type: Boolean },
+    status: { type: Boolean, default: false },
     createdAt: { type: Date},
     location: { type: String }, 
     job: { type: String }, 

@@ -9,4 +9,6 @@ export interface IUserCase {
   matchUser(userId : string, likedUserId : string): Promise<any>;
   changePassword(data : any): Promise<void>;
   googleAuth(authData : UserEntity) : Promise<void>;
+  blockUser(userId : string ) : Promise<void>;
+  blockStatus(userId : string ) : Promise<void>;
 }

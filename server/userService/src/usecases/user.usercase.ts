@@ -38,4 +38,12 @@ export class UserUsecase implements IUserCase {
   async matchUser(userId: string, likedUserId: string): Promise<any> {
     return this.UserRepository.matchUser(userId, likedUserId);
   }
+
+  async blockUser(userId: string): Promise<void> {
+      return this.UserRepository.blockUser(userId);
+  }
+
+  async blockStatus(userId: string): Promise<void> {
+      return this.UserRepository.blockStatus(userId);
+  }
 }
