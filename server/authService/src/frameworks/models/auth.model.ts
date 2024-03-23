@@ -1,6 +1,7 @@
 import mongoose, { Model } from "mongoose";
 import { IAuthSchema } from "../../adapters/interfaces/IAuthSchema";
 
+
 const authSchema = new mongoose.Schema<IAuthSchema>({
   username: {
     type: "string",
@@ -10,6 +11,7 @@ const authSchema = new mongoose.Schema<IAuthSchema>({
     required: true,
     unique: true,
   },
+  
   password: {
     type: String,
     required: true,

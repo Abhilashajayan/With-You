@@ -31,7 +31,8 @@ export class authUsecases implements IUserUsecaes {
         const user : any = {
           id : data._id,
           username : data.username,
-          email : data.email
+          email : data.email,
+          status : data.status
         }
 
         console.log(user);

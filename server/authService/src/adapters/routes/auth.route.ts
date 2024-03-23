@@ -6,6 +6,7 @@ import { AuthModel } from "../../frameworks/models/auth.model";
 import { Rabiitmq } from "../../frameworks/messageBroker/rabbitmq";
 import { JwtService } from "../../frameworks/jwt/jwtAuth";
 
+
 export class AuthRouter {
 
   secret_key = "secret_key";
@@ -17,19 +18,19 @@ export class AuthRouter {
   authController = new authController(this.authUsecase);
 
   constructor() {
-    this.router.post("/register", (req: Request, res: Response) => {
+    this.router.post("/auth/register", (req: Request, res: Response) => {
       this.authController.register_user(req, res);
     });
-    this.router.post("/register/send-otp", (req: Request, res: Response) => {
+    this.router.post("/auth/register/send-otp", (req: Request, res: Response) => {
       this.authController.validateOtp(req, res);
     });
-    this.router.post("/login", (req: Request, res: Response) => {
+    this.router.post("/auth/login", (req: Request, res: Response) => {
       this.authController.login_user(req, res);
     });
-    this.router.post("/googleAuth", (req: Request, res: Response) => {
+    this.router.post("/auth/googleAuth", (req: Request, res: Response) => {
       this.authController.googleAuth(req, res);
     });
-    this.router.post("/changePassword", (req: Request, res: Response) => {
+    this.router.post("/auth/changePassword", (req: Request, res: Response) => {
       this.authController.changePassword(req, res);
     });
   }
