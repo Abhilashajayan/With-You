@@ -14,7 +14,6 @@ import { randomUserFetch, matchUserButton } from "@/axios/axiosConfig";
 import MatchingPage from "@/components/Matching";
 import { reduxData } from "@/types/formData";
 
-
 interface User {
   _id: string;
   profilePicture: string;
@@ -23,15 +22,13 @@ interface User {
 }
 // interface DataArrayItem {
 //   username: string;
-//   image1: string | undefined; 
-//   image2: string | undefined; 
+//   image1: string | undefined;
+//   image2: string | undefined;
 // }
 
-
-
 const Page: React.FC = () => {
-  const user: any  = useAppSelector((state) => state.auth.user);
-  const [currentUser, setCurrentUser] = useState<User >();
+  const user: any = useAppSelector((state) => state.auth.user);
+  const [currentUser, setCurrentUser] = useState<User>();
   const [showMessage, setShowMessage] = useState<boolean>(false);
   const [isMatch, setisMatch] = useState<boolean>(false);
   const [matchData, setmatchData] = useState<User | null>(null);
@@ -45,7 +42,7 @@ const Page: React.FC = () => {
   }, []);
 
   const fetchRandomUser = async () => {
-    const userId: string  = user?._id;
+    const userId: string = user?._id;
     try {
       const response: any = await randomUserFetch(userId);
       const data = response.data;
@@ -85,7 +82,7 @@ const Page: React.FC = () => {
   ];
 
   const matchButton = async () => {
-    const likedUserId: string | undefined  = currentUser?._id;
+    const likedUserId: string | undefined = currentUser?._id;
     const userId: string = user._id;
 
     try {

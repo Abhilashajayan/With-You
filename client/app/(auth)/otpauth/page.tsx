@@ -10,14 +10,11 @@ import React, {
 import { useSearchParams, useRouter } from "next/navigation";
 import { sendOtp } from "@/axios/axiosConfig";
 import { registerUser } from "@/axios/axiosConfig";
-
-
 interface validateData {
   email: string | null;
   username?: string | null;
-  password? : string | null;
+  password?: string | null;
 }
-
 const Page: React.FC = () => {
   const [code, setCode] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -28,15 +25,13 @@ const Page: React.FC = () => {
   const email = searchParams.get("email");
   const username = searchParams.get("username");
   const password = searchParams.get("password");
-
-
-  const data : validateData = {
+  const data: validateData = {
     email,
     username,
-    password
-  }
+    password,
+  };
 
-  console.log(data,"the resend data");
+  console.log(data, "the resend data");
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
@@ -72,12 +67,11 @@ const Page: React.FC = () => {
     setError(null);
   };
 
-
   const onSubmit = async (data: validateData): Promise<any> => {
     try {
       await registerUser(data);
     } catch (error) {
-      console.error('Error during form submission:', error);
+      console.error("Error during form submission:", error);
     }
   };
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, index: number) => {
@@ -156,7 +150,14 @@ const Page: React.FC = () => {
             {timer > 0 ? (
               <span className={`text-gray-500`}>Resend in {timer}s</span>
             ) : (
-              <a className="text-red-500" href="" onClick={(e) => { e.preventDefault(); onSubmit(data); }}>
+              <a
+                className="text-red-500"
+                href=""
+                onClick={(e) => {
+                  e.preventDefault();
+                  onSubmit(data);
+                }}
+              >
                 Send Again
               </a>
             )}

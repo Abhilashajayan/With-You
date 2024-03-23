@@ -62,36 +62,32 @@ const Page: React.FC = () => {
       if (isValid) {
         const response = await userLogin(data);
         console.log(response?.user, "the response");
-     
+
         if (response !== "") {
-          if(response?.user.status === false){
-          dispatch(
-            setLogin({
-              user: response?.user,
-            })
-          );
+          if (response?.user.status === false) {
+            dispatch(
+              setLogin({
+                user: response?.user,
+              })
+            );
 
-          if (response?.data.phone) {
-            dispatch(updateProfile(response?.data));
-            console.log("hello");
+            if (response?.data.phone) {
+              dispatch(updateProfile(response?.data));
+            }
+
+            await setCookie(response?.token);
+            router.push(`/Match`);
+            toast({
+              variant: "destructive",
+              description: "Login successful",
+            });
+          } else {
+            setError("The user is blocked by admin");
           }
-
-          await setCookie(response?.token);
-          router.push(`/Match`);
-          toast({
-            variant: "destructive",
-            description: "Login successful",
-          });
-
-        }else{
-          setError("The user is blocked by admin");
-        }
         } else {
           setError("Invalid username or password");
         }
-     
       }
-   
     } catch (error) {
       console.error("Error during form submission:", error);
     }
@@ -106,14 +102,14 @@ const Page: React.FC = () => {
     });
   };
 
-  const handleGoogleLogin = async (userData : any) => {
+  const handleGoogleLogin = async (userData: any) => {
     console.log("button clicked");
     try {
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential?.accessToken || "";
       const user = result.user;
-      const userData:any = {
+      const userData: any = {
         email: user.email,
         username: user.displayName,
       };
@@ -136,7 +132,7 @@ const Page: React.FC = () => {
         variant: "destructive",
         description: "Login successful",
       });
-    } catch (error : any) {
+    } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
       const email = error.customData?.email;
@@ -144,7 +140,6 @@ const Page: React.FC = () => {
       // Handle error
     }
   };
-  
 
   return (
     <>
@@ -241,8 +236,6 @@ const Page: React.FC = () => {
                 className="w-7 h-7"
               />
             </button>
-               
-
           </div>
           <p className="text-sm text-black text-left mt-10">
             Don't have an account?{" "}

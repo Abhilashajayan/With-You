@@ -67,7 +67,7 @@ const Sidebar: React.FC = () => {
         onMouseLeave={onMouseOver}
         style={{ transition: "width 300ms cubic-bezier(0.2, 0, 0, 1) 0s" }}
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col ">
           <div className="flex items-center justify-between relative">
             <div className=" flex ml-11">
               <span
@@ -126,11 +126,10 @@ const Sidebar: React.FC = () => {
           })} px-3 py-4`}
         >
           <div style={{ width: "2.5rem" }}>
-            {/* Replace with your actual LogoutIcon component */}
-            {/* <LogoutIcon /> */}
+            
           </div>
           {!toggleCollapse && (
-            <span className={classNames("text-md font-medium text-text-light")}>
+            <span className={classNames("text-md  bg-black p-2 border rounded  font-medium text-white")}>
               Logout
             </span>
           )}

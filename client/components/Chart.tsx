@@ -1,4 +1,4 @@
-'use client' // if you use app dir, don't forget this line
+'use client' 
 
 import dynamic from "next/dynamic";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -8,7 +8,7 @@ export function ExampleChart() {
   const options = {
     chart: {
       id: 'apexchart-example',
-      background: '#f8f9fa' // Set the background color here
+      // background: '#f8f9fa' // Set the background color here
     },
     xaxis: {
       categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]

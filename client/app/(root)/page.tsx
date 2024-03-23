@@ -1,14 +1,40 @@
 "use client"
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TabLayouts from '@/components/TabLayout';
-import DummyImagesPage from '@/components/MatchPage';
+import DummyImagesPage from '@/components/LIkePage';
+import { likedUsers } from '@/axios/axiosConfig';
+import { useAppSelector } from "@/features/hooks";
+
+
+interface User {
+  _id: string;
+  username: string;
+  profilePicture: string;
+  age: number;
+}
+
 
 
 const Page:React.FC = () => {
+  const [likedUser, setLikedUsers] = useState<User[]>([]);
+  const user: any = useAppSelector((state) => state.auth.user);
+  useEffect(() => {
+    const fetchLikedUsers = async () => {
+      const userId : string = user._id;
+      try {
+        const response = await likedUsers(userId);
+        setLikedUsers(response.data);
+      } catch (error) {
+        console.error('Error fetching liked users:', error);
+      }
+    };
+
+    fetchLikedUsers();
+  }, []);
   return (
         <TabLayouts>
             <div>
-                <DummyImagesPage />
+                <DummyImagesPage likedUsers={likedUser}/>
             </div>
         </TabLayouts>
   )

@@ -33,8 +33,8 @@ interface Profile {
 }
 
 export function DialogDemo() {
-const dispatch = useAppDispatch();
-const user:any = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
+  const user: any = useAppSelector((state) => state.auth.user);
   const [editedProfile, setEditedProfile] = useState<Profile>({
     job: user?.job || "",
     location: user?.location || "",
@@ -44,7 +44,7 @@ const user:any = useAppSelector((state) => state.auth.user);
     phone: user?.phone || "",
     profilePicture: user?.profilePicture || "",
     gender: user?.gender || "",
-    interests: user?.interest || [],    
+    interests: user?.interest || [],
   });
   const [currentStep, setCurrentStep] = useState<number>(0);
   const totalSteps = 2;
@@ -67,7 +67,6 @@ const user:any = useAppSelector((state) => state.auth.user);
       }));
     }
   };
-  
 
   const handleNextStep = () => {
     setCurrentStep((prevStep) => prevStep + 1);
@@ -77,26 +76,35 @@ const user:any = useAppSelector((state) => state.auth.user);
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
-  const handleSaveChanges = async() => {
+  const handleSaveChanges = async () => {
     console.log("Saving changes", editedProfile);
-    if (!editedProfile.username || !editedProfile.email || !editedProfile.dob || !editedProfile.gender || !editedProfile.interests || !editedProfile.profilePicture || !editedProfile.username || !editedProfile.phone) {
+    if (
+      !editedProfile.username ||
+      !editedProfile.email ||
+      !editedProfile.dob ||
+      !editedProfile.gender ||
+      !editedProfile.interests ||
+      !editedProfile.profilePicture ||
+      !editedProfile.username ||
+      !editedProfile.phone
+    ) {
       toast({
         description: "Please fill in all required fields.",
       });
       return;
     }
     try {
-        const userId = user._id;
-        console.log(userId);
-        const result: any = await editUserProfile(userId, editedProfile);
-        dispatch(updateProfile(result.dataUser));
-        
-        toast({
-            description: "User Data Updated successfully",
-          });
-      } catch (error) {
-        console.error("Error during form submission:", error);
-      }
+      const userId = user._id;
+      console.log(userId);
+      const result: any = await editUserProfile(userId, editedProfile);
+      dispatch(updateProfile(result.dataUser));
+
+      toast({
+        description: "User Data Updated successfully",
+      });
+    } catch (error) {
+      console.error("Error during form submission:", error);
+    }
   };
 
   return (
@@ -243,7 +251,9 @@ const user:any = useAppSelector((state) => state.auth.user);
             </Button>
           )}
           {currentStep < totalSteps - 1 && (
-            <Button className="bg-red-500" onClick={handleNextStep}>Next</Button>
+            <Button className="bg-red-500" onClick={handleNextStep}>
+              Next
+            </Button>
           )}
           {currentStep === totalSteps - 1 && (
             <Button className="mb-4 bg-red-500" onClick={handleSaveChanges}>

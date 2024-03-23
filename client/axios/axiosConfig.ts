@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { FormData } from "@/types/formData";
 import { getCookie } from "@/features/authCookies";
+import { HttpStatusCode } from "./enums";
 import {
   BASE_URL,
   REGISTER_ENDPOINT,
@@ -14,6 +15,7 @@ import {
   GET_ALL,
   BAN_USER,
   BAN_STATUS,
+  LIKED_USERS,
 } from "./endpoints";
 
 const client: AxiosInstance = axios.create({
@@ -48,7 +50,7 @@ client.interceptors.response.use(
   },
   (error) => {
     console.error("Response Interceptor Error:", error);
-    if(error.response.status === 403){
+    if(error.response.status === HttpStatusCode.FORBIDDEN){
       window.location.href = '/signup';
     }
     return Promise.reject(error);
@@ -65,7 +67,7 @@ export const sendOtp = async (email: string, otp: number) => {
 
   try {
     const response = await client.post(OTP_ENDPOINT, data);
-    if (response.status === 200) {
+    if (response.status === HttpStatusCode.OK) {
       return response;
     }
   } catch (error) {
@@ -86,7 +88,7 @@ export const registerUser = async (data: validateData) => {
       headers: { "Content-Type": "application/json" },
     });
 
-    if (response.status !== 200) {
+    if (response.status !== HttpStatusCode.OK) {
       throw new Error("Network response was not ok");
     }
 
@@ -214,3 +216,13 @@ export const banStatus = async (userId: string) => {
   }
 };
 
+
+export const likedUsers = async (userId: string) => {
+  try {
+    const response = await client.get(`${LIKED_USERS}/${userId}`);
+    console.log(response.data,"the response was");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
