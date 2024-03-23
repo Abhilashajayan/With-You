@@ -74,4 +74,14 @@ export class UserController {
       return res.status(500).json({ error });
     }
   }
+
+  async likedUsers(req: Request, res: Response){
+    try{
+      const userId: string = req.params.userId;
+      const likedUsers = await this.userUsecase.likedUsers(userId);
+      return res.status(200).json({ data: likedUsers });
+    }catch (error) {
+      return res.status(500).json({ error });
+    }
+  }
 }

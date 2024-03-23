@@ -32,7 +32,7 @@ const authenticateToken = async (req: AuthenticatedRequest, res: Response, next:
             next();
         } catch (error) {
             console.error("Error fetching user status:", error);
-            return res.status(500).json({ message: 'Internal Server Error' });
+            return res.status(500).json({ message: 'Internal Server Error'});
         }
     });
 };

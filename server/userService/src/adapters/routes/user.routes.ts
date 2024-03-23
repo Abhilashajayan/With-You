@@ -44,6 +44,10 @@ export class UserRouter {
     this.router.get("/user/blockStatus/:userId", (req: Request, res: Response) => {
       this.userController.blockStatus(req, res);
     });
+
+    this.router.get("/user/likedUsers/:userId", (req: Request, res: Response) => {
+      this.userController.likedUsers(req, res);
+    });
   }
 
   async rabbitMq() {

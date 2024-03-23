@@ -6,6 +6,14 @@ import bcrypt from "bcrypt";
 import cloudinary from "../services/cloudinary";
 import userModel from "../models/user.model";
 
+interface LikedUserInfo {
+  _id: string;
+  username: string;
+  profilePicture: string;
+  age: number;
+  dob: Date;
+}
+
 export class userRepository implements IUserCase {
   private readonly UserModel: Model<IUserSchema>;
 
@@ -130,7 +138,7 @@ export class userRepository implements IUserCase {
     }
   }
 
-  async changePassword(data: any): Promise<any> {
+  async changePassword(data: UserEntity): Promise<any> {
     try {
       const { email, password } = data;
       console.log(data, "the data");
@@ -242,5 +250,42 @@ export class userRepository implements IUserCase {
       console.error("Error retrieving user status:", error);
       throw error;
     }
+  }
+
+  async likedUsers(userId: string): Promise<any> {
+    try {
+
+      const likedUsers: LikedUserInfo[] = await this.UserModel.find({
+        'liked.user': userId,
+      })
+        .select('_id username profilePicture dob')
+        .lean();
+  
+      // Calculate age for each liked user
+      likedUsers.forEach((likedUser) => {
+        likedUser.age = this.calculateAge(likedUser.dob);
+      });
+  
+      console.log(likedUsers, 'the data');
+      return likedUsers;
+    } catch (error) {
+      console.error('Error finding liked users:', error);
+      throw error;
+    }
+  }
+  
+
+  private calculateAge(dateOfBirth: any): number {
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+    return age;
   }
 }

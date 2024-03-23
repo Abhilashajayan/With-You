@@ -1,5 +1,6 @@
 import { Date, Document } from "mongoose";
 
+
 export interface IUserSchema extends Document {
     id: string;
     username: string;
