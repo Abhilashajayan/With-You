@@ -17,6 +17,7 @@ const UserSchema = new Schema<IUserSchema>({
     liked: [{
         user: { type: Schema.Types.ObjectId, ref: 'User' },
         likedAt: { type: Date, default: Date.now }, 
+        matched: { type: Boolean, default: false } 
     }],
 });
 

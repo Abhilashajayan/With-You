@@ -12,6 +12,7 @@ interface LikedUserInfo {
   profilePicture: string;
   age: number;
   dob: Date;
+  matched : boolean;
 }
 
 export class userRepository implements IUserCase {
@@ -201,6 +202,17 @@ export class userRepository implements IUserCase {
         });
 
         if (isMatched) {
+          const datas = await Promise.all([
+            this.UserModel.updateOne(
+              { _id: userId, "liked.user": likedUserId },
+              { $set: { "liked.$.matched": true } }
+            ),
+            this.UserModel.updateOne(
+              { _id: likedUserId, "liked.user": userId },
+              { $set: { "liked.$.matched": true } }
+            ),
+          ]);
+          console.log(datas, "the liked data is status is here");
           return { data, isMatched: true };
         }
 
@@ -254,26 +266,22 @@ export class userRepository implements IUserCase {
 
   async likedUsers(userId: string): Promise<any> {
     try {
-
       const likedUsers: LikedUserInfo[] = await this.UserModel.find({
-        'liked.user': userId,
+        "liked.user": userId,
       })
-        .select('_id username profilePicture dob')
+        .select("_id username profilePicture dob")
         .lean();
-  
-      // Calculate age for each liked user
       likedUsers.forEach((likedUser) => {
         likedUser.age = this.calculateAge(likedUser.dob);
       });
-  
-      console.log(likedUsers, 'the data');
+
+      console.log(likedUsers, "the data");
       return likedUsers;
     } catch (error) {
-      console.error('Error finding liked users:', error);
+      console.error("Error finding liked users:", error);
       throw error;
     }
   }
-  
 
   private calculateAge(dateOfBirth: any): number {
     const today = new Date();
