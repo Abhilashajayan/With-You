@@ -11,6 +11,7 @@ interface User {
   username: string;
   profilePicture: string;
   age: number;
+  matched : boolean;
 }
 
 
@@ -23,6 +24,7 @@ const Page:React.FC = () => {
       const userId : string = user._id;
       try {
         const response = await likedUsers(userId);
+        console.log(response , "the liked response is here");
         setLikedUsers(response.data);
       } catch (error) {
         console.error('Error fetching liked users:', error);
