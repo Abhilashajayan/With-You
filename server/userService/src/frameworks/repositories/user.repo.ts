@@ -248,12 +248,12 @@ export class userRepository implements IUserCase {
     }
   }
 
-  async blockStatus(userId: string): Promise<any> {
+  async userProfile(userId: string): Promise<any> {
     try {
       const user = await this.UserModel.findById(userId);
       if (user) {
         console.log(user.status, "User is now blocked");
-        return user.status;
+        return user;
       } else {
         console.error(`User with ID ${userId} not found.`);
         return undefined;

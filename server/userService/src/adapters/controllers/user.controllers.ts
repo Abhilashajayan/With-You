@@ -64,11 +64,11 @@ export class UserController {
     }
   }
 
-  async blockStatus(req: Request, res: Response) {
+  async userProfile(req: Request, res: Response) {
     try{
       const userId: string = req.params.userId;
       console.log("the ban user id is here getting ", userId)
-      const blockUser = await this.userUsecase.blockStatus(userId);
+      const blockUser = await this.userUsecase.userProfile(userId);
       return res.status(200).json({ data: blockUser});
     }catch (error) {
       return res.status(500).json({ error });

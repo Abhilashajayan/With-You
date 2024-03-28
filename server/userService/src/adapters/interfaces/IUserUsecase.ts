@@ -10,6 +10,6 @@ export interface IUserCase {
   changePassword(data : UserEntity): Promise<void>;
   googleAuth(authData : UserEntity) : Promise<void>;
   blockUser(userId : string ) : Promise<void>;
-  blockStatus(userId : string ) : Promise<void>;
+  userProfile(userId : string ) : Promise<void>;
   likedUsers(userId : string ) : Promise<void>;
 }

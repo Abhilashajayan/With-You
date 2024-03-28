@@ -41,8 +41,8 @@ export class UserRouter {
       this.userController.blockUser(req, res);
     });
 
-    this.router.get("/user/blockStatus/:userId", (req: Request, res: Response) => {
-      this.userController.blockStatus(req, res);
+    this.router.get("/user/UserProfile/:userId", (req: Request, res: Response) => {
+      this.userController.userProfile(req, res);
     });
 
     this.router.get("/user/likedUsers/:userId", (req: Request, res: Response) => {

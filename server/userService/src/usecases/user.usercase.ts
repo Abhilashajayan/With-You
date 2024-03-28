@@ -43,8 +43,8 @@ export class UserUsecase implements IUserCase {
       return this.UserRepository.blockUser(userId);
   }
 
-  async blockStatus(userId: string): Promise<void> {
-      return this.UserRepository.blockStatus(userId);
+  async userProfile(userId: string): Promise<void> {
+      return this.UserRepository.userProfile(userId);
   }
 
   async likedUsers(userId: string): Promise<void> {
