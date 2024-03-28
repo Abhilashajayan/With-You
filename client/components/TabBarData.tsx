@@ -7,7 +7,7 @@ import ProfileIcon from './icons/ProfileIcon';
 interface Tab {
   label: string;
   route: string;
-  icon: React.ReactElement; // Use React.ReactElement for icons
+  icon: React.ReactElement; 
 }
 
 const Home: React.FC = () => {

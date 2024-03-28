@@ -46,6 +46,10 @@ const MatchingField: React.FC<MatchingFieldProps> = ({ users }) => {
     goToSlide(prevSlide);
   };
 
+  const onSubmit = () => {
+    console.log('onSubmit');
+  }
+
   return (
     <div className="relative w-full" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {users.length > 0 && (
@@ -68,9 +72,11 @@ const MatchingField: React.FC<MatchingFieldProps> = ({ users }) => {
                 </div>
               )}
               {user?.username && (
+               
                 <div className="absolute z-30 bottom-2 left-2 text-white w-full p-2 text-lg font-bold backdrop-blur-sm">
-                  {user.username}
+                   <button onClick={onSubmit}>{user.username}</button>
                 </div>
+                
               )}
             </div>
           ))}
