@@ -74,7 +74,7 @@ const MatchingField: React.FC<MatchingFieldProps> = ({ users }) => {
               {user?.username && (
                
                 <div className="absolute z-30 bottom-2 left-2 text-white w-full p-2 text-lg font-bold backdrop-blur-sm">
-                   <button onClick={onSubmit}>{user.username}</button>
+                   <a href={`/Profile/UserProfile/${user._id}`}>{user.username}</a>
                 </div>
                 
               )}

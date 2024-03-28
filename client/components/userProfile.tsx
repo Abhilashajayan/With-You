@@ -1,58 +1,83 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import GenderIcon from '@mui/icons-material/MaleOutlined';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import InterestsIcon from '@mui/icons-material/Interests';
+import ReportIcon from '@mui/icons-material/Report';
+import LikeIcon from "@/components/icons/LikeIcon";
+import CloseIcon from '@mui/icons-material/Close';
 
-
-
-function UserProfile() {
-    
-    return (
-        <>
-            <div className="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
-                <div id="profile" className="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0">
-                    <div className="p-4 md:p-12 text-center lg:text-left">
-                        <div className="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
-                            style={{ backgroundImage: "url('https://source.unsplash.com/MP0IUfwrn0A')" }}></div>
-                        <h1 className="text-3xl font-bold pt-8 lg:pt-0">Your Name</h1>
-                        <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
-                        <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
-                            <svg className="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20">
-                                <path
-                                    d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z" />
-                            </svg> What you do
-                        </p>
-                        <p className="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start">
-                            <svg className="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20">
-                                <path
-                                    d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm7.75-8a8.01 8.01 0 0 0 0-4h-3.82a28.81 28.81 0 0 1 0 4h3.82zm-.82 2h-3.22a14.44 14.44 0 0 1-.95 3.51A8.03 8.03 0 0 0 16.93 14zm-8.85-2h3.84a24.61 24.61 0 0 0 0-4H8.08a24.61 24.61 0 0 0 0 4zm.25 2c.41 2.4 1.13 4 1.67 4s1.26-1.6 1.67-4H8.33zm-6.08-2h3.82a28.81 28.81 0 0 1 0-4H2.25a8.01 8.01 0 0 0 0 4zm.82 2a8.03 8.03 0 0 0 4.17 3.51c-.42-.96-.74-2.16-.95-3.51H3.07zm13.86-8a8.03 8.03 0 0 0-4.17-3.51c.42.96.74 2.16.95 3.51h3.22zm-8.6 0h3.34c-.41-2.4-1.13-4-1.67-4S8.74 3.6 8.33 6zM3.07 6h3.22c.2-1.35.53-2.55.95-3.51A8.03 8.03 0 0 0 3.07 6z" />
-                            </svg> Your Location - 25.0000° N, 71.0000° W
-                        </p>
-                        <p className="pt-8 text-sm">Totally optional short description about yourself, what you do and so on.</p>
-                        <div className="pt-12 pb-8">
-                            <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
-                                Get In Touch
-                            </button>
-                        </div>
-                        <div className="mt-6 pb-16 lg:pb-0 w-4/5 lg:w-full mx-auto flex flex-wrap items-center justify-between">
-                            <a className="link" href="#" data-tippy-content="@facebook_handle">
-                                <svg className="h-6 fill-current text-gray-600 hover:text-green-700" role="img" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <title>Facebook</title>
-                                    <path
-                                        d="M22.676 0H1.324C.593 0 0 .593 0 1.324v21.352C0 23.408.593 24 1.324 24h11.494v-9.294H9.689v-3.621h3.129V8.41c0-3.099 1.894-4.785 4.659-4.785 1.325 0 2.464.097 2.796.141v3.24h-1.921c-1.5 0-1.792.721-1.792 1.771v2.311h3.584l-.465 3.63H16.56V24h6.115c.733 0 1.325-.592 1.325-1.324V1.324C24 .593 23.408 0 22.676 0" />
-                                </svg>
-                            </a>
-                            {/* Add other social media links similarly */}
-                        </div>
-                    </div>
-                </div>
-                <div className="w-full lg:w-2/5">
-                    <img src="https://source.unsplash.com/MP0IUfwrn0A" className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block"/>
-                </div>
-            </div>
-        </>
-
-    )
+interface UserProfileProps {
+    userData: {
+        username: string;
+        profilePicture: string;
+        gender: string;
+        interest: string;
+        job: string;
+        location: string;
+    }
 }
 
- export default UserProfile;
+const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
+    return (
+        <div className="max-w-4xl flex flex-col lg:flex-row items-center h-auto lg:h-screen mx-auto my-32 lg:my-0">
+            <div id="profile" className="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none lg:shadow-2xl bg-white opacity-90 mx-6 lg:mx-0 mb-8 lg:mb-0">
+                <div className="p-8 lg:p-12 text-center lg:text-left">
+                    <div className="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
+                        style={{ backgroundImage: `url(${userData?.profilePicture})` }}></div>
+                    <h1 className="text-3xl font-bold pt-8 lg:pt-0">{userData?.username}</h1>
+                    <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-red-500 opacity-25"></div>
+                    <div className="mt-8">
+                        <ProfileDetail Icon={WorkOutlineIcon} text={userData?.job} />
+                        <ProfileDetail Icon={GenderIcon} text={userData?.gender} />
+                        <ProfileDetail Icon={LocationOnIcon} text={userData?.location} />
+                        <ProfileDetail Icon={InterestsIcon} text={userData?.interest} />
+                        <ProfileDetail Icon={ReportIcon} text="Report User" />
+                    </div>
+                    <p className="pt-8 text-sm">Totally optional short description about yourself, what you do and so on.</p>
+                </div>
+            </div>
+            <div className="w-full lg:w-2/5 relative">
+                <img src={userData?.profilePicture} className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block" alt="Profile"/>
+                {userData?.profilePicture && (
+                    <motion.div className="absolute bottom-6 left-0 right-0 flex items-center justify-center lg:flex hidden"
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.9 }}>
+                        <motion.svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="w-12 h-12 hover:h-10 text-red-500"
+                            whileHover={{ y: -20, rotate: 360 }}
+                            whileTap={{ scale: 0.7 }}
+                          >
+                            <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+                          </motion.svg>
+                        <motion.div className="rounded-full bg-white p-2 ml-4"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}>
+                            <CloseIcon style={{ color: '#FF0000', fontSize: '2rem' }} />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+interface ProfileDetailProps {
+    Icon: React.ElementType;
+    text: string;
+}
+
+const ProfileDetail: React.FC<ProfileDetailProps> = ({ Icon, text }) => {
+    return (
+        <div className="flex items-center justify-center lg:justify-start py-1">
+            <Icon className="w-5 h-5 mr-2 text-red-500" />
+            <p className="text-gray-600 text-xs lg:text-sm">{text}</p>
+        </div>
+    );
+};
+
+export default UserProfile;

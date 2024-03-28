@@ -14,7 +14,7 @@ import {
   GOOGLE_ENDPOINT,
   GET_ALL,
   BAN_USER,
-  BAN_STATUS,
+  USER_PROFILE,
   LIKED_USERS,
 } from "./endpoints";
 
@@ -206,9 +206,9 @@ export const banUser = async (userId: string) => {
   }
 };
 
-export const banStatus = async (userId: string) => {
+export const usersProfiles = async (userId: string) => {
   try {
-    const response = await client.get(`${BAN_STATUS}/${userId}`);
+    const response = await client.get(`${USER_PROFILE}/${userId}`);
     console.log(response.data,"the response was");
     return response.data;
   } catch (error) {

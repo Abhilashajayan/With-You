@@ -4,7 +4,7 @@ export default function RootLayout({
     children: React.ReactNode;
   }>) {
     return (
-      <div className="flex bg-red-300" >
+      <div className="flex" >
         {children}
       </div>
     );

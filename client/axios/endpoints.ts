@@ -9,5 +9,5 @@ export const CHANGE_PASS = '/auth/changePassword';
 export const GOOGLE_ENDPOINT = "/auth/googleAuth";
 export const GET_ALL =  "/user/getAllUsers";
 export const BAN_USER = "/user/block";
-export const BAN_STATUS = "/user/blockStatus";
+export const USER_PROFILE = "/user/userProfile";
 export const LIKED_USERS = "/user/likedUsers";
