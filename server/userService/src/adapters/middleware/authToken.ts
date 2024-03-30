@@ -19,7 +19,7 @@ const authenticateToken = async (req: AuthenticatedRequest, res: Response, next:
             return res.status(403).json({ message: 'Forbidden: Invalid token' });
         }
         const userId  = decodedToken.id ;
-        console.log(userId);
+       
         try {
             const user = await UserModel.findById(userId);
             if (!user) {
