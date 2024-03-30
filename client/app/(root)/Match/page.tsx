@@ -117,7 +117,10 @@ const Page: React.FC = () => {
             <MatchingPage dataArray={dataArray} />
           ) : (
             <>
+            
               <HomeNavbar />
+              <div className="absolute hidden md:block   container top-0 left-0  w-[500px] h-56 bg-gradient-to-r from-red-500 to-yellow-400 rounded-b-full"></div>
+              <div className="absolute hidden lg:block   container top-0 right-0  w-[500px] h-56 bg-gradient-to-r from-red-500 to-yellow-400 rounded-b-full"></div>
               <MatchingField users={currentUser ? [currentUser] : []} />
               <div className="flex items-center justify-center mt-4">
                 <button

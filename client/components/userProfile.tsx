@@ -1,11 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import GenderIcon from '@mui/icons-material/MaleOutlined';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import InterestsIcon from '@mui/icons-material/Interests';
 import ReportIcon from '@mui/icons-material/Report';
-import LikeIcon from "@/components/icons/LikeIcon";
 import CloseIcon from '@mui/icons-material/Close';
 
 interface UserProfileProps {
@@ -13,30 +11,48 @@ interface UserProfileProps {
         username: string;
         profilePicture: string;
         gender: string;
-        interest: string;
+        interest: string | string[];
         job: string;
         location: string;
+        dob: string; // Date of birth
     }
 }
 
+const calculateAge = (dob: string): number => {
+    const today = new Date();
+    const birthDate = new Date(dob);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const month = today.getMonth() - birthDate.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+};
+
 const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
+    const age = calculateAge(userData?.dob);
+
     return (
         <div className="max-w-4xl flex flex-col lg:flex-row items-center h-auto lg:h-screen mx-auto my-32 lg:my-0">
             <div id="profile" className="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none lg:shadow-2xl bg-white opacity-90 mx-6 lg:mx-0 mb-8 lg:mb-0">
                 <div className="p-8 lg:p-12 text-center lg:text-left">
                     <div className="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
                         style={{ backgroundImage: `url(${userData?.profilePicture})` }}></div>
-                    <h1 className="text-3xl font-bold pt-8 lg:pt-0">{userData?.username}</h1>
+                    <h1 className="text-3xl font-bold pt-8 lg:pt-0">{userData?.username},<span className='p-2 text-gray-600'>{age}</span></h1>
+                    <h2 className="text-md font-bold text-gray-600 pt-1">{userData?.job}</h2>
                     <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-red-500 opacity-25"></div>
-                    <div className="mt-8">
-                        <ProfileDetail Icon={WorkOutlineIcon} text={userData?.job} />
+                    <div className="mt-8 space-y-4">
                         <ProfileDetail Icon={GenderIcon} text={userData?.gender} />
                         <ProfileDetail Icon={LocationOnIcon} text={userData?.location} />
                         <ProfileDetail Icon={InterestsIcon} text={userData?.interest} />
-                        <ProfileDetail Icon={ReportIcon} text="Report User" />
                     </div>
                     <p className="pt-8 text-sm">Totally optional short description about yourself, what you do and so on.</p>
+                    <div className="flex justify-center p-3 lg:justify-start">
+                            <ReportIcon className="w-5 h-5   mr-2 text-red-500" />
+                            <p className="text-gray-600 text-xs lg:text-sm">Report User</p>
+                        </div>
                 </div>
+                
             </div>
             <div className="w-full lg:w-2/5 relative">
                 <img src={userData?.profilePicture} className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block" alt="Profile"/>
@@ -68,14 +84,24 @@ const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
 
 interface ProfileDetailProps {
     Icon: React.ElementType;
-    text: string;
+    text: string | string[];
 }
 
 const ProfileDetail: React.FC<ProfileDetailProps> = ({ Icon, text }) => {
     return (
-        <div className="flex items-center justify-center lg:justify-start py-1">
+        <div className="flex items-center justify-center lg:justify-start">
             <Icon className="w-5 h-5 mr-2 text-red-500" />
-            <p className="text-gray-600 text-xs lg:text-sm">{text}</p>
+            {Array.isArray(text)
+                ? text.map((interest: string, index: number) => (
+                    <span
+                        key={index}
+                        className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-black text-xs font-semibold mr-2 mb-2"
+                    >
+                        {interest.trim()}
+                    </span>
+                ))
+                : <p className="text-gray-600 text-xs lg:text-sm">{text}</p>
+            }
         </div>
     );
 };
