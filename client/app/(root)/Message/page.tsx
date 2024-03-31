@@ -4,6 +4,7 @@ import TabLayouts from '@/components/TabLayout'
 import UserList from '@/components/ChatLIst';
 import ChatWindow from '@/components/ChatUi'
 
+
 interface User {
   name: string;
   status: string;
@@ -53,29 +54,55 @@ function Page() {
     setSelectedUser(user);
   };
 
+  const handleBackButtonClick = () => {
+    setSelectedUser(null);
+  };
+
   return (
-    <TabLayouts>
-      <div className="flex flex-col h-full w-screen bg-gray-100">
-        <div className="flex md:flex-row h-full">
-          {(selectedUser && window.innerWidth > 768) && (
-            <div className="w-full md:w-full md:block md:overflow-y-auto">
-              <UserList users={users} onUserSelect={handleChatSelect} />
-            </div>
-          )}
-          {!selectedUser && (
-            <div className="w-full md:w-full md:block md:overflow-y-auto">
-              <UserList users={users} onUserSelect={handleChatSelect} />
-            </div>
-            
-          )}
-          {(selectedUser || window.innerWidth > 768) && (
-            <div className="flex-1">
-              <ChatWindow selectedUser={selectedUser} messages={messages} onMessageSubmit={handleMessageSubmit} inputValue={inputValue} setInputValue={setInputValue} />
-            </div>
-          )}
+    <>
+      {window.innerWidth <= 768 ? (
+        <div className="flex flex-col h-full w-screen ">
+          {selectedUser ? null : <UserList users={users} onUserSelect={handleChatSelect} />}
+          <ChatWindow 
+            selectedUser={selectedUser} 
+            messages={messages} 
+            onMessageSubmit={handleMessageSubmit} 
+            inputValue={inputValue} 
+            setInputValue={setInputValue} 
+            onBackButtonClick={handleBackButtonClick}
+          />
         </div>
-      </div>
-    </TabLayouts>
+      ) : (
+        <TabLayouts>
+          <div className="flex flex-col h-full w-screen ">
+            <div className="flex md:flex-row h-full">
+              {(selectedUser && window.innerWidth > 768) && (
+                <div className="w-full top-0  md:w-full  md:block ">
+                  <UserList users={users} onUserSelect={handleChatSelect} />
+                </div>
+              )}
+              {!selectedUser && (
+                <div className="w-full md:w-full top-0 md:block">
+                  <UserList users={users} onUserSelect={handleChatSelect} />
+                </div>
+              )}
+              {(selectedUser || window.innerWidth > 768) && (
+                <div className="flex-1">
+                  <ChatWindow 
+                    selectedUser={selectedUser} 
+                    messages={messages} 
+                    onMessageSubmit={handleMessageSubmit} 
+                    inputValue={inputValue} 
+                    setInputValue={setInputValue} 
+                    onBackButtonClick={handleBackButtonClick}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </TabLayouts>
+      )}
+    </>
   );
 }
 
