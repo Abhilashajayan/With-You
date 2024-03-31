@@ -42,7 +42,9 @@ const ProfileComponent: React.FC = () => {
     setAge(ageDiff);
   }, [user]);
 
-
+  const goBack = () => {
+    router.back();
+  };
 
   const handleLogout = async () => {
     await deleteCookie();
@@ -59,7 +61,7 @@ const ProfileComponent: React.FC = () => {
       <div className="rounded-b-full shadow backdrop-blur-xl md:shadow-lg h-2/3 w-full flex">
         <div className="flex flex-col items-center justify-center h-full w-full">
           <div className="flex space-x-10 justify-between items-center absolute top-2 right-2 left-2">
-            <a className="hover:animate-spin p-5">
+            <a className="hover:animate-spin p-5" onClick={goBack}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

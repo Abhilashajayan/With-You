@@ -6,8 +6,9 @@ import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] });
 
+
 export const metadata: Metadata = {
-  title: "Bae",
+  title: "Bae | A Dating app & Make friends",
   description: "Bae | A Dating app & Make friends",
 };
 
@@ -19,6 +20,9 @@ export default function RootLayout({
   return (
 
     <html lang="en">
+      <head>
+      <link rel="icon" type="image/png" href="/BAE_transparent.png" />
+      </head>
       <body className={inter.className}>
         <StoreProvider>{children}</StoreProvider>
         <Toaster />

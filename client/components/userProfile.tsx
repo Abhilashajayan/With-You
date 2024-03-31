@@ -5,6 +5,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InterestsIcon from "@mui/icons-material/Interests";
 import ReportIcon from "@mui/icons-material/Report";
 import CloseIcon from "@mui/icons-material/Close";
+import { useRouter } from "next/navigation";
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 
 interface UserProfileProps {
@@ -32,7 +33,10 @@ const calculateAge = (dob: string): number => {
 
 const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
   const age = calculateAge(userData?.dob);
-
+  const router = useRouter();
+  const goBack = () => {
+    router.back();
+  };
   return (
     <div className="max-w-4xl flex flex-col lg:flex-row items-center h-full lg:h-screen mx-auto my-20 lg:my-0">
       <div
@@ -45,7 +49,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
             style={{ backgroundImage: `url(${userData?.profilePicture})` }}
           ></div>
           <div className="block lg:hidden flex justify-center items-center mt-4">
-            <button className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-md hover:shadow-lg focus:outline-none mr-4">
+            <button className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-md hover:shadow-lg focus:outline-none mr-4" onChange={goBack}>
               <CloseIcon style={{ color: "#FF0000", fontSize: "1.5rem" }} />
             </button>
 
@@ -125,7 +129,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
               <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
             </motion.svg>
             <motion.div
-              className="rounded-full bg-white p-2 ml-4"
+              className="rounded-full bg-white p-2 ml-4" onClick={goBack}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
