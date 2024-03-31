@@ -5,6 +5,9 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import PhoneIcon from '@mui/icons-material/Phone';
+import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 
 interface Message {
   text: string;
@@ -17,7 +20,7 @@ interface ChatWindowProps {
   onMessageSubmit: () => void;
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  onBackButtonClick: () => void; // New prop for handling back button click
+  onBackButtonClick: () => void; 
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({
@@ -53,16 +56,23 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
           >
             <div className="w-full bg-white shadow-md p-4 flex items-center justify-between">
               <div className="flex items-center">
-              <button className="md:hidden" onClick={onBackButtonClick}>
-               <ArrowBackIosIcon  />
-              </button>
+                <button className="md:hidden" onClick={onBackButtonClick}>
+                  <ArrowBackIosIcon className="text-red-500" />
+                </button>
                 <Avatar alt={selectedUser.name} src={selectedUser.profilePicture} />
-                <h2 className="text-lg font-semibold ml-3">{selectedUser.name}</h2>
+                <h2 className="text-lg font-semibold ml-3">{selectedUser.name} <VerifiedRoundedIcon className="text-blue-800 ml-1" /></h2>
               </div>
-              <button className="border border-gray-300 rounded-lg p-2">
-                <MoreVertIcon  />
-              </button>
-           
+              <div className="flex items-center">
+                <IconButton>
+                  <VideocamIcon className="text-red-500"/>
+                </IconButton>
+                <IconButton>
+                  <PhoneIcon className="text-red-500"/>
+                </IconButton>
+                <IconButton>
+                  <MoreVertIcon className="text-red-500"/>
+                </IconButton>
+              </div>
             </div>
             <div
               className="flex-1 overflow-y-auto mt-5 pb-16"
@@ -102,7 +112,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                   className="w-full p-2 pl-12 border border-gray-200 rounded-lg focus:outline-none" 
                 />
                 <MicIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-red-400 cursor-pointer" />
-                
               </div>
               <button
                 onClick={onMessageSubmit}

@@ -62,7 +62,9 @@ function Page() {
     <>
       {window.innerWidth <= 768 ? (
         <div className="flex flex-col h-full w-screen ">
+          <TabLayouts>
           {selectedUser ? null : <UserList users={users} onUserSelect={handleChatSelect} />}
+          </TabLayouts>
           <ChatWindow 
             selectedUser={selectedUser} 
             messages={messages} 
