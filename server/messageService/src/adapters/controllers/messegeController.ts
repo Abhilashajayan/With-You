@@ -46,9 +46,9 @@ export class userController {
             const {content, chatId } = req.body;
             console.log(chatId);
             const chatData = await this.messageUsecase.sendMessage(chatId, content);
-            res.status(200).json(chatData);
+           return res.status(200).json(chatData);
         }catch(err){
-            res.status(500).json(err);
+           return res.status(500).json(err);
         }
     }
 
