@@ -28,7 +28,6 @@ client.interceptors.request.use(
     try {
       const token: string | undefined = await getCookie();
       if (token) {
-        console.log("token is there");
         config.headers.Authorization = `Bearer ${token}`;
       }
     } catch (error) {

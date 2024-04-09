@@ -12,7 +12,7 @@ import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 interface Message {
   text: string;
   sender: string;
-  timestamp: string; // Add timestamp field
+  timestamp: string; 
 }
 
 interface ChatWindowProps {
@@ -47,6 +47,11 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
       text: "What's up?",
       sender: selectedUser?.name || "",
       timestamp: "10:10 AM",
+    },
+    {
+      text: "What'fgsdfgsdfs up?",
+      sender: selectedUser?.name || "",
+      timestamp: "09:10 AM",
     },
   ];
 
