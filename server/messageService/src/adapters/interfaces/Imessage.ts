@@ -6,6 +6,13 @@ export interface Ichat extends Document {
     latestMessage: Types.ObjectId
 }
 
+export interface Iuser extends Document {
+    userId? : string;
+    username : string;
+    email : string;
+    profilePicture: string;
+}
+
 
 export interface IMessage extends Document {
     sender: Types.ObjectId,
