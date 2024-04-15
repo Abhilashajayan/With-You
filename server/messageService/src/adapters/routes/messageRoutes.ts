@@ -6,7 +6,7 @@ import userModel from '../../frameworks/models/userModel';
 import chatModel from '../../frameworks/models/chatModel';
 import messageModel from '../../frameworks/models/message.models';
 
-export class UserRouter {
+export class messageRoute {
     router = Router();
 
     constructor(){
@@ -33,4 +33,4 @@ export class UserRouter {
 
     }
 }
-export const userRouter = new UserRouter().router;
+export const messageRoutes = new messageRoute().router;
