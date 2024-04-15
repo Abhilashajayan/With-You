@@ -7,7 +7,7 @@ export interface Ichat extends Document {
 }
 
 export interface Iuser extends Document {
-    userId? : string;
+    userId? : Types.ObjectId;
     username : string;
     email : string;
     profilePicture: string;

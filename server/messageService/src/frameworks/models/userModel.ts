@@ -3,6 +3,9 @@ import { Iuser } from "../../adapters/interfaces/Imessage";
 
 
 const userSchema = new mongoose.Schema<Iuser>({
+    userId: {
+        type: Schema.Types.ObjectId
+      },
     username: {
       type: "string",
       required: true,

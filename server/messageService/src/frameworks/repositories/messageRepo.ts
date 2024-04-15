@@ -21,12 +21,11 @@ export class messageRepository implements messageUsecasesI {
     this.Msg = msgModel;
   }
 
-  async accessChat(userId: string): Promise<any> {
-    const myId = "65bd3239b2aa02db2a3b771c";
+  async accessChat(userId: string , myid : string): Promise<any> {
     var isChat: any = await chatModel
       .find({
         $and: [
-          { users: { $elemMatch: { $eq: myId } } },
+          { users: { $elemMatch: { $eq: myid } } },
           { users: { $elemMatch: { $eq: userId } } },
         ],
       })
@@ -42,7 +41,7 @@ export class messageRepository implements messageUsecasesI {
     } else {
       var chatData = {
         chatName: "sender",
-        users: [myId, userId],
+        users: [myid, userId],
       };
 
       try {
@@ -56,9 +55,8 @@ export class messageRepository implements messageUsecasesI {
     }
   }
 
-  async fetchChat(): Promise<any> {
+  async fetchChat(userId : string): Promise<any> {
     try {
-        const userId = "65bd3239b2aa02db2a3b771c";
         console.log("Fetching chat");
 
         const results = await this.Chat.find({ users: { $elemMatch: { $eq: userId } } })
@@ -90,8 +88,8 @@ async allMessages(userId: string): Promise<any> {
   }
 }
 
-async sendMessage(content: string, chatId: string): Promise<any> {
-  const userId = "65bd3239b2aa02db2a3b771c"
+async sendMessage(content: string, chatId: string, userId : string): Promise<any> {
+
   var newMessage = {
       sender: userId,
       content: content,
