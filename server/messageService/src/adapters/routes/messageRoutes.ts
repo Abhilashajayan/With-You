@@ -10,24 +10,24 @@ export class messageRoute {
     router = Router();
 
     constructor(){
-        const userRepositorys = new messageRepository(userModel,chatModel,messageModel);
-        const userUsecase = new messageUsecase(userRepositorys);
-        const userControllers = new userController(userUsecase);
+        const messageRepo = new messageRepository(userModel,chatModel,messageModel);
+        const messageUsecases = new messageUsecase(messageRepo);
+        const messageController = new userController(messageUsecases);
 
         this.router.post('/api/accessChat', (req: Request, res: Response) => {
-            userControllers.access_user(req, res);
+            messageController.access_user(req, res);
         });
 
         this.router.get('/api/fetchChat', (req: Request, res: Response) => {
-            userControllers.fetch_chat(req, res);
+            messageController.fetch_chat(req, res);
         });
 
         this.router.get('/api/getmessage/:userId', (req: Request, res: Response) => {
-            userControllers.all_messages(req, res);
+            messageController.all_messages(req, res);
         });
 
         this.router.post('/api/send', (req: Request, res: Response) => {
-            userControllers.send_message(req, res);
+            messageController.send_message(req, res);
         });
 
 
