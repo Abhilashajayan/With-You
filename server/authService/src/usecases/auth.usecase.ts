@@ -21,13 +21,17 @@ export class authUsecases implements IUserUsecaes {
        console.log("loginUser");
         const userLogin:AuthEntity = loginData;
         console.log(userLogin);
+      
        const reponse :any =  await this.rabbitmqService.publishLoginData(userLogin);
      
        if(reponse == null){
         console.log(reponse," response is received");
        }else{
         console.log(reponse,"the data");
+        
         const data =   JSON.parse(reponse);
+        const messageServices = this.rabbitmqService.messagePublisher(data);
+        console.log(messageServices, "the message service data is passed");
         const user : any = {
           id : data._id,
           username : data.username,

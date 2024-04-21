@@ -33,6 +33,20 @@ export class Rabiitmq {
     }
   }
 
+  async messagePublisher(userData: AuthEntity) {
+    if (!this.Channel) {
+      await this.initialize();
+    }
+    if (this.Channel) {
+      const queue = "messageDataQueue";
+      await this.Channel.assertQueue(queue, { durable: true });
+      this.Channel.sendToQueue(queue, Buffer.from(JSON.stringify(userData)));
+      console.log(`To message service data is passed `,userData,queue);
+    } else {
+      console.error("Failed to create a channel");
+    }
+  }
+
   async userRegPublisher(userData: AuthEntity) {
     if (!this.Channel) {
       await this.initialize();
