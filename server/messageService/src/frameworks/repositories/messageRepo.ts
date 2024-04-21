@@ -21,11 +21,18 @@ export class messageRepository implements messageUsecasesI {
     this.Msg = msgModel;
   }
 
-  async addUser(user: Iuser): Promise<Iuser> {
-    const newUser = new this.User(user);
-    return await newUser.save();
+  async addUser(user: Iuser): Promise<Iuser | null> {
+    console.log(user , " the user is data");
+    const existingUser = await this.User.findOne({ email: user.email });
+    if (existingUser) {
+      console.log("User with the same email already exists:", existingUser);
+      return null;
+    } else {
+      const newUser = new this.User(user);
+      return await newUser.save();
+    }
   }
-
+  
   async accessChat(userId: string , myid : string): Promise<any> {
     var isChat: any = await chatModel
       .find({

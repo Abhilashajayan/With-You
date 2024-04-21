@@ -9,38 +9,38 @@ import { rabbitmq } from "../../frameworks/messageBrokers/rabbitmq";
 
 export class messageRoute {
   router = Router();
-
+  messageRepo = new messageRepository(
+    userModel,
+    chatModel,
+    messageModel
+  );
+   messageUsecases = new messageUsecase(this.messageRepo);
+   consumerMessage = new rabbitmq(this.messageUsecases);
+  messageController = new userController(this.messageUsecases);
   constructor() {
-    const messageRepo = new messageRepository(
-      userModel,
-      chatModel,
-      messageModel
-    );
-    const messageUsecases = new messageUsecase(messageRepo);
-    const consumerMessage = new rabbitmq(messageUsecases);
-    const messageController = new userController(messageUsecases);
+    
 
     this.router.post("/api/accessChat", (req: Request, res: Response) => {
-      messageController.access_user(req, res);
+      this.messageController.access_user(req, res);
     });
 
     this.router.get("/api/fetchChat", (req: Request, res: Response) => {
-      messageController.fetch_chat(req, res);
+      this.messageController.fetch_chat(req, res);
     });
 
     this.router.get(
       "/api/getmessage/:userId",
       (req: Request, res: Response) => {
-        messageController.all_messages(req, res);
+        this.messageController.all_messages(req, res);
       }
     );
 
     this.router.post("/api/send", (req: Request, res: Response) => {
-      messageController.send_message(req, res);
+      this.messageController.send_message(req, res);
     });
   }
   async rabbitMq() {
-
+    await this.consumerMessage.messageConsumer();
   }
 }
 export const messageRoutes = new messageRoute().router;
