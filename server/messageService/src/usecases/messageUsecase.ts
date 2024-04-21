@@ -1,10 +1,15 @@
 import { messageRepository } from "../frameworks/repositories/messageRepo";
 import { messageUsecasesI } from "../adapters/interfaces/ImessageUsecase";
+import { Iuser } from "../adapters/interfaces/Imessage";
 
 
 
 export class messageUsecase implements messageUsecasesI {
-  constructor(private messageRepository: messageRepository){}   
+  constructor(private messageRepository: messageRepository){}  
+  
+  async addUser(user: Iuser): Promise<Iuser> {
+      return await this.messageRepository.addUser(user);
+  }
 
   async accessChat(userId: string , myid : string): Promise<any> {
     return await this.messageRepository.accessChat(userId , myid);    
