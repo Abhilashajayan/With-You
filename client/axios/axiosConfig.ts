@@ -5,6 +5,7 @@ import { HttpStatusCode } from "./enums";
 import {
   BASE_URL,
   REGISTER_ENDPOINT,
+  GET_CHAT,
   OTP_ENDPOINT,
   LOGIN_ENDPOINT,
   EDIT_ENDPOINT,
@@ -16,6 +17,8 @@ import {
   BAN_USER,
   USER_PROFILE,
   LIKED_USERS,
+  GET_MESSAGE,
+  SEND_MSG,
 } from "./endpoints";
 
 const client: AxiosInstance = axios.create({
@@ -220,6 +223,40 @@ export const likedUsers = async (userId: string) => {
   try {
     const response = await client.get(`${LIKED_USERS}/${userId}`);
     console.log(response.data,"the response was");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+
+export const getChat = async (userId: string) => {
+  try {
+    console.log(userId, "the user id is got here");
+    const response = await client.get(`${GET_CHAT}/${userId}`);
+    console.log(response.data, "the response was");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getMessage = async (userId: string) => {
+  try {
+    console.log(userId, "the user id is got here");
+    const response = await client.get(`${GET_MESSAGE}/${userId}`);
+    console.log(response.data, "the response was");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const sendMessage = async (userId: string , chatId : string , content : string) => {
+  try {
+    console.log(userId, "the user id is got here");
+    const response = await client.post(SEND_MSG,{chatId , userId, content});
+    console.log(response.data, "the response was");
     return response.data;
   } catch (error) {
     return error;

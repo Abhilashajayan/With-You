@@ -8,6 +8,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import PhoneIcon from "@mui/icons-material/Phone";
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
+import { useAppSelector } from "@/features/hooks";
 
 interface Message {
   text: string;
@@ -32,28 +33,26 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   setInputValue,
   onBackButtonClick,
 }) => {
-  const receiverMessages: Message[] = [
-    {
-      text: "Hi there!",
-      sender: selectedUser?.name || "",
-      timestamp: "10:00 AM",
-    },
-    {
-      text: "How are you?",
-      sender: selectedUser?.name || "",
-      timestamp: "10:05 AM",
-    },
-    {
-      text: "What's up?",
-      sender: selectedUser?.name || "",
-      timestamp: "10:10 AM",
-    },
-    {
-      text: "What'fgsdfgsdfs up?",
-      sender: selectedUser?.name || "",
-      timestamp: "09:10 AM",
-    },
-  ];
+  const user: any = useAppSelector((state) => state.auth.user);
+
+
+  const senderMessages:any[] = [];
+  const receiverMessages: any[] = [];
+  if (Array.isArray(messages)) {
+
+
+    messages.forEach((message) => {
+        if (message.sender === user?._id) {
+            senderMessages.push(message);
+        } else {
+            receiverMessages.push(message);
+        }
+    });
+    console.log("Sender Messages:", senderMessages);
+    console.log("Receiver Messages:", receiverMessages);
+} else {
+    console.error("messages is not an array");
+}
 
   return (
     <div
@@ -76,11 +75,11 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                   <ArrowBackIosIcon className="text-red-500" />
                 </button>
                 <Avatar
-                  alt={selectedUser.name}
+                  alt={selectedUser.username}
                   src={selectedUser.profilePicture}
                 />
                 <h2 className="text-lg font-semibold ml-3">
-                  {selectedUser.name}{" "}
+                  {selectedUser.username}{" "}
                   <VerifiedRoundedIcon className="text-blue-800 ml-1" />
                 </h2>
               </div>
@@ -100,25 +99,25 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
               className="flex-1 overflow-y-auto mt-5 pb-16"
               style={{ maxHeight: "calc(100vh - 200px)" }}
             >
-              {[...messages, ...receiverMessages].map((message, index) => (
+              {[...senderMessages, ...receiverMessages].map((message, index) => (
                 <div
                   key={index}
                   className={
-                    message.sender === "user"
+                    message.sender === user?._id
                       ? "text-right mb-2"
                       : "text-left mb-2 "
                   }
                 >
                   <div
                     className={
-                      message.sender === "user"
+                      message.sender === user?._id
                         ? "bg-pink-100 text-black rounded-lg py-2 px-4 inline-block"
                         : "bg-red-100 text-black rounded-lg py-2 px-4 inline-block"
                     }
                   >
-                    <span className="block">{message.text}</span>
+                    <span className="block">{message?.content}</span>
                     <span className="text-xs text-gray-400">
-                      {message.timestamp}
+                      {message.createdAt}
                     </span>
                   </div>
                 </div>

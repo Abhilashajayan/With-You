@@ -28,7 +28,7 @@ interface User {
 
 const Page: React.FC = () => {
   const user: any = useAppSelector((state) => state.auth.user);
-  const [currentUser, setCurrentUser] = useState<User>();
+  const [currentUser, setCurrentUser] = useState<any>();
   const [showMessage, setShowMessage] = useState<boolean>(false);
   const [isMatch, setisMatch] = useState<boolean>(false);
   const [matchData, setmatchData] = useState<User | null>(null);

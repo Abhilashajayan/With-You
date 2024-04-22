@@ -3,56 +3,96 @@ import React, { useState, useEffect } from 'react';
 import TabLayouts from '@/components/TabLayout'
 import UserList from '@/components/ChatLIst';
 import ChatWindow from '@/components/ChatUi'
+import { getChat } from '@/axios/axiosConfig';
+import { useAppSelector } from "@/features/hooks";
+import { getMessage } from '@/axios/axiosConfig';
+import { sendMessage } from '@/axios/axiosConfig';
 
 
 interface User {
-  name: string;
-  status: string;
+  username: string;
+  profilePicture: string;
+  userId ? : string;
 }
 
 interface Message {
   text: string;
   sender: string;
+  timestamp: any ;
 }
 
 function Page() {
-  const [users, setUsers] = useState<User[]>([
-    { name: "John", status: "Online" },
-    { name: "Alice", status: "Offline" },
-    { name: "Bob", status: "Online" },
-    { name: "Eve", status: "Away" },
-    { name: "John", status: "Online" },
-    { name: "Alice", status: "Offline" },
-    { name: "Bob", status: "Online" },
-    { name: "Eve", status: "Away" },
-  ]);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const user: any = useAppSelector((state) => state.auth.user);
+  const [users, setUsers] = useState<any>();
+  const [messages, setMessages] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [chatIds , setChatIds] = useState<string>('');
   const [inputValue, setInputValue] = useState<string>('');
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId : string = user._id;
+        console.log(userId);
+        const usersData: any = await getChat(userId); 
+        console.log(usersData, "the user data is here");
+        setUsers(usersData);
+      } catch (error) {
+        console.error('Error fetching users data:', error);
+      }
+    };
+
+   
+  
+    fetchUserData();
+  
     const handleResize = () => {
       if (window.innerWidth > 768 && !selectedUser) {
         setSelectedUser(null);
       }
     };
-
+  
     window.addEventListener('resize', handleResize);
-
+  
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, [selectedUser]);
 
-  const handleMessageSubmit = () => {
+  const handleChatSelect = (user: any, chatId : string) => {
+    console.log(chatId, "the chat is selected");
+    setChatIds(chatId);
+    setSelectedUser(user);
+  };
+  console.log(chatIds , "the chat id is here");
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        console.log(chatIds);
+        const messagesData: any = await getMessage(chatIds);
+        setMessages(messagesData);
+        console.log(messagesData);
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      }
+    };
+    fetchMessages();
+  }, [selectedUser]);
+
+  const handleMessageSubmit = async() => {
     if (inputValue.trim() === '') return;
-    setMessages([...messages, { text: inputValue, sender: 'user' }]);
+    console.log(inputValue, " the input value is this ");
+    try {
+      console.log(chatIds);
+      const messagesData: any = await sendMessage(user._id, chatIds, inputValue );
+      console.log(messagesData);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
     setInputValue('');
   };
 
-  const handleChatSelect = (user: User) => {
-    setSelectedUser(user);
-  };
+ 
 
   const handleBackButtonClick = () => {
     setSelectedUser(null);

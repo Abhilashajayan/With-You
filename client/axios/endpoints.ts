@@ -11,3 +11,6 @@ export const GET_ALL =  "/user/getAllUsers";
 export const BAN_USER = "/user/block";
 export const USER_PROFILE = "/user/userProfile";
 export const LIKED_USERS = "/user/likedUsers";
+export const GET_CHAT = '/message/fetchChat';
+export const SEND_MSG = "/message/send";
+export const GET_MESSAGE = "/message/getmessage";
