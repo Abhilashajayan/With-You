@@ -20,8 +20,10 @@ export class userController {
 
   async fetch_chat(req: Request, res: Response) {
     try {
-      const userId: string = req.params.userId;
-      const chat = await this.messageUsecase.fetchChat(userId);
+      const user = req.params;
+      console.log(user);
+      console.log(user.userId);
+      const chat = await this.messageUsecase.fetchChat(user.userId);
       return res.status(200).json(chat);
     } catch (err) {
       res.status(500).json(err);
@@ -30,10 +32,10 @@ export class userController {
 
   async all_messages(req: Request, res: Response) {
     try {
-      const userId: any = req.params.userId;
-      console.log(userId);
-      const allMsg = await this.messageUsecase.allMessages(userId);
-      res.status(200).json(allMsg);
+      const user = req.params;
+      console.log(user, "get all chats");
+      const allMsg = await this.messageUsecase.allMessages(user.userId);
+     return res.status(200).json(allMsg);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -48,6 +50,7 @@ export class userController {
         content,
         userId
       );
+      console.log(chatData);
       return res.status(200).json(chatData);
     } catch (err) {
       return res.status(500).json(err);

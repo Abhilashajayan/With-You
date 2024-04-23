@@ -34,6 +34,7 @@ export class messageRepository implements messageUsecasesI {
   }
   
   async accessChat(userId: string , myid : string): Promise<any> {
+    console.log(userId, myid , "both the id got here");
     var isChat: any = await chatModel
       .find({
         $and: [
@@ -71,13 +72,15 @@ export class messageRepository implements messageUsecasesI {
     try {
         console.log("Fetching chat");
 
+        console.log("Fetching chat");
+    
         const results = await this.Chat.find({ users: { $elemMatch: { $eq: userId } } })
             .populate("users")
             .populate("latestMessage")
             .sort({ updatedAt: -1 })
             .then(async (data: any) => {
                 return await this.User.populate(data, {
-                    path: "latestMessage.sender",
+                    path: "users",
                     select: "username profilePicture email",
                 });
             });
@@ -92,9 +95,11 @@ export class messageRepository implements messageUsecasesI {
 async allMessages(userId: string): Promise<any> {
   try {
       console.log(userId);
-   return  await this.Msg.find({ chat: userId})
-      .populate("sender", "username profilePicture email")
+   const message =   await messageModel.find({ chat: userId})
+      // .populate("sender", "username profilePicture email")
       .populate("chat");
+  console.log(message);
+  return message;
   } catch (error) {
     return error;
   }
@@ -108,13 +113,13 @@ async sendMessage(content: string, chatId: string, userId : string): Promise<any
       chat: chatId,
     };
     var message: any = await messageModel.create(newMessage);
-
-    message = await message.populate("sender", "username profilePicture")
+    console.log(message);
+    // message = await message.populate("sender", "username profilePicture")
     message = await message.populate("chat")
-    message = await this.User.populate(message, {
-      path: "chat.users",
-      select: "username profilePicture email",
-    });
+    // message = await this.User.populate(message, {
+    //   path: "chat.users",
+    //   select: "username profilePicture email",
+    // });
 
     await this.Chat.findByIdAndUpdate(chatId, { latestMessage: message });
 

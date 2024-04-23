@@ -20,27 +20,28 @@ export class messageRoute {
   constructor() {
     
 
-    this.router.post("/api/accessChat", (req: Request, res: Response) => {
+    this.router.post("/message/accessChat", (req: Request, res: Response) => {
       this.messageController.access_user(req, res);
     });
 
-    this.router.get("/api/fetchChat", (req: Request, res: Response) => {
+    this.router.get("/message/fetchChat/:userId", (req: Request, res: Response) => {
       this.messageController.fetch_chat(req, res);
     });
 
     this.router.get(
-      "/api/getmessage/:userId",
+      "/message/getmessage/:userId",
       (req: Request, res: Response) => {
         this.messageController.all_messages(req, res);
       }
     );
 
-    this.router.post("/api/send", (req: Request, res: Response) => {
+    this.router.post("/message/send", (req: Request, res: Response) => {
       this.messageController.send_message(req, res);
     });
   }
   async rabbitMq() {
     await this.consumerMessage.messageConsumer();
+    await this.consumerMessage.accessChatConsumer();
   }
 }
 export const messageRoutes = new messageRoute().router;
