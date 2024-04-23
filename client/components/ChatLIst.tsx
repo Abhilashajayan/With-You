@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { useAppSelector } from '@/features/hooks';
 
 interface UserListProps {
   users: { users: any[] }[] | null | undefined;
@@ -9,6 +10,7 @@ interface UserListProps {
 
 const UserList: React.FC<UserListProps> = ({ users, onUserSelect }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const user: any = useAppSelector((state) => state.auth.user);
 
   if (!users) {
     return null;
@@ -38,23 +40,27 @@ const UserList: React.FC<UserListProps> = ({ users, onUserSelect }) => {
       </div>
     
       <div className="overflow-y-auto h-full mt-5">
-        {users?.map((chat : any, index) => {
-          const chatId = chat._id;
-          const secondUser = chat.users[1];
-          if (!secondUser) return null;
-          
-          return (
-            <div key={index} className="p-4 cursor-pointer border-b border-gray-200 hover:bg-gray-100" onClick={() => onUserSelect(secondUser,chatId)}>
-              <div className="flex items-center">
-                <img src={secondUser.profilePicture} alt={secondUser.username} className="w-12 h-12 rounded-full mr-3" />
-                <div>
-                  <div className="text-base font-semibold">{secondUser.username}</div>
-                  <div className="text-sm text-gray-500">{secondUser.username}</div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+      {users?.map((chat: any, index) => {
+  const chatId = chat._id;
+
+  // Filter out the current user's chat
+  const otherUser = chat.users.find((u: any) => u._id !== user._id);
+
+  if (!otherUser) return null; // Skip if there's no other user
+
+  return (
+    <div key={index} className="p-4 cursor-pointer border-b border-gray-200 hover:bg-gray-100" onClick={() => onUserSelect(otherUser, chatId)}>
+      <div className="flex items-center">
+        <img src={otherUser.profilePicture} alt={otherUser.username} className="w-12 h-12 rounded-full mr-3" />
+        <div>
+          <div className="text-base font-semibold">{otherUser.username}</div>
+          <div className="text-sm text-gray-500">{otherUser.username}</div>
+        </div>
+      </div>
+    </div>
+  );
+})}
+
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import MicIcon from "@mui/icons-material/Mic";
 import Avatar from "@mui/material/Avatar";
@@ -13,7 +13,7 @@ import { useAppSelector } from "@/features/hooks";
 interface Message {
   text: string;
   sender: string;
-  timestamp: string; 
+  timestamp: string;
 }
 
 interface ChatWindowProps {
@@ -23,6 +23,8 @@ interface ChatWindowProps {
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
   onBackButtonClick: () => void;
+  isTyping: boolean; // New prop to indicate typing status
+  onTypingChange: (typing: boolean) => void; // Function to handle typing status change
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({
@@ -32,27 +34,20 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   inputValue,
   setInputValue,
   onBackButtonClick,
+  isTyping,
+  onTypingChange, 
 }) => {
   const user: any = useAppSelector((state) => state.auth.user);
+  console.log(isTyping, "the typing value");
 
-
-  const senderMessages:any[] = [];
-  const receiverMessages: any[] = [];
-  if (Array.isArray(messages)) {
-
-
-    messages.forEach((message) => {
-        if (message.sender === user?._id) {
-            senderMessages.push(message);
-        } else {
-            receiverMessages.push(message);
-        }
-    });
-    console.log("Sender Messages:", senderMessages);
-    console.log("Receiver Messages:", receiverMessages);
-} else {
-    console.error("messages is not an array");
-}
+  const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    if (e.target.value) {
+      onTypingChange(true);
+    } else {
+      onTypingChange(false);
+    }
+  };
 
   return (
     <div
@@ -81,6 +76,11 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                 <h2 className="text-lg font-semibold ml-3">
                   {selectedUser.username}{" "}
                   <VerifiedRoundedIcon className="text-blue-800 ml-1" />
+                  {isTyping === true && (
+                <div className="text-[10px]">
+                    <span className="block">Typing...</span>
+                </div>
+              )} 
                 </h2>
               </div>
               <div className="flex items-center">
@@ -99,7 +99,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
               className="flex-1 overflow-y-auto mt-5 pb-16"
               style={{ maxHeight: "calc(100vh - 200px)" }}
             >
-              {[...senderMessages, ...receiverMessages].map((message, index) => (
+              {[...messages].map((message : any, index) => (
                 <div
                   key={index}
                   className={
@@ -122,6 +122,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                   </div>
                 </div>
               ))}
+            
             </div>
           </div>
 
@@ -131,7 +132,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                 <input
                   type="text"
                   value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
+                  onChange={handleTyping}
                   placeholder="Your Message"
                   className="w-full p-2 pl-12 border border-gray-200 rounded-lg focus:outline-none"
                 />
