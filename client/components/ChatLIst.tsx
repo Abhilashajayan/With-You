@@ -43,10 +43,14 @@ const UserList: React.FC<UserListProps> = ({ users, onUserSelect }) => {
       {users?.map((chat: any, index) => {
   const chatId = chat._id;
 
-  // Filter out the current user's chat
-  const otherUser = chat.users.find((u: any) => u._id !== user._id);
-
-  if (!otherUser) return null; // Skip if there's no other user
+  let otherUser;
+  if (searchQuery) {
+    const regex = new RegExp(searchQuery, 'i'); 
+    otherUser = chat.users.find((u: any) => regex.test(u.username));
+  } else {
+    otherUser = chat.users.find((u: any) => u._id !== user._id);
+  }
+  if (!otherUser) return null; 
 
   return (
     <div key={index} className="p-4 cursor-pointer border-b border-gray-200 hover:bg-gray-100" onClick={() => onUserSelect(otherUser, chatId)}>

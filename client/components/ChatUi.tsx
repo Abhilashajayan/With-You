@@ -23,8 +23,8 @@ interface ChatWindowProps {
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
   onBackButtonClick: () => void;
-  isTyping: boolean; // New prop to indicate typing status
-  onTypingChange: (typing: boolean) => void; // Function to handle typing status change
+  isTyping: boolean;
+  onTypingChange: (typing: boolean) => void; 
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({
@@ -35,7 +35,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   setInputValue,
   onBackButtonClick,
   isTyping,
-  onTypingChange, 
+  onTypingChange,
 }) => {
   const user: any = useAppSelector((state) => state.auth.user);
   console.log(isTyping, "the typing value");
@@ -77,10 +77,10 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                   {selectedUser.username}{" "}
                   <VerifiedRoundedIcon className="text-blue-800 ml-1" />
                   {isTyping === true && (
-                <div className="text-[10px]">
-                    <span className="block">Typing...</span>
-                </div>
-              )} 
+                    <div className="text-[10px]">
+                      <span className="block">Typing...</span>
+                    </div>
+                  )}
                 </h2>
               </div>
               <div className="flex items-center">
@@ -99,7 +99,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
               className="flex-1 overflow-y-auto mt-5 pb-16"
               style={{ maxHeight: "calc(100vh - 200px)" }}
             >
-              {[...messages].map((message : any, index) => (
+              {[...messages].map((message: any, index) => (
                 <div
                   key={index}
                   className={
@@ -117,12 +117,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                   >
                     <span className="block">{message?.content}</span>
                     <span className="text-xs text-gray-400">
-                      {message.createdAt}
+                      {new Date(message.createdAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </span>
                   </div>
                 </div>
               ))}
-            
             </div>
           </div>
 

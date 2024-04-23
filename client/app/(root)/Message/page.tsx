@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import TabLayouts from "@/components/TabLayout";
 import UserList from "@/components/ChatLIst";
@@ -32,7 +32,7 @@ function Page() {
   const [chatIds, setChatIds] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
   const [socketConnected, setSocketConnected] = useState(false);
-  const [isTyping, setIsTyping] = useState(false); // New state for typing indicator
+  const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
     console.log("Attempting to connect to socket.io server...");
@@ -62,6 +62,12 @@ function Page() {
       socket.disconnect();
     };
   }, []);
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved: any) => {
+      console.log("new Message recieved is : ", newMessageRecieved);
+      setMessages([...messages, newMessageRecieved]);
+    });
+  });
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -109,6 +115,7 @@ function Page() {
   };
 
   const handleMessageSubmit = async () => {
+    socket.emit("stop typing", selectedUser?._id);
     if (inputValue.trim() === "") return;
     console.log(inputValue, " the input value is this ");
     try {
@@ -119,14 +126,14 @@ function Page() {
         inputValue
       );
       console.log(messagesData);
-       socket.emit("new message", messagesData);
-      setMessages([...messages,messagesData]);
+      setMessages([...messages, messagesData]);
+      socket.emit("new message", messagesData);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
     setInputValue("");
   };
- console.log(selectedUser?._id, "selected user");
+  console.log(selectedUser?._id, "selected user");
   const handleBackButtonClick = () => {
     setSelectedUser(null);
   };
@@ -139,22 +146,6 @@ function Page() {
       socket.emit("stop typing", selectedUser?._id);
     }
   };
-
-  useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved : any) => {
-      if (
-        !selectedChatCompare || // if chat is not selected or doesn't match current chat
-        selectedChatCompare._id !== newMessageRecieved.chat._id
-      ) {
-        // if (!notification.includes(newMessageRecieved)) {
-        //   setNotification([newMessageRecieved, ...notification]);
-        //   setFetchAgain(!fetchAgain);
-        // }
-      } else {
-        setMessages([...messages, newMessageRecieved]);
-      }
-    });
-  });
 
   return (
     <>
@@ -173,12 +164,12 @@ function Page() {
             setInputValue={setInputValue}
             onBackButtonClick={handleBackButtonClick}
             isTyping={isTyping}
-            onTypingChange={handleTypingChange} // Pass typing handler function to ChatWindow
+            onTypingChange={handleTypingChange}
           />
         </div>
       ) : (
         <TabLayouts>
-          <div className="flex flex-col h-full w-screen ">
+          <div className="flex flex-col h-full w-screen">
             <div className="flex md:flex-row h-full">
               {selectedUser && window.innerWidth > 768 && (
                 <div className="w-full top-0  md:w-full  md:block ">
@@ -200,7 +191,7 @@ function Page() {
                     setInputValue={setInputValue}
                     onBackButtonClick={handleBackButtonClick}
                     isTyping={isTyping}
-                    onTypingChange={handleTypingChange} // Pass typing handler function to ChatWindow
+                    onTypingChange={handleTypingChange} 
                   />
                 </div>
               )}
