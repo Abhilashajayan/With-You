@@ -9,6 +9,8 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import PhoneIcon from "@mui/icons-material/Phone";
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 import { useAppSelector } from "@/features/hooks";
+import { useRouter } from "next/navigation";
+
 
 interface Message {
   text: string;
@@ -39,6 +41,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
 }) => {
   const user: any = useAppSelector((state) => state.auth.user);
   console.log(isTyping, "the typing value");
+  const router =  useRouter();
+  const videoCall = async() =>{
+    try {
+      const queryString = `?User=${selectedUser?._id}`;
+      router.push(`/Message/videoCall/${queryString}`);
+    } catch (error) {
+      console.error('Error during form submission:', error);
+    }
+  }
 
   const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -84,8 +95,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                 </h2>
               </div>
               <div className="flex items-center">
-                <IconButton>
-                  <VideocamIcon className="text-red-500" />
+                <IconButton onClick={videoCall}>
+                  <VideocamIcon className="text-red-500"  />
                 </IconButton>
                 <IconButton>
                   <PhoneIcon className="text-red-500" />

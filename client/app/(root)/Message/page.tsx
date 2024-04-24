@@ -8,6 +8,7 @@ import { useAppSelector } from "@/features/hooks";
 import { getMessage } from "@/axios/axiosConfig";
 import { sendMessage } from "@/axios/axiosConfig";
 import io from "socket.io-client";
+import ChatWindowSkeleton from "@/components/skeltons/MessageSkelton";
 
 const ENDPOINT = "http://localhost:3005";
 var socket: any, selectedChatCompare: any;
@@ -31,8 +32,9 @@ function Page() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [chatIds, setChatIds] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
-  const [socketConnected, setSocketConnected] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
+  const [socketConnected, setSocketConnected] = useState<boolean>(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     console.log("Attempting to connect to socket.io server...");
@@ -72,13 +74,16 @@ function Page() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        setIsLoading(true);
         const userId: string = user._id;
         console.log(userId);
         const usersData: any = await getChat(userId);
         console.log(usersData, "the user data is here");
         setUsers(usersData);
+        setIsLoading(false); 
         selectedChatCompare = chatIds;
       } catch (error) {
+        setIsLoading(false); 
         console.error("Error fetching users data:", error);
       }
     };
@@ -156,6 +161,7 @@ function Page() {
               <UserList users={users} onUserSelect={handleChatSelect} />
             )}
           </TabLayouts>
+         
           <ChatWindow
             selectedUser={selectedUser}
             messages={messages}
@@ -166,6 +172,7 @@ function Page() {
             isTyping={isTyping}
             onTypingChange={handleTypingChange}
           />
+      
         </div>
       ) : (
         <TabLayouts>
@@ -182,7 +189,9 @@ function Page() {
                 </div>
               )}
               {(selectedUser || window.innerWidth > 768) && (
+                  
                 <div className="flex-1">
+                  
                   <ChatWindow
                     selectedUser={selectedUser}
                     messages={messages}
@@ -193,7 +202,9 @@ function Page() {
                     isTyping={isTyping}
                     onTypingChange={handleTypingChange} 
                   />
+                
                 </div>
+               
               )}
             </div>
           </div>
