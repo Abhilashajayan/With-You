@@ -4,7 +4,7 @@ import nocache from "nocache";
 import { dbConnection } from "./database/database.conn";
 import { messageRoutes , messageRoute } from "../adapters/routes/messageRoutes";
 const messageRout = new messageRoute;
-import {Server, Socket} from 'socket.io' 
+
 
 
 const app = express();
@@ -42,24 +42,64 @@ io.on("connection", (socket: any) => {
     console.log("User Joined Room: " + room);
   });
 
-  socket.on("typing", (room : any) => socket.in(room).emit("typing"));
-  socket.on("stop typing", (room : any) => socket.in(room).emit("stop typing"));
+  socket.on("typing", (room: any) => socket.in(room).emit("typing"));
+  socket.on("stop typing", (room: any) => socket.in(room).emit("stop typing"));
 
-  socket.on("new message", (newMessageRecieved: any) => {
-    var chat = newMessageRecieved.chat;
+  socket.on("call", (data: any) => {
+    console.log("Call received:", data);
+    io.to(data.recipientId).emit("call received", data.callerId);
+  });
+
+  socket.on("accept call", (data: any) => {
+    const { callerId } = data;
+    console.log("Call accepted by:", callerId);
+    io.to(callerId).emit("call accepted");
+  });
+
+  socket.on("reject call", (data: any) => {
+    const { callerId } = data;
+    console.log("Call rejected by:", callerId);
+    io.to(callerId).emit("reject call");
+  });
+
+  socket.on("cancel call", (data: any) => {
+    const { callerId, recipientId } = data;
+    console.log("Call cancelled by:", callerId);
+    io.to(recipientId).emit("call cancelled");
+  });
+
+  socket.on("signal", (signalPayload: any) => {
+    console.log("Received signal:", signalPayload);
+    try {
+      const { userId, signalData } = signalPayload;
+      if (userId && signalData) {
+        io.to(userId).emit("signal", signalData);
+      } else {
+        console.error("Invalid signal payload received:", signalPayload);
+      }
+    } catch (error) {
+      console.error("Error handling signal:", error);
+    }
+  });
+  
+
+  socket.on("new message", (newMessageReceived: any) => {
+    var chat = newMessageReceived.chat;
     console.log("Chat Message: " + chat.users);
     if (!chat.users) return console.log("chat.users not defined");
 
     chat.users.forEach((user: any) => {
-      if (user !== newMessageRecieved.sender) {;
-       console.log(user ,"cb: " + newMessageRecieved.sender)
-        socket.in(user).emit("message recieved", newMessageRecieved);
+      if (user !== newMessageReceived.sender) {
+        console.log(user, "cb: " + newMessageReceived.sender);
+        socket.in(user).emit("message recieved", newMessageReceived);
       }
     });
   });
-  socket.off("setup", (userData : any)=>{
+
+  socket.off("setup", (userData: any) => {
     console.log("User Disconnected");
-    socket.leave(userData._id)
-})
+    socket.leave(userData._id);
+  });
 });
+
 
