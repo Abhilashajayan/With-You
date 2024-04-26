@@ -47,6 +47,22 @@ function VideoCallPage() {
       handleEndCall();
     });
 
+    socket.on("call cancelled", () => {
+      console.log("Call cancelled by caller.");
+      setLocalStream(null);
+      setRemoteStream(null);
+      setIsCalling(false);
+      setIsCallAccepted(false);
+      setOutgoingCall(false);
+      setIncomingCall(false);
+    });
+    
+    
+
+    socket.on("call accepted", () => {
+      
+    });
+
     socket.on("disconnect", () => {
       console.log("Disconnected from socket.io server.");
       setIsConnected(false);
@@ -97,6 +113,7 @@ function VideoCallPage() {
     setIsCalling(false);
     setIsCallAccepted(false);
     setOutgoingCall(false);
+    setIsCallAccepted(false);
     setIncomingCall(false);
     setSelectedUser(null);
     socket.emit("cancel call", {
@@ -110,7 +127,7 @@ function VideoCallPage() {
     setIncomingCall(false);
     try {
       const stream = await startLocalStream();
-      socket.emit("accept call", { callerId: user._id });
+      socket.emit("accept call", { callerId: user._id, recipientId: otherUserId});
       const peer = new Peer({ initiator: true, stream });
       peer.on("signal", (data: SignalData) => {
         if (!peer.destroyed) {
@@ -144,7 +161,9 @@ function VideoCallPage() {
 
   return (
     <div className="h-full  inset-0 -z-10 bg-black bg-[radial-gradient(#ff0000_1px,transparent_1px)] [background-size:20px_20px] lg:rounded-r-none lg:shadow-2xl bg-white opacity-90 mx-6 lg:mx-0 mb-8 lg:mb-0 flex flex-col justify-center ">
-      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"><div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-fuchsia-400 opacity-20 blur-[100px]"></div></div>
+      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-fuchsia-400 opacity-20 blur-[100px]"></div>
+      </div>
       <h1 className="py-6 text-3xl font-bold text-gray-800 text-center ">
         {name}
       </h1>

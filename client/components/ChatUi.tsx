@@ -51,6 +51,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
     }
   }
 
+  const voiceCall : any = async() =>{
+    try {
+      const queryString = `?User=${selectedUser?._id}`;
+      router.push(`/Message/voiceCall/${queryString}`);
+    } catch (error) {
+      console.error('Error during form submission:', error);
+    }
+  }
+
   const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     if (e.target.value) {
@@ -98,7 +107,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                 <IconButton onClick={videoCall}>
                   <VideocamIcon className="text-red-500"  />
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={voiceCall}>
                   <PhoneIcon className="text-red-500" />
                 </IconButton>
                 <IconButton>

@@ -27,10 +27,10 @@ const VideoCall: React.FC<VideoCallProps> = ({
     }
   }, [remoteStream]);
 
-  const acceptCall = () => {
-    setCallAccepted(true);
-    // onCallAccepted(remoteStream); // Pass the remote stream to the parent component when call is accepted
-  };
+  // const acceptCall = () => {
+  //   setCallAccepted(true);
+  //   // onCallAccepted(remoteStream); // Pass the remote stream to the parent component when call is accepted
+  // };
 
   return (
     <div className="relative w-full h-full overflow-hidden">
