@@ -47,19 +47,21 @@ io.on("connection", (socket: any) => {
 
   socket.on("call", (data: any) => {
     console.log("Call received:", data);
-    io.to(data.recipientId).emit("call received", data.callerId);
+    io.to(data.recipientId).emit("call received", data.callerId, data.username);
   });
 
   socket.on("accept call", (data: any) => {
-    const { callerId } = data;
+    const { callerId, recipientId } = data;
     console.log("Call accepted by:", callerId);
-    io.to(callerId).emit("call accepted");
+    io.to(recipientId).emit("call accepted", data.callerId);
+    const room = `${callerId}-${recipientId}`;
+    socket.join(room);
   });
 
   socket.on("reject call", (data: any) => {
-    const { callerId } = data;
+    const { callerId,recipientId } = data;
     console.log("Call rejected by:", callerId);
-    io.to(callerId).emit("reject call");
+    io.to(recipientId).emit("rejected call");
   });
 
   socket.on("cancel call", (data: any) => {
@@ -71,7 +73,7 @@ io.on("connection", (socket: any) => {
   socket.on("signal", (signalPayload: any) => {
     console.log("Received signal:", signalPayload);
     try {
-      const { userId, signalData } = signalPayload;
+      const { userId, signalData  } = signalPayload;
       if (userId && signalData) {
         io.to(userId).emit("signal", signalData);
       } else {
