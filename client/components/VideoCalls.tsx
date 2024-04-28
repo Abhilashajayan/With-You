@@ -33,7 +33,7 @@ const VideoCall: React.FC<VideoCallProps> = ({
   // };
 
   return (
-    <div className="relative w-full h-full overflow-hidden">
+    <div className="relative container w-full h-full overflow-hidden">
       <div className="w-full h-full flex justify-center items-center">
         <video
           ref={remoteVideoRef}

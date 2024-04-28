@@ -7,6 +7,7 @@ import { getChat } from "@/axios/axiosConfig";
 import { useAppSelector } from "@/features/hooks";
 import { getMessage } from "@/axios/axiosConfig";
 import { sendMessage } from "@/axios/axiosConfig";
+import { useRouter } from "next/navigation";
 import io from "socket.io-client";
 import ChatWindowSkeleton from "@/components/skeltons/MessageSkelton";
 
@@ -35,6 +36,8 @@ function Page() {
   const [socketConnected, setSocketConnected] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     console.log("Attempting to connect to socket.io server...");
@@ -80,10 +83,10 @@ function Page() {
         const usersData: any = await getChat(userId);
         console.log(usersData, "the user data is here");
         setUsers(usersData);
-        setIsLoading(false); 
+        setIsLoading(false);
         selectedChatCompare = chatIds;
       } catch (error) {
-        setIsLoading(false); 
+        setIsLoading(false);
         console.error("Error fetching users data:", error);
       }
     };
@@ -152,6 +155,8 @@ function Page() {
     }
   };
 
+  
+
   return (
     <>
       {window.innerWidth <= 768 ? (
@@ -161,7 +166,7 @@ function Page() {
               <UserList users={users} onUserSelect={handleChatSelect} />
             )}
           </TabLayouts>
-         
+
           <ChatWindow
             selectedUser={selectedUser}
             messages={messages}
@@ -172,7 +177,6 @@ function Page() {
             isTyping={isTyping}
             onTypingChange={handleTypingChange}
           />
-      
         </div>
       ) : (
         <TabLayouts>
@@ -189,9 +193,7 @@ function Page() {
                 </div>
               )}
               {(selectedUser || window.innerWidth > 768) && (
-                  
                 <div className="flex-1">
-                  
                   <ChatWindow
                     selectedUser={selectedUser}
                     messages={messages}
@@ -200,11 +202,9 @@ function Page() {
                     setInputValue={setInputValue}
                     onBackButtonClick={handleBackButtonClick}
                     isTyping={isTyping}
-                    onTypingChange={handleTypingChange} 
+                    onTypingChange={handleTypingChange}
                   />
-                
                 </div>
-               
               )}
             </div>
           </div>

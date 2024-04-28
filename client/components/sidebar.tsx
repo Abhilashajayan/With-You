@@ -27,6 +27,10 @@ const Sidebar: React.FC = () => {
     [pathname]
   );
 
+
+  const logOut = () =>{
+    router.push('/admin/signin')
+  }
   const wrapperClasses = classNames(
     "h-screen px-4 pt-8 pb-4 bg-white shadow-md rounded-md border text-black flex justify-between flex-col",
     {
@@ -129,7 +133,7 @@ const Sidebar: React.FC = () => {
             
           </div>
           {!toggleCollapse && (
-            <span className={classNames("text-md  bg-black p-2 border rounded  font-medium text-white")}>
+            <span className={classNames("text-md  bg-black p-2 border rounded  font-medium text-white")} onClick={logOut}>
               Logout
             </span>
           )}

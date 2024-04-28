@@ -14,3 +14,4 @@ export const LIKED_USERS = "/user/likedUsers";
 export const GET_CHAT = '/message/fetchChat';
 export const SEND_MSG = "/message/send";
 export const GET_MESSAGE = "/message/getmessage";
+export const POST_ADMIN = '/user/admin';

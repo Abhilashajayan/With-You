@@ -19,6 +19,7 @@ import {
   LIKED_USERS,
   GET_MESSAGE,
   SEND_MSG,
+  POST_ADMIN,
 } from "./endpoints";
 
 const client: AxiosInstance = axios.create({
@@ -260,5 +261,17 @@ export const sendMessage = async (userId: string , chatId : string , content : s
     return response.data;
   } catch (error) {
     return error;
+  }
+};
+
+
+export const adminLogin = async (userData: FormData) => {
+  try {
+    const res = await client.post(POST_ADMIN, userData);
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during user login:", error);
+    throw error;
   }
 };

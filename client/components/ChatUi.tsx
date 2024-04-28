@@ -158,14 +158,12 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
               {showEmojiPicker && (
                 <Picker className="mb-5 z-55" onEmojiClick={handleEmojiClick} />
               )}
-           
             </div>
           </div>
-          
+
           <div className="flex flex-col md:ml-1/3 md:overflow-y-auto sm:ml-0 md:w-full">
             <div className="fixed bottom-0 md:right-0 md:w-2/3 bg-white  md:mb-[50px] border-gray-300 p-4 flex items-center">
               <div className="relative flex-1">
-                
                 <input
                   type="text"
                   value={inputValue}
@@ -173,13 +171,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                   placeholder="Your Message"
                   className="w-full p-2 pl-12 border border-gray-200 rounded-lg focus:outline-none"
                 />
-                <button className="absolute left-3 top-1/2 transform -translate-y-1/2 text-red-400 cursor-pointer" onClick={(e) => {
-                  e.preventDefault();
-                  setShowEmojiPicker(!showEmojiPicker);
-                }} >
-                <MicIcon  />
+                <button
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-red-400 cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowEmojiPicker(!showEmojiPicker);
+                  }}
+                >
+                  <MicIcon />
                 </button>
-                
               </div>
               <button
                 onClick={onMessageSubmit}
