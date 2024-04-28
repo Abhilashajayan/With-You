@@ -60,7 +60,7 @@ function VideoCallPage() {
     
 
     socket.on("call accepted", () => {
-      
+      console.log("Call accepted by caller.");
     });
 
     socket.on("disconnect", () => {
