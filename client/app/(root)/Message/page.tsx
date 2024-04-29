@@ -14,17 +14,50 @@ import ChatWindowSkeleton from "@/components/skeltons/MessageSkelton";
 const ENDPOINT = "http://localhost:3005";
 var socket: any, selectedChatCompare: any;
 
-interface User {
-  username: string;
-  profilePicture: string;
-  _id?: string;
-}
+// interface User {
+//   username: string;
+//   profilePicture: string;
+//   _id?: string;
+// }
 
 interface Message {
   text: string;
   sender: string;
   timestamp: any;
 }
+
+interface ID {
+  $oid: string;
+}
+
+interface LatestMessage {
+  _id: ID;
+  sender: Sender;
+  content: string;
+  chat: ID;
+  readBy: any[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface Sender {
+  _id: ID;
+  username: string;
+  email: string;
+  profilePicture: string;
+}
+
+interface User {
+  _id: ID;
+  username: string;
+  phone: number;
+  email: string;
+  profilePicture: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: boolean;
+}
+
 
 function Page() {
   const user: any = useAppSelector((state) => state.auth.user);
@@ -80,7 +113,7 @@ function Page() {
         setIsLoading(true);
         const userId: string = user._id;
         console.log(userId);
-        const usersData: any = await getChat(userId);
+        const usersData: LatestMessage = await getChat(userId);
         console.log(usersData, "the user data is here");
         setUsers(usersData);
         setIsLoading(false);

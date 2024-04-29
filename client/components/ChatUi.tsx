@@ -13,6 +13,7 @@ import { EmojiStyle } from "emoji-picker-react";
 import { EmojiClickData } from "emoji-picker-react";
 import Picker from "emoji-picker-react";
 import { useRouter } from "next/navigation";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 
 interface Message {
   text: string;
@@ -178,7 +179,11 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                     setShowEmojiPicker(!showEmojiPicker);
                   }}
                 >
-                  <MicIcon />
+                  <SentimentSatisfiedAltIcon
+                    className={`${
+                      !showEmojiPicker ? "text-red-400" : "text-blue-500"
+                    }`}
+                  />
                 </button>
               </div>
               <button

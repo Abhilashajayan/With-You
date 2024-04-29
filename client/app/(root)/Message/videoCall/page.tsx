@@ -161,7 +161,7 @@ function VideoCallPage() {
     socket.emit("reject call", { callerId: user._id });
   };
 
-  const handleCallAccepted: any = (stream: MediaStream) => {
+  const handleCallAccepted = (stream: MediaStream) => {
     setRemoteStream(stream);
     setIsCallAccepted(true);
   };
