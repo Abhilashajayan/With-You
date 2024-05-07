@@ -127,7 +127,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
               </div>
             </div>
             <div
-              className="flex-1 overflow-y-auto mt-5 pb-16"
+              className="flex-1 overflow-y-auto  mt-5 pb-16"
               style={{ maxHeight: "calc(100vh - 200px)" }}
             >
               {[...messages].map((message: any, index) => (
@@ -135,15 +135,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                   key={index}
                   className={
                     message.sender === user?._id
-                      ? "text-right mb-2"
-                      : "text-left mb-2 "
+                      ? "text-right mb-4"
+                      : "text-left mb-4 "
                   }
                 >
                   <div
                     className={
                       message.sender === user?._id
-                        ? "bg-pink-100 text-black rounded-lg py-2 px-4 inline-block"
-                        : "bg-red-100 text-black rounded-lg py-2 px-4 inline-block"
+                        ? "bg-pink-100 text-black mr-3 rounded-lg py-2 px-4 inline-block"
+                        : "bg-red-100 text-black ml-3 rounded-lg py-2 px-4 inline-block"
                     }
                   >
                     <span className="block">{message?.content}</span>

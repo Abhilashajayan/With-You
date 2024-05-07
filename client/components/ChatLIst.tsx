@@ -17,7 +17,7 @@ const UserList: React.FC<UserListProps> = ({ users, onUserSelect }) => {
   }
 
   return (
-    <div className="md:w-1/3 h-screen border-r  top-0">
+    <div className="md:w-1/3 h-screen   lg:border-r  top-0">
       <div className="sticky top-0 bg-white rounded-b border-b p-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">Messages</h2>
@@ -46,7 +46,7 @@ const UserList: React.FC<UserListProps> = ({ users, onUserSelect }) => {
           let otherUser;
           if (searchQuery) {
             const regex = new RegExp(searchQuery, "i");
-            otherUser = chat.users.find((u: any) => regex.test(u.username));
+            otherUser = chat?.users.find((u: any) => regex?.test(u.username));
           } else {
             otherUser = chat.users.find((u: any) => u._id !== user._id);
           }

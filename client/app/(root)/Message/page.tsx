@@ -10,15 +10,12 @@ import { sendMessage } from "@/axios/axiosConfig";
 import { useRouter } from "next/navigation";
 import io from "socket.io-client";
 import ChatWindowSkeleton from "@/components/skeltons/MessageSkelton";
-
+import MLoading from "@/components/icons/messageLoad";
 const ENDPOINT = "http://localhost:3005";
+import authNoti from "@/features/auth/authNoti";
+import { useAppDispatch } from "@/features/hooks";
+import { setNotification } from "@/features/auth/authNoti";
 var socket: any, selectedChatCompare: any;
-
-// interface User {
-//   username: string;
-//   profilePicture: string;
-//   _id?: string;
-// }
 
 interface Message {
   text: string;
@@ -58,8 +55,9 @@ interface User {
   status: boolean;
 }
 
-
 function Page() {
+  const dispatch = useAppDispatch();
+  const notification = useAppSelector((state: any) => state.auth.notifications);
   const user: any = useAppSelector((state) => state.auth.user);
   const [users, setUsers] = useState<any>();
   const [messages, setMessages] = useState<any[]>([]);
@@ -108,23 +106,24 @@ function Page() {
   });
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        setIsLoading(true);
-        const userId: string = user._id;
-        console.log(userId);
-        const usersData: LatestMessage = await getChat(userId);
-        console.log(usersData, "the user data is here");
-        setUsers(usersData);
-        setIsLoading(false);
-        selectedChatCompare = chatIds;
-      } catch (error) {
-        setIsLoading(false);
-        console.error("Error fetching users data:", error);
-      }
-    };
-
-    fetchUserData();
+    setIsLoading(true);
+    setTimeout(() => {
+      const fetchUserData = async () => {
+        try {
+          const userId: string = user._id;
+          console.log(userId);
+          const usersData: LatestMessage = await getChat(userId);
+          console.log(usersData, "the user data is here");
+          setUsers(usersData);
+          setIsLoading(false);
+          selectedChatCompare = chatIds;
+        } catch (error) {
+          setIsLoading(false);
+          console.error("Error fetching users data:", error);
+        }
+      };
+      fetchUserData();
+    }, 1000);
 
     const handleResize = () => {
       if (window.innerWidth > 768 && !selectedUser) {
@@ -188,8 +187,6 @@ function Page() {
     }
   };
 
-  
-
   return (
     <>
       {window.innerWidth <= 768 ? (
@@ -200,16 +197,22 @@ function Page() {
             )}
           </TabLayouts>
 
-          <ChatWindow
-            selectedUser={selectedUser}
-            messages={messages}
-            onMessageSubmit={handleMessageSubmit}
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-            onBackButtonClick={handleBackButtonClick}
-            isTyping={isTyping}
-            onTypingChange={handleTypingChange}
-          />
+          {isLoading ? (
+            <MLoading />
+          ) : (
+            <>
+              <ChatWindow
+                selectedUser={selectedUser}
+                messages={messages}
+                onMessageSubmit={handleMessageSubmit}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                onBackButtonClick={handleBackButtonClick}
+                isTyping={isTyping}
+                onTypingChange={handleTypingChange}
+              />
+            </>
+          )}
         </div>
       ) : (
         <TabLayouts>
@@ -227,16 +230,22 @@ function Page() {
               )}
               {(selectedUser || window.innerWidth > 768) && (
                 <div className="flex-1">
-                  <ChatWindow
-                    selectedUser={selectedUser}
-                    messages={messages}
-                    onMessageSubmit={handleMessageSubmit}
-                    inputValue={inputValue}
-                    setInputValue={setInputValue}
-                    onBackButtonClick={handleBackButtonClick}
-                    isTyping={isTyping}
-                    onTypingChange={handleTypingChange}
-                  />
+                  {isLoading ? (
+                    <MLoading />
+                  ) : (
+                    <>
+                      <ChatWindow
+                        selectedUser={selectedUser}
+                        messages={messages}
+                        onMessageSubmit={handleMessageSubmit}
+                        inputValue={inputValue}
+                        setInputValue={setInputValue}
+                        onBackButtonClick={handleBackButtonClick}
+                        isTyping={isTyping}
+                        onTypingChange={handleTypingChange}
+                      />
+                    </>
+                  )}
                 </div>
               )}
             </div>

@@ -13,6 +13,7 @@ import LikeICon from "@/components/icons/LikeIcon";
 import { randomUserFetch, matchUserButton } from "@/axios/axiosConfig";
 import MatchingPage from "@/components/Matching";
 import { reduxData } from "@/types/formData";
+import Loading from "@/components/icons/loading";
 
 interface User {
   _id: string;
@@ -36,12 +37,19 @@ const Page: React.FC = () => {
     opacity: 0,
     transform: "translateY(0)",
   }));
+  const [loading, setLoading] = useState<boolean>(true);
+  const [fetchStarted, setFetchStarted] = useState<boolean>(false);
 
   useEffect(() => {
-    fetchRandomUser();
+  
+      setTimeout(() => {
+        fetchRandomUser();
+      }, 4000);
   }, []);
+  
 
   const fetchRandomUser = async () => {
+    setLoading(true);
     const userId: string = user?._id;
     try {
       const response: any = await randomUserFetch(userId);
@@ -60,10 +68,16 @@ const Page: React.FC = () => {
       }
       console.log(randomUser);
       setCurrentUser(randomUser);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error fetching random user:", error);
     }
   };
+
+
+
+
 
   const cancetButton = async () => {
     await fetchRandomUser();
@@ -111,6 +125,8 @@ const Page: React.FC = () => {
 
   return (
     <>
+    
+      <> 
       {user?.phone ? (
         <TabLayouts>
           {isMatch == true ? (
@@ -122,6 +138,7 @@ const Page: React.FC = () => {
               <div className="absolute hidden md:block   container top-0 left-0  w-[500px] h-56 bg-gradient-to-r from-red-500 to-yellow-400 rounded-b-full"></div>
               <div className="absolute hidden lg:block   container top-0 right-0  w-[500px] h-56 bg-gradient-to-r from-red-500 to-yellow-400 rounded-b-full"></div>
               <MatchingField users={currentUser ? [currentUser] : []} />
+              {loading && <Loading /> }
               <div className="flex items-center justify-center mt-4">
                 <button
                   className="rounded-full border-2 p-2 m-2"
@@ -156,12 +173,14 @@ const Page: React.FC = () => {
               >
                 <LikeICon />
               </animated.div>
+              
             </>
           )}
         </TabLayouts>
       ) : (
         <AddDetails />
       )}
+      </>
     </>
   );
 };
