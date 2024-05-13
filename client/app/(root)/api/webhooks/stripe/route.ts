@@ -7,6 +7,7 @@ export async function POST(request: Request) {
 
   const sig = request.headers.get('stripe-signature') as string
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!
+  
 
   let event
 
@@ -33,8 +34,8 @@ export async function POST(request: Request) {
       createdAt: new Date(),
     }
     
-    const newOrder = await createOrder(order)
-    return NextResponse.json({ message: 'OK', order: newOrder })  
+    // const newOrder = await createOrder(order)
+    // return NextResponse.json({ message: 'OK', order: newOrder })  
   }
 
   return new Response('', { status: 200 })
