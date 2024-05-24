@@ -54,7 +54,6 @@ const Page: React.FC = () => {
     try {
       const response: any = await randomUserFetch(userId);
       const data = response.data;
-      console.log(data.users.length, "the length");
       let randomUser;
 
       if (data.users && data.users.length > 1) {
